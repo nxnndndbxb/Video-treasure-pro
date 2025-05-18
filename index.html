@@ -41,9 +41,12 @@
 
             /* RGB versions for rgba() */
             --primary-color-rgb: 93, 64, 55;
+            --primary-dark-rgb: 62, 39, 35; /* Added for consistency */
             --secondary-color-rgb: 176, 141, 87;
             --accent-color-rgb: 212, 175, 55;
             --info-color-rgb: 176, 141, 87; /* Muted Gold RGB */
+            --light-color-rgb: 245, 242, 235; /* For loading overlay */
+            --warning-color-rgb: 218, 165, 32; /* For important note background */
         }
 
         * {
@@ -125,7 +128,7 @@
             height: 100px;
             margin-bottom: 15px;
             animation: pulse 2s infinite;
-            filter: drop-shadow(0 4px 8px rgba(var(--primary-dark-rgb,0,0,0), 0.3)); /* Brownish shadow */
+            filter: drop-shadow(0 4px 8px rgba(var(--primary-dark-rgb), 0.3)); /* Brownish shadow */
             border-radius: 50%; /* Ensure logo is circular if it's square by nature */
             object-fit: cover;
         }
@@ -438,7 +441,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background-color: rgba(var(--primary-dark-rgb, 0,0,0), 0.3); /* Darker inset on brown header */
+            background-color: rgba(var(--primary-dark-rgb), 0.3); /* Darker inset on brown header */
             padding: 5px 10px;
             border-radius: 20px;
         }
@@ -660,7 +663,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(var(--primary-dark-rgb,0,0,0),0.9), transparent); /* Dark brown gradient */
+            background: linear-gradient(to top, rgba(var(--primary-dark-rgb),0.9), transparent); /* Dark brown gradient */
             color: var(--light-text);
             padding: 30px 20px 20px;
         }
@@ -688,7 +691,7 @@
             transition: 0.6s ease;
             border-radius: 0 3px 3px 0;
             user-select: none;
-            background-color: rgba(var(--primary-dark-rgb,0,0,0), 0.5); /* Dark brown semi-transparent */
+            background-color: rgba(var(--primary-dark-rgb), 0.5); /* Dark brown semi-transparent */
         }
 
         .next {
@@ -697,7 +700,7 @@
         }
 
         .prev:hover, .next:hover {
-            background-color: rgba(var(--primary-dark-rgb,0,0,0), 0.8); /* Darker brown */
+            background-color: rgba(var(--primary-dark-rgb), 0.8); /* Darker brown */
         }
 
         .dot-container { /* Used for styling the dot container below slideshow */
@@ -1074,8 +1077,6 @@
 
         .share-btn.copy-link {
             background-color: var(--secondary-color); /* Muted Gold */
-            color: var(--light-text); /* Muted gold okay with white text if large/bold enough. #B08D57 vs white is 3.13:1. Maybe dark text */
-            /* Let's use dark text for better contrast */
             color: var(--dark-text); 
             border: 1px solid var(--secondary-dark);
         }
@@ -1397,7 +1398,7 @@
             word-break: break-all; /* Prevent overflow */
         }
 
-        .copy-address-btn {
+        .copy-address-btn { /* Generic class for copy buttons in details */
             background-color: var(--secondary-color); /* Muted Gold */
             color: var(--dark-text); /* Dark text on Muted Gold */
             border: none;
@@ -1422,7 +1423,7 @@
         .important-note {
             display: flex;
             gap: 10px;
-            background-color: rgba(var(--warning-color-rgb, 218,165,32), 0.1); /* Light GoldenRod */
+            background-color: rgba(var(--warning-color-rgb), 0.1); /* Light GoldenRod */
             padding: 15px;
             border-radius: 5px;
             margin-top: 20px;
@@ -1886,7 +1887,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(var(--light-color-rgb, 245,242,235), 0.8); /* Warm off-white overlay */
+            background-color: rgba(var(--light-color-rgb), 0.8); /* Warm off-white overlay */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1935,15 +1936,16 @@
             border-radius: var(--border-radius);
             color: var(--light-text);
             box-shadow: var(--shadow-hover);
-            animation: slideInRight 0.4s ease-out, fadeOut 0.5s ease-in 3.5s forwards;
+            animation: slideInRight 0.4s ease-out, fadeOut 0.5s ease-in 3.5s forwards; /* Default animation */
             display: flex;
             align-items: center;
             gap: 15px; 
             font-size: 0.95rem;
             line-height: 1.4;
+            position: relative; /* For close button positioning */
         }
         .notification.persistent { 
-             animation: slideInRight 0.4s ease-out; 
+             animation: slideInRight 0.4s ease-out forwards; /* Only slide in, no auto fadeOut */
         }
 
 
@@ -1952,9 +1954,9 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
-        @keyframes fadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.9); }
+        @keyframes fadeOut { /* Used by .notification by default */
+            from { opacity: 1; transform: scale(1) translateX(0); }
+            to { opacity: 0; transform: scale(0.9) translateX(20px); } /* Slight slide out while fading */
         }
 
         .notification i {
@@ -1967,6 +1969,24 @@
         .notification.warning { background-color: var(--warning-color); color: var(--dark-text); } /* GoldenRod, Dark Text */
         .notification.info { background-color: var(--info-color); color: var(--dark-text); } /* Muted Gold, Dark Text */
 
+        .notification-close-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: auto;
+            padding: 0 5px;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .notification-close-btn:hover {
+            opacity: 1;
+        }
+
+
         /* Modal */
         .modal {
             position: fixed;
@@ -1974,7 +1994,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(var(--primary-dark-rgb,0,0,0), 0.7); /* Darker Brown backdrop */
+            background-color: rgba(var(--primary-dark-rgb), 0.7); /* Darker Brown backdrop */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -2210,7 +2230,7 @@
                 width: 10px;
             }
             .deposit-methods .method-card {
-                min-width: 140px; 
+                min-width: 130px; /* Adjusted for potentially 3 cards */
                 padding: 10px;
             }
             .deposit-methods .method-card img {
@@ -2362,7 +2382,7 @@
                 <li class="menu-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></li>
             </ul>
             <div class="menu-footer">
-                <p>Version 2.1.0 (MLM)</p>
+                <p>Version 2.1.1 (MLM + EP)</p>
             </div>
         </div>
         
@@ -2397,7 +2417,7 @@
                         <img src="https://images.pexels.com/photos/50987/money-card-business-credit-card-50987.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" style="width:100%">
                         <div class="slide-content">
                             <h3>Easy Withdrawals</h3>
-                            <p>Withdraw your earnings via USDT (BEP20/TRC20).</p>
+                            <p>Withdraw your earnings via USDT (BEP20/TRC20) or Easypaisa.</p>
                         </div>
                     </div>
                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -2730,7 +2750,7 @@
                 <div class="page-header">
                     <h2>Deposit Funds</h2>
                 </div>
-                 <p class="page-description">Add funds to your account to purchase investment plans. Use USDT (BEP20 or TRC20) for deposits.</p>
+                 <p class="page-description">Add funds to your account to purchase investment plans. Use USDT (BEP20/TRC20) or Easypaisa for deposits.</p>
                 
                 <div class="deposit-methods">
                     <div class="method-card active" data-method="usdt_bep20">
@@ -2741,17 +2761,30 @@
                         <img src="https://iili.io/3voLiLQ.png" alt="USDT TRC20">
                         <span>USDT (TRC20)</span>
                     </div>
+                    <div class="method-card" data-method="easypaisa">
+                        <img src="https://iili.io/3PB0Ltp.jpg" alt="Easypaisa"> <!-- Replace with actual Easypaisa logo URL -->
+                        <span>Easypaisa</span>
+                    </div>
                 </div>
                 
                 <div class="deposit-instructions">
                     <h3><i class="fas fa-info-circle"></i> Deposit Instructions (<span id="deposit-method-name">USDT BEP20</span>)</h3>
-                    <p>Send USDT to the following address:</p>
+                    <p id="deposit-instruction-paragraph">Send funds to the following details:</p>
                     <div class="account-details">
-                        <div class="detail-item">
+                        <div class="detail-item" id="deposit-detail-item-1">
                             <span class="detail-label" id="deposit-account-label1">Deposit Address (BEP20):</span>
                             <div class="detail-value-container">
-                                <span class="detail-value" id="deposit-account-number">0xeb0ee64208106984101b1f127cf221358771dbfa</span>
-                                <button id="copy-deposit-address" class="copy-address-btn">
+                                <span class="detail-value" id="deposit-account-value1">0xeb0ee64208106984101b1f127cf221358771dbfa</span>
+                                <button id="copy-deposit-value1" class="copy-address-btn">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="detail-item hidden" id="deposit-detail-item-2">
+                            <span class="detail-label" id="deposit-account-label2">Account Holder Name:</span>
+                            <div class="detail-value-container">
+                                <span class="detail-value" id="deposit-account-value2"></span>
+                                <button id="copy-deposit-value2" class="copy-address-btn hidden">
                                     <i class="far fa-copy"></i> Copy
                                 </button>
                             </div>
@@ -2759,14 +2792,14 @@
                     </div>
                     <div class="important-note">
                         <i class="fas fa-exclamation-circle"></i>
-                        <p>After sending USDT, fill the form below to verify your deposit. Processing time: 5-30 minutes. Ensure you send to the correct network address.</p>
+                        <p id="deposit-important-note-text">After sending funds, fill the form below to verify your deposit. Processing time: 5-30 minutes. Ensure you send to the correct network address/account.</p>
                     </div>
                 </div>
                 
                 <div class="deposit-form">
                     <h3><i class="fas fa-edit"></i> Deposit Form</h3>
                     <div class="form-group">
-                        <label for="deposit-amount">Amount (USD)</label>
+                        <label for="deposit-amount">Amount (USD/PKR for Easypaisa)</label>
                         <select id="deposit-amount" class="form-select">
                             <option value="">Select Amount</option>
                             <option value="5">$5 (Basic Plan)</option>
@@ -2777,18 +2810,18 @@
                             <option value="other">Other Amount</option>
                         </select>
                         <div id="custom-amount-container" class="hidden">
-                            <input type="number" id="custom-amount" placeholder="Enter custom amount (Min $5)" min="5">
+                            <input type="number" id="custom-amount" placeholder="Enter custom amount (Min $5 or equivalent)" min="5">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="deposit-transaction">Transaction ID / Hash</label>
-                        <input type="text" id="deposit-transaction" placeholder="Enter transaction ID or hash" required>
+                        <label for="deposit-transaction" id="deposit-transaction-label">Transaction ID / Hash</label>
+                        <input type="text" id="deposit-transaction" placeholder="Enter transaction ID / Hash / Easypaisa TID" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="deposit-sender">Your Sending Wallet Address (Optional)</label>
-                        <input type="text" id="deposit-sender" placeholder="e.g., Your USDT sending wallet address">
+                        <label for="deposit-sender" id="deposit-sender-label">Your Sending Wallet Address / Easypaisa Number (Optional)</label>
+                        <input type="text" id="deposit-sender" placeholder="e.g., Your USDT sending address or Easypaisa number">
                     </div>
                                         
                     <button id="submit-deposit" class="submit-btn glowing-btn-hover">
@@ -2803,7 +2836,7 @@
                 <div class="page-header">
                     <h2>Withdraw Funds</h2>
                 </div>
-                <p class="page-description">Minimum withdrawal amount: $2. Max $500 per transaction. Withdrawals via USDT.</p>
+                <p class="page-description">Minimum withdrawal amount: $2. Max $500 per transaction. Withdrawals via USDT or Easypaisa.</p>
                 
                 <div class="withdraw-info-card">
                     <div class="info-item">
@@ -2838,17 +2871,18 @@
                             <option value="">Select Method</option>
                             <option value="usdt_bep20">USDT (BEP20)</option>
                             <option value="usdt_trc20">USDT (TRC20)</option>
+                            <option value="easypaisa">Easypaisa</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="withdraw-account">Your USDT Wallet Address</label>
+                        <label for="withdraw-account" id="withdraw-account-label">Your USDT Wallet Address</label>
                         <input type="text" id="withdraw-account" placeholder="Enter your USDT (BEP20/TRC20) Address" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="withdraw-name">Account Holder Name (Optional)</label>
-                        <input type="text" id="withdraw-name" placeholder="Enter name associated with account if any">
+                        <label for="withdraw-name" id="withdraw-name-label">Account Holder Name (Optional for Crypto, Required for Easypaisa)</label>
+                        <input type="text" id="withdraw-name" placeholder="Enter name associated with account">
                     </div>
                     
                     <div class="form-group">
@@ -3137,7 +3171,7 @@
                 <p>All investment plans offered by Crypto Harvest have a fixed duration of 30 days. Daily earnings are calculated at a rate of 5% of the principal investment amount. These earnings are credited daily to your account's 'earnings' sub-balance.</p>
                 
                 <h4>2. Withdrawals</h4>
-                <p>The minimum amount for withdrawal is $2 from your main 'balance'. Withdrawal requests are typically processed within 1 to 6 hours during standard business hours (10:00 AM to 6:00 PM, Monday to Friday, EST). A standard withdrawal fee of 5% applies to all transactions. Maximum withdrawal per transaction is $500. Withdrawals are processed in USDT (BEP20 or TRC20).</p>
+                <p>The minimum amount for withdrawal is $2 from your main 'balance'. Withdrawal requests are typically processed within 1 to 6 hours during standard business hours (10:00 AM to 6:00 PM, Monday to Friday, EST). A standard withdrawal fee of 5% applies to all transactions. Maximum withdrawal per transaction is $500. Withdrawals are processed in USDT (BEP20 or TRC20) or Easypaisa (PKR equivalent, subject to exchange rates determined by Crypto Harvest).</p>
                 
                 <h4>3. Multi-Level Marketing (MLM) Program</h4>
                 <p>Users can earn commissions from their downline network up to 3 levels.
@@ -3760,9 +3794,15 @@
 
 
         function showNotification(message, type, persistent = false) {
+            if (!notificationContainer) {
+                console.error("Notification container not found!");
+                return;
+            }
             const notification = document.createElement('div');
-            notification.className = `notification ${type} animate__animated`; 
-            if (persistent) notification.classList.add('persistent');
+            notification.className = `notification ${type} animate__animated`;
+            if (persistent) {
+                 notification.classList.add('persistent');
+            }
             
             let iconClass;
             switch (type) {
@@ -3776,22 +3816,29 @@
             notification.innerHTML = `<i class="fas ${iconClass}"></i><span>${message}</span>`;
             notificationContainer.appendChild(notification);
             
-            notification.classList.add('animate__slideInRight'); 
-            
-            if (!persistent) {
-                setTimeout(() => {
-                    notification.classList.remove('animate__slideInRight');
-                    notification.classList.add('animate__fadeOutUp'); 
-                    setTimeout(() => notification.remove(), 500); 
-                }, 3500);
-            } else { // Add a close button for persistent notifications
+            // slideInRight is part of the default animation in CSS, 
+            // or for .persistent it's specifically set.
+
+            if (persistent) {
                  const closeBtn = document.createElement('button');
                  closeBtn.innerHTML = '&times;';
-                 closeBtn.style.cssText = "background:none; border:none; color:inherit; font-size:1.2em; cursor:pointer; margin-left:auto; padding:0 5px;";
+                 closeBtn.className = 'notification-close-btn';
+                 closeBtn.setAttribute('aria-label', 'Close notification');
                  closeBtn.onclick = () => notification.remove();
                  notification.appendChild(closeBtn);
             }
+            // Non-persistent notifications will auto-remove due to the `fadeOut` keyframe animation's `forwards` fill mode
+            // and the animation ending. We can also add a JS remove after animation.
+            if (!persistent) {
+                 notification.addEventListener('animationend', (event) => {
+                    // Ensure we're listening for the end of the 'fadeOut' animation
+                    if (event.animationName === 'fadeOut') {
+                        notification.remove();
+                    }
+                 });
+            }
         }
+
 
         function showLoading() { if (loadingOverlay) loadingOverlay.classList.remove('hidden'); }
         function hideLoading() { if (loadingOverlay) loadingOverlay.classList.add('hidden'); }
@@ -3912,7 +3959,7 @@
                             planName: getPlanName(planAmount),
                             date: new Date().toISOString(),
                             deductedFromBalance: amountFromMainBalance,
-                            deductedFromEarnings: amountFromPlanEarnings // Renamed from deductedFromEarnings
+                            deductedFromEarnings: amountFromPlanEarnings
                         };
                         await database.ref(`users/${currentUser.uid}/transactions`).push(logEntry);
 
@@ -4122,54 +4169,103 @@
         function initDepositPage() {
             const methodCards = document.querySelectorAll('#deposit-page .method-card');
             const depositMethodNameEl = document.getElementById('deposit-method-name');
-            const depositAccountLabel1El = document.getElementById('deposit-account-label1');
-            const depositAccountNumberEl = document.getElementById('deposit-account-number');
-            const copyDepositAddressBtn = document.getElementById('copy-deposit-address');
+            
+            const detailItem1 = document.getElementById('deposit-detail-item-1');
+            const detailLabel1 = document.getElementById('deposit-account-label1');
+            const detailValue1 = document.getElementById('deposit-account-value1');
+            const copyBtn1 = document.getElementById('copy-deposit-value1');
 
-            const usdtAddresses = { // Keep these updated and secure
-                usdt_bep20: '0xeb0ee64208106984101b1f127cf221358771dbfa', // Example
-                usdt_trc20: 'TKEmWeig1jtWLgPZp4pX4PHAsPsrFNdqf2'  // Example
+            const detailItem2 = document.getElementById('deposit-detail-item-2');
+            const detailLabel2 = document.getElementById('deposit-account-label2');
+            const detailValue2 = document.getElementById('deposit-account-value2');
+            const copyBtn2 = document.getElementById('copy-deposit-value2'); // Usually hidden
+
+            const instructionParagraphEl = document.getElementById('deposit-instruction-paragraph');
+            const importantNoteTextEl = document.getElementById('deposit-important-note-text');
+            const transactionLabelEl = document.getElementById('deposit-transaction-label');
+            const senderLabelEl = document.getElementById('deposit-sender-label');
+            const transactionInputEl = document.getElementById('deposit-transaction');
+
+
+            const depositDetails = {
+                usdt_bep20: { 
+                    address: '0xeb0ee64208106984101b1f127cf221358771dbfa', // Example
+                    name: 'USDT (BEP20)',
+                    label1: 'Deposit Address (BEP20):',
+                    note: "After sending USDT, fill the form below to verify your deposit. Processing time: 5-30 minutes. Ensure you send to the correct network address."
+                },
+                usdt_trc20: { 
+                    address: 'TKEmWeig1jtWLgPZp4pX4PHAsPsrFNdqf2',  // Example
+                    name: 'USDT (TRC20)',
+                    label1: 'Deposit Address (TRC20):',
+                    note: "After sending USDT, fill the form below to verify your deposit. Processing time: 5-30 minutes. Ensure you send to the correct network address."
+                },
+                easypaisa: {
+                    number: '03709912807',
+                    holder: 'Memoona Zohra',
+                    name: 'Easypaisa',
+                    label1: 'Easypaisa Account Number:',
+                    label2: 'Account Holder Name:',
+                    note: "Send payment to the Easypaisa account above. Then, enter the Transaction ID (TID) from your Easypaisa app and submit the form. Processing time: 5-30 minutes after verification."
+                }
             };
+
+            function updateDepositInstructionsUI(selectedMethodKey) {
+                const details = depositDetails[selectedMethodKey];
+                if (!details) return;
+
+                depositMethodNameEl.textContent = details.name;
+                instructionParagraphEl.textContent = `Send funds to the following ${details.name} details:`;
+                importantNoteTextEl.textContent = details.note;
+
+                detailLabel1.textContent = details.label1;
+                detailValue1.textContent = details.address || details.number;
+                copyBtn1.classList.remove('hidden');
+
+                if (selectedMethodKey === 'easypaisa') {
+                    detailItem2.classList.remove('hidden');
+                    detailLabel2.textContent = details.label2;
+                    detailValue2.textContent = details.holder;
+                    copyBtn2.classList.add('hidden'); // No copy for holder name generally
+                    transactionLabelEl.textContent = "Easypaisa Transaction ID (TID)";
+                    transactionInputEl.placeholder = "Enter Easypaisa TID";
+                    senderLabelEl.textContent = "Your Sending Easypaisa Number (Optional)";
+                } else {
+                    detailItem2.classList.add('hidden');
+                    transactionLabelEl.textContent = "Transaction ID / Hash";
+                     transactionInputEl.placeholder = "Enter transaction ID or hash";
+                    senderLabelEl.textContent = "Your Sending Wallet Address (Optional)";
+                }
+            }
+
 
             methodCards.forEach(card => {
                 card.addEventListener('click', function() {
                     methodCards.forEach(c => c.classList.remove('active'));
                     this.classList.add('active');
-                    
                     const method = this.dataset.method;
-                    let methodNameText = '';
-                    let addressLabelText = '';
-                    let addressValue = '';
-
-                    if (method === 'usdt_bep20') {
-                        methodNameText = 'USDT (BEP20)';
-                        addressLabelText = 'Deposit Address (BEP20):';
-                        addressValue = usdtAddresses.usdt_bep20;
-                    } else if (method === 'usdt_trc20') {
-                        methodNameText = 'USDT (TRC20)';
-                        addressLabelText = 'Deposit Address (TRC20):';
-                        addressValue = usdtAddresses.usdt_trc20;
-                    }
-                    
-                    if (depositMethodNameEl) depositMethodNameEl.textContent = methodNameText;
-                    if (depositAccountLabel1El) depositAccountLabel1El.textContent = addressLabelText;
-                    if (depositAccountNumberEl) depositAccountNumberEl.textContent = addressValue;
+                    updateDepositInstructionsUI(method);
                 });
             });
             
-            if (copyDepositAddressBtn) {
-                copyDepositAddressBtn.addEventListener('click', () => {
-                    const addressToCopy = depositAccountNumberEl.textContent;
-                    navigator.clipboard.writeText(addressToCopy).then(() => {
-                        showNotification('Address copied to clipboard!', 'success');
+            if (copyBtn1) {
+                copyBtn1.addEventListener('click', () => {
+                    const textToCopy = detailValue1.textContent;
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showNotification('Copied to clipboard!', 'success');
                     }).catch(err => {
-                        showNotification('Failed to copy address.', 'error');
+                        showNotification('Failed to copy.', 'error');
                     });
                 });
             }
+            
             // Trigger click on default active card to set initial details
             const defaultActiveCard = document.querySelector('#deposit-page .method-card.active');
-            if (defaultActiveCard) defaultActiveCard.click();
+            if (defaultActiveCard) {
+                updateDepositInstructionsUI(defaultActiveCard.dataset.method);
+            } else if (methodCards.length > 0) { // Fallback if no .active class set initially
+                methodCards[0].click();
+            }
         }
 
 
@@ -4189,8 +4285,8 @@
             const senderAddress = document.getElementById('deposit-sender').value.trim(); 
             const method = document.querySelector('#deposit-page .method-card.active')?.dataset.method;
 
-            if (!amount || isNaN(amount) || amount < 5) { 
-                showNotification('Invalid amount. Minimum deposit is $5.', 'error'); return;
+            if (!amount || isNaN(amount) || amount < (method === 'easypaisa' ? 1 : 5) ) { // Min $5 for crypto, adjust for PKR if needed
+                showNotification(`Invalid amount. Minimum deposit is ${method === 'easypaisa' ? ' (equivalent of $1 in PKR)' : '$5'}.`, 'error'); return;
             }
             if (!transactionId || !method) { 
                 showNotification('Please fill Amount, Transaction ID, and select a Method.', 'error'); return;
@@ -4203,7 +4299,8 @@
                 userId: currentUser.uid, 
                 userName: userData.name, 
                 userEmail: currentUser.email,
-                amount: amount,
+                amount: amount, // For Easypaisa, this might be PKR, clarify conversion with admin
+                currency: method === 'easypaisa' ? 'PKR' : 'USD', // Store currency
                 method: method, 
                 transactionId: transactionId,
                 senderAddress: senderAddress, 
@@ -4233,7 +4330,42 @@
 
         function initWithdrawPage() {
             if (userData) updateBalanceDisplay(); 
+            const withdrawMethodSelect = document.getElementById('withdraw-method');
+            if(withdrawMethodSelect) {
+                withdrawMethodSelect.addEventListener('change', function() {
+                    updateWithdrawalFormUI(this.value);
+                });
+                // Initialize UI based on current selection (if any, or default)
+                updateWithdrawalFormUI(withdrawMethodSelect.value);
+            }
         }
+
+        function updateWithdrawalFormUI(selectedMethod) {
+            const accountInput = document.getElementById('withdraw-account');
+            const accountLabel = document.getElementById('withdraw-account-label');
+            const nameInput = document.getElementById('withdraw-name'); // Already exists
+            const nameLabel = document.getElementById('withdraw-name-label'); // Already exists
+
+            if (!accountInput || !accountLabel) return;
+
+            if (selectedMethod === 'easypaisa') {
+                accountLabel.textContent = 'Your Easypaisa Account Number';
+                accountInput.placeholder = 'Enter Easypaisa Account Number';
+                nameLabel.textContent = 'Account Holder Name (Required for Easypaisa)';
+                nameInput.required = true; // Make name required for Easypaisa
+            } else if (selectedMethod === 'usdt_bep20' || selectedMethod === 'usdt_trc20') {
+                accountLabel.textContent = `Your USDT (${selectedMethod.split('_')[1].toUpperCase()}) Wallet Address`;
+                accountInput.placeholder = `Enter your USDT (${selectedMethod.split('_')[1].toUpperCase()}) Address`;
+                nameLabel.textContent = 'Account Holder Name (Optional for Crypto)';
+                nameInput.required = false;
+            } else { // Default or "Select Method"
+                accountLabel.textContent = 'Your Wallet Address / Account Number';
+                accountInput.placeholder = 'Select method first';
+                nameLabel.textContent = 'Account Holder Name (Optional)';
+                nameInput.required = false;
+            }
+        }
+
 
         function initAmountButtons() {
             const withdrawAmountInput = document.getElementById('withdraw-amount');
@@ -4257,13 +4389,25 @@
             const name = document.getElementById('withdraw-name').value.trim(); 
             const amount = parseFloat(document.getElementById('withdraw-amount').value);
             
-            if (!method || !account || !amount || isNaN(amount)) {
-                showNotification('Please select method, enter your USDT address, and specify amount.', 'error'); return;
+            if (!method) {
+                showNotification('Please select a withdrawal method.', 'error'); return;
             }
-             
-            if (account.length < 20) { // Basic validation for address length
+            if (!account) {
+                showNotification(`Please enter your ${method === 'easypaisa' ? 'Easypaisa Account Number' : 'USDT Wallet Address'}.`, 'error'); return;
+            }
+             if (method === 'easypaisa' && !name) {
+                showNotification('Please enter the Account Holder Name for Easypaisa withdrawal.', 'error'); return;
+            }
+            if (isNaN(amount) || amount <= 0) {
+                showNotification('Please enter a valid withdrawal amount.', 'error'); return;
+            }
+            
+            if (method === 'easypaisa' && (account.length < 11 || !/^\d+$/.test(account))) { // Basic Easypaisa number check
+                showNotification('Please enter a valid 11-digit Easypaisa account number.', 'error'); return;
+            } else if ((method === 'usdt_bep20' || method === 'usdt_trc20') && account.length < 20) { // Basic crypto address check
                  showNotification('Please enter a valid USDT wallet address.', 'error'); return;
             }
+
             if (amount < 2) {
                 showNotification('Minimum withdrawal is $2.', 'error'); return;
             }
@@ -4271,7 +4415,6 @@
                 showNotification('Maximum withdrawal is $500.', 'error'); return;
             }
             
-            // Withdraw from total available balance (plan earnings + main balance)
             const totalAvailableBalance = (userData.balance || 0) + (userData.earnings || 0);
             if (amount > totalAvailableBalance) {
                 showNotification('Insufficient total available balance.', 'error'); return;
@@ -4290,6 +4433,7 @@
                 account: account, 
                 name: name, 
                 requestedAmount: amount,
+                currency: method === 'easypaisa' ? 'PKR_equivalent' : 'USD', // Note currency
                 fee: feeAmount,
                 netAmount: netAmountToReceive,
                 date: new Date().toISOString(),
@@ -4298,7 +4442,7 @@
             
             showConfirmationModal(
                 'Confirm Withdrawal',
-                `Withdraw $${amount.toFixed(2)} via ${method.toUpperCase().replace('_', ' ')} to ${account}? <br>Fee: $${feeAmount.toFixed(2)}. You will receive: $${netAmountToReceive.toFixed(2)}.`,
+                `Withdraw $${amount.toFixed(2)} via ${method.toUpperCase().replace('_', ' ')} to ${account}? <br>Fee: $${feeAmount.toFixed(2)}. You will receive: $${netAmountToReceive.toFixed(2)}${method === 'easypaisa' ? ' (PKR equivalent)' : ''}.`,
                 async () => { // Make callback async
                     const submitWithdrawBtn = document.getElementById('submit-withdraw');
                     showLoadingButton(submitWithdrawBtn, true);
@@ -4306,7 +4450,6 @@
                     let newPlanEarnings = userData.earnings || 0;
                     let newMainBalance = userData.balance || 0;
                     
-                    // Deduct from plan earnings first, then from main balance
                     if (newPlanEarnings >= amountToDeduct) {
                         newPlanEarnings -= amountToDeduct;
                     } else {
@@ -4326,17 +4469,16 @@
                         const withdrawalKey = database.ref(`users/${currentUser.uid}/withdrawals`).push().key;
                         await database.ref(`users/${currentUser.uid}/withdrawals/${withdrawalKey}`).set({...withdrawalData, id: withdrawalKey});
                         
-                        // Send to admin queue
                         await database.ref(`admin/pending_withdrawals/${withdrawalKey}`).set({...withdrawalData, userUid: currentUser.uid, withdrawalId: withdrawalKey});
                         
                         showNotification('Withdrawal request submitted! Processing takes 1-6 hours after admin approval.', 'success');
                         const withdrawForm = document.querySelector('#withdraw-page .withdraw-form');
                         if(withdrawForm) withdrawForm.reset();
-                        document.getElementById('withdraw-method').value = ""; // Reset select
+                        document.getElementById('withdraw-method').value = ""; 
+                        updateWithdrawalFormUI(""); // Reset form UI
 
                     } catch (error) {
                         showNotification(`Withdrawal error: ${error.message}`, 'error');
-                        // Consider reverting balance if any step failed, though Firebase updates are atomic per path.
                     } finally {
                         showLoadingButton(submitWithdrawBtn, false, "Request Withdrawal");
                     }
@@ -4485,8 +4627,9 @@
             } else {
                 filteredDeposits.forEach(deposit => {
                     const row = document.createElement('tr');
+                    const amountDisplay = deposit.currency === 'PKR' ? `PKR ${deposit.amount.toFixed(0)}` : `$${deposit.amount.toFixed(2)}`;
                     row.innerHTML = `
-                        <td>$${deposit.amount.toFixed(2)}</td>
+                        <td>${amountDisplay}</td>
                         <td>${deposit.method ? deposit.method.toUpperCase().replace('_', ' ') : 'N/A'}</td>
                         <td>${formatDate(deposit.date)}</td>
                         <td class="status-${deposit.status}">${deposit.status}</td>
@@ -4500,10 +4643,12 @@
                 });
             }
             let summaryTotal = 0, summaryPending = 0, summaryCompleted = 0;
+            // Summary typically shown in USD, adjust if multi-currency summary is needed
             depositsArray.forEach(d => {
-                if (d.status === 'completed') summaryCompleted += d.amount; // Only completed count towards total verified deposits
-                if (d.status === 'pending') summaryPending += d.amount;
-                summaryTotal += d.amount; // Show all attempted deposits
+                const amountInUSD = d.currency === 'PKR' ? (d.amount / 280) : d.amount; // Example conversion
+                if (d.status === 'completed') summaryCompleted += amountInUSD; 
+                if (d.status === 'pending') summaryPending += amountInUSD;
+                summaryTotal += amountInUSD; 
             });
             updateDepositSummary(summaryTotal, summaryPending, summaryCompleted);
             
@@ -4540,8 +4685,9 @@
             } else {
                 filteredWithdrawals.forEach(withdrawal => {
                     const row = document.createElement('tr');
+                     const amountDisplay = withdrawal.currency === 'PKR_equivalent' ? `$${withdrawal.requestedAmount.toFixed(2)} (PKR Eq.)` : `$${withdrawal.requestedAmount.toFixed(2)}`;
                     row.innerHTML = `
-                        <td>$${withdrawal.requestedAmount.toFixed(2)}</td>
+                        <td>${amountDisplay}</td>
                         <td>${withdrawal.method ? withdrawal.method.toUpperCase().replace('_', ' ') : 'N/A'}</td>
                         <td>${formatDate(withdrawal.date)}</td>
                         <td class="status-${withdrawal.status}">${withdrawal.status}</td>
@@ -4600,8 +4746,7 @@
                             // Refund to main balance or earnings based on where it was taken. Simpler to refund to main balance.
                             const currentBalance = userData.balance || 0;
                             const currentPlanEarnings = userData.earnings || 0;
-                            // For simplicity, refund to main balance. Or decide based on original deduction.
-                            // Here, we'll add to main balance.
+                            // For simplicity, refund to main balance.
                             const newMainBalance = parseFloat((currentBalance + amountToRefund).toFixed(2));
                             await database.ref(`users/${currentUser.uid}`).update({ balance: newMainBalance });
                         }
@@ -4681,7 +4826,6 @@
 
         function initEarningsPage() {
             loadEarningsHistory(); // This will also setup/update the chart
-            // No need to call setupEarningsChart separately if loadEarningsHistory handles it
         }
 
         function loadEarningsHistory() { // For Earnings Page
@@ -4698,12 +4842,11 @@
             const periodFilter = document.getElementById('earnings-period')?.value || 'all';
             const allEarningsEntries = [];
 
-            // Consolidate plan earnings and MLM commissions
             if (userData.earningsHistory) { // Plan investment earnings
                 Object.values(userData.earningsHistory).forEach(entry => {
                     allEarningsEntries.push({
                         date: entry.date,
-                        type: 'Investment', // Plan earning
+                        type: 'Investment', 
                         amount: entry.amount,
                         description: `From ${entry.plan ? getPlanName(entry.plan) : 'Active Plan'}`
                     });
@@ -4713,14 +4856,14 @@
                 Object.values(userData.referralHistory).forEach(entry => {
                     allEarningsEntries.push({
                         date: entry.date,
-                        type: 'Referral', // MLM Commission
+                        type: 'Referral', 
                         amount: entry.amount,
                         description: `L${entry.level} from ${entry.sourceUserName || 'Downline'}`
                     });
                 });
             }
 
-            allEarningsEntries.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort all combined entries
+            allEarningsEntries.sort((a, b) => new Date(b.date) - new Date(a.date)); 
 
             const now = new Date();
             const filteredForPeriod = allEarningsEntries.filter(e => {
@@ -4728,7 +4871,7 @@
                 if (periodFilter === 'today') return entryDate.toDateString() === now.toDateString();
                 if (periodFilter === 'week') {
                     const weekStart = new Date(now);
-                    weekStart.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1) ); // Monday as start of week
+                    weekStart.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1) ); 
                     weekStart.setHours(0,0,0,0);
                     return entryDate >= weekStart;
                 }
@@ -4736,10 +4879,9 @@
                 return true; // 'all'
             });
 
-            // Calculate summaries for the Earnings Page
             let grandTotalAllTime = 0;
             let todayGrandTotal = 0;
-            let totalMLMAllTime = userData.totalReferralEarnings || 0; // Use the dedicated field for total MLM
+            let totalMLMAllTime = userData.totalReferralEarnings || 0;
 
             allEarningsEntries.forEach(e => { 
                 grandTotalAllTime += e.amount;
@@ -4758,7 +4900,6 @@
             if (filteredForPeriod.length === 0) {
                 earningsTableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No earnings for this period.</td></tr>`;
             } else {
-                // Display limited entries, e.g., top 50 for performance
                 filteredForPeriod.slice(0, 50).forEach(earning => { 
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -4770,15 +4911,14 @@
                     earningsTableBody.appendChild(row);
                 });
             }
-            // Update or setup chart
-            if (!earningsChartInstance) setupEarningsChart(); // Ensure chart is setup once
+            if (!earningsChartInstance) setupEarningsChart(); 
             updateChartData(filteredForPeriod, periodFilter); 
         }
         
         function updateEarningsSummaryOnPage(grandTotal, todayTotal, mlmTotal) {
-            document.getElementById('total-earnings').textContent = `$${grandTotal.toFixed(2)}`; // Grand total
-            document.getElementById('today-earnings').textContent = `$${todayTotal.toFixed(2)}`; // Today's grand total
-            document.getElementById('all-referral-earnings').textContent = `$${mlmTotal.toFixed(2)}`; // Total MLM commissions
+            document.getElementById('total-earnings').textContent = `$${grandTotal.toFixed(2)}`; 
+            document.getElementById('today-earnings').textContent = `$${todayTotal.toFixed(2)}`; 
+            document.getElementById('all-referral-earnings').textContent = `$${mlmTotal.toFixed(2)}`;
         }
 
         function setupEarningsChart() { 
@@ -4793,21 +4933,21 @@
                     labels: [], 
                     datasets: [
                         {
-                            label: 'Total Daily Earnings (Plan + MLM)', // Combined
+                            label: 'Total Daily Earnings (Plan + MLM)', 
                             data: [], 
-                            borderColor: 'var(--accent-color)', // Bright Gold
-                            backgroundColor: 'rgba(var(--accent-color-rgb), 0.1)', // Light Bright Gold
+                            borderColor: 'var(--accent-color)', 
+                            backgroundColor: 'rgba(var(--accent-color-rgb), 0.1)', 
                             fill: true,
                             tension: 0.3
                         },
-                         { // Optional: Separate line for MLM commissions
+                         { 
                             label: 'MLM Commissions',
                             data: [],
-                            borderColor: 'var(--secondary-color)', // Muted Gold
-                            backgroundColor: 'rgba(var(--secondary-color-rgb), 0.1)',// Light Muted Gold
+                            borderColor: 'var(--secondary-color)', 
+                            backgroundColor: 'rgba(var(--secondary-color-rgb), 0.1)',
                             fill: true,
                             tension: 0.3,
-                            hidden: true // Initially hidden, user can toggle
+                            hidden: true 
                         }
                     ]
                 },
@@ -4818,36 +4958,35 @@
                         y: { 
                             beginAtZero: true, 
                             title: { display: true, text: 'Amount (USD)' },
-                            ticks: { color: 'var(--gray-text)'}, /* Gold Theme */
-                            grid: { color: 'rgba(var(--gray-text-rgb, 119,119,119), 0.2)' } /* Gold Theme */
+                            ticks: { color: 'var(--gray-text)'}, 
+                            grid: { color: 'rgba(119,119,119, 0.2)' } // Using fixed RGB for var(--gray-text-rgb)
                         },
                         x: { 
                             title: { display: true, text: 'Date/Time Period' },
-                            ticks: { color: 'var(--gray-text)'}, /* Gold Theme */
-                            grid: { color: 'rgba(var(--gray-text-rgb, 119,119,119), 0.2)' } /* Gold Theme */
+                            ticks: { color: 'var(--gray-text)'}, 
+                            grid: { color: 'rgba(119,119,119, 0.2)' } 
                         }
                     },
                     plugins: { 
-                        legend: { display: true, position: 'top', labels: {color: 'var(--dark-text)'} }, /* Gold Theme */
-                        title: { display: true, text: 'Earnings Trend (Selected Period)', color: 'var(--primary-dark)' } /* Gold Theme */
+                        legend: { display: true, position: 'top', labels: {color: 'var(--dark-text)'} }, 
+                        title: { display: true, text: 'Earnings Trend (Selected Period)', color: 'var(--primary-dark)' } 
                     }
                 }
             });
         }
 
-        function updateChartData(earningsDataForPeriod, period) { // earningsDataForPeriod is already filtered
+        function updateChartData(earningsDataForPeriod, period) { 
             if (!earningsChartInstance) return;
 
             let labels = [];
             let totalDataPoints = [];
-            let mlmDataPoints = []; // For separate MLM line
+            let mlmDataPoints = []; 
 
-            // Aggregate data by day for chart display
             const dailyTotals = {};
             const dailyMlmTotals = {};
 
             earningsDataForPeriod.forEach(e => {
-                const day = new Date(e.date).toLocaleDateString('en-CA'); // YYYY-MM-DD format for sorting
+                const day = new Date(e.date).toLocaleDateString('en-CA'); 
                 dailyTotals[day] = (dailyTotals[day] || 0) + e.amount;
                 if (e.type === 'Referral') {
                     dailyMlmTotals[day] = (dailyMlmTotals[day] || 0) + e.amount;
@@ -4856,7 +4995,7 @@
             
             const sortedDays = Object.keys(dailyTotals).sort((a,b) => new Date(a) - new Date(b));
             
-            labels = sortedDays.map(dayStr => formatDate(dayStr, true)); // Format as 'Mon, DD'
+            labels = sortedDays.map(dayStr => formatDate(dayStr, true)); 
             totalDataPoints = sortedDays.map(day => dailyTotals[day] || 0);
             mlmDataPoints = sortedDays.map(day => dailyMlmTotals[day] || 0);
             
@@ -4894,12 +5033,12 @@
                     
                     const messageData = { 
                         name, 
-                        email, // Email from form
+                        email, 
                         subject, 
                         message, 
                         date: new Date().toISOString(), 
                         userId: currentUser ? currentUser.uid : 'guest',
-                        userAppEmail: currentUser ? currentUser.email : 'guest_form_submission' // Logged-in user's email
+                        userAppEmail: currentUser ? currentUser.email : 'guest_form_submission'
                     };
 
                     database.ref('contact_messages').push(messageData)
@@ -4926,17 +5065,14 @@
             const iconToShow = modalIconContainer.querySelector(`i.${type}`);
             if(iconToShow) iconToShow.style.display = 'block';
             
-            // Configure confirm button style based on type
             const confirmBtnEl = document.getElementById('modal-confirm');
-            confirmBtnEl.className = 'modal-btn confirm glowing-btn-hover'; // Reset classes, add glowing
+            confirmBtnEl.className = 'modal-btn confirm glowing-btn-hover'; 
             if (type === 'error') confirmBtnEl.classList.add('error');
             else if (type === 'warning') confirmBtnEl.classList.add('warning');
-            // else default 'success' style (or primary/accent) is fine
 
             confirmationModal.classList.add('active');
             confirmationModal.classList.remove('hidden');
             
-            // Re-attach listener to confirm button to avoid multiple calls from old listeners
             const newConfirmBtn = confirmBtnEl.cloneNode(true);
             confirmBtnEl.parentNode.replaceChild(newConfirmBtn, confirmBtnEl);
             
@@ -4954,9 +5090,9 @@
         function formatDate(dateString, short = false) {
             if (!dateString) return 'N/A';
             const date = new Date(dateString);
-            if (isNaN(date.getTime())) return 'Invalid Date'; // Check if date is valid
+            if (isNaN(date.getTime())) return 'Invalid Date'; 
 
-            if (short) { // For chart labels like "Jul 15"
+            if (short) { 
                  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
             }
             return date.toLocaleDateString('en-US', { 
@@ -4970,4 +5106,3 @@
     </script>
 </body>
 </html>
-
