@@ -20,7 +20,7 @@
                        form-action 'self';
                        frame-src 'self' https://www.google.com;">
     -->
-    <title>Crypto Harvest</title>
+    <title>Crypto Harvest - MLM (Golden Theme)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
@@ -3435,7 +3435,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // app.js (MLM Version - Golden Theme - Crypto Harvest with About Page)
+        // app.js (MLM Version - Golden Theme - Crypto Harvest with About Page & Referral Link Auto-fill)
 
         // IMPORTANT: Firebase Security & Configuration Notes
         // 1. API Key: While this key is visible client-side, it's for identifying your Firebase project.
@@ -3516,34 +3516,27 @@
         let userData = null;
         let earningsInterval = null; // For plan earnings
         let earningsChartInstance = null;
+        let globalReferralCode = null; // Store parsed referral code from URL
 
         // =========================================================================================
         // CRITICAL SECURITY NOTE: FIREBASE REALTIME DATABASE RULES
         // =========================================================================================
-        // The following are *EXAMPLES* of security rules. You MUST implement robust rules
-        // in your Firebase Console (Database > Rules) to protect your data.
-        // Without proper rules, your database is vulnerable.
-        //
         // {
         //   "rules": {
         //     "users": {
         //       "$uid": {
-        //         // Users can only read/write their own data
         //         ".read": "auth != null && auth.uid == $uid",
         //         ".write": "auth != null && auth.uid == $uid",
-        //         // More granular control:
         //         "name": { ".write": "newData.isString() && newData.val().length > 0 && newData.val().length < 50" },
-        //         "email": { ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i)" }, // Email should ideally be set by auth
-        //         "balance": { ".write": "newData.isNumber()" }, // Potentially only allow server-side (Cloud Functions) updates
-        //         "earnings": { ".write": "newData.isNumber()" }, // Potentially only server-side updates
+        //         "email": { ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i)" },
+        //         "balance": { ".write": "newData.isNumber()" },
+        //         "earnings": { ".write": "newData.isNumber()" },
         //         "activePlan": { ".write": "newData.isNumber() || newData.val() == null" },
-        //         // Prevent client from writing to sensitive fields like totalReferralEarnings directly
-        //         "totalReferralEarnings": { ".write": false }, // Only Cloud Functions should update this
-        //         "uplineUids": { ".write": "!data.exists()" }, // Only allow writing on creation
+        //         "totalReferralEarnings": { ".write": false },
+        //         "uplineUids": { ".write": "!data.exists()" },
         //         "referredByUid": { ".write": "!data.exists() || data.val() == null" },
         //         "inviteCode": { ".write": "!data.exists() && newData.isString()" },
-        //         // Allow creating transactions, deposits, withdrawals, but not modifying existing ones easily
-        //         "transactions": { "$transactionId": { ".write": "auth != null && auth.uid == $uid" } }, // Be more specific for creation vs update
+        //         "transactions": { "$transactionId": { ".write": "auth != null && auth.uid == $uid" } },
         //         "deposits": { "$depositId": {
         //             ".write": "auth != null && auth.uid == $uid && (newData.child('status').val() == 'cancelled' || !data.exists())",
         //             ".validate": "newData.hasChildren(['userId', 'amount', 'method', 'transactionId', 'date', 'status'])"
@@ -3552,20 +3545,17 @@
         //             ".write": "auth != null && auth.uid == $uid && (newData.child('status').val() == 'cancelled' || !data.exists())",
         //             ".validate": "newData.hasChildren(['userId', 'amount', 'method', 'account', 'date', 'status'])"
         //         }},
-        //         "earningsHistory": { "$earningId": { ".write": "auth != null && auth.uid == $uid && !data.exists()" }}, // only allow creation by user (e.g. if earnings were client-calculated, which is risky) ideally server-side.
-        //         "referralHistory": { ".write": false }, // Only server (Cloud Function) should write MLM commissions
-        //         // Allow reads for specific, non-sensitive public data by others if needed for rankings (use .indexOn for queries)
-        //         // ".indexOn": ["activePlan", "inviteCode"] // For querying
+        //         "earningsHistory": { "$earningId": { ".write": "auth != null && auth.uid == $uid && !data.exists()" }},
+        //         "referralHistory": { ".write": false },
+        //         ".indexOn": ["activePlan", "inviteCode"]
         //       }
         //     },
-        //     "admin": { // For admin tasks, only accessible by admin users (e.g., via Cloud Functions with custom claims)
+        //     "admin": {
         //       "pending_deposits": { ".read": "auth != null && root.child('admins').child(auth.uid).val() === true", ".write": "auth != null && (root.child('admins').child(auth.uid).val() === true || (auth.uid == newData.child('userUid').val() && newData.child('status').val() == 'cancelled_by_user') )" },
         //       "pending_withdrawals": { ".read": "auth != null && root.child('admins').child(auth.uid).val() === true", ".write": "auth != null && (root.child('admins').child(auth.uid).val() === true || (auth.uid == newData.child('userUid').val() && newData.child('status').val() == 'cancelled_by_user') )" }
-        //       // Add an "admins" node: "admins": { "admin_uid_1": true, "admin_uid_2": true }
         //     },
         //     "contact_messages": {
         //       "$messageId": {
-        //         // Allow anyone to write (submit form), but only admins to read.
         //         ".write": "newData.hasChildren(['name', 'email', 'subject', 'message', 'date'])",
         //         ".read": "auth != null && root.child('admins').child(auth.uid).val() === true"
         //       }
@@ -3576,9 +3566,53 @@
 
         // Initialize the app
         function init() {
+            parseReferralCodeFromUrl();
             setupEventListeners();
             checkAuthState();
+            autoShowFormBasedOnUrl();
         }
+
+        function parseReferralCodeFromUrl() {
+            const hash = window.location.hash; // e.g., #register?ref=XYZ
+            const searchParams = new URLSearchParams(window.location.search); // e.g., ?ref=ABC
+
+            let refCode = searchParams.get('ref');
+
+            if (hash) {
+                const hashParts = hash.split('?'); // Separate #page from ?param=value
+                if (hashParts.length > 1) {
+                    const hashQueryStr = hashParts[1];
+                    const hashUrlParams = new URLSearchParams(hashQueryStr);
+                    const refFromHash = hashUrlParams.get('ref');
+                    if (refFromHash) {
+                        refCode = refFromHash; // Prioritize ref from hash if present
+                    }
+                }
+            }
+
+            if (refCode) {
+                globalReferralCode = refCode;
+                console.log("Referral code from URL:", globalReferralCode);
+            }
+        }
+
+        function autoShowFormBasedOnUrl() {
+            const hash = window.location.hash;
+            const regInviteInput = document.getElementById('reg-invite');
+
+            if (hash.includes('#register')) {
+                showAuthForm(registerFormEl);
+                if (globalReferralCode && regInviteInput && !regInviteInput.value) {
+                    regInviteInput.value = globalReferralCode;
+                    console.log("Populated invite code field on initial load with:", globalReferralCode);
+                }
+            } else if (hash.includes('#login')) {
+                showAuthForm(loginFormEl);
+            }
+            // Default to login if no specific form is in hash, or if authContainer is visible (logged out)
+            // This part is handled by checkAuthState and showAuthForm(loginFormEl) in checkAuthState's else block
+        }
+
 
         function setupEventListeners() {
             showRegisterFormBtn.addEventListener('click', () => showAuthForm(registerFormEl));
@@ -3696,7 +3730,17 @@
             [registerFormEl, loginFormEl].forEach(form => {
                 if (form) form.classList.add('hidden');
             });
-            if (formToShow) formToShow.classList.remove('hidden');
+
+            if (formToShow) {
+                formToShow.classList.remove('hidden');
+                if (formToShow === registerFormEl && globalReferralCode) {
+                    const regInviteInput = document.getElementById('reg-invite');
+                    if (regInviteInput && !regInviteInput.value) { // Only populate if empty
+                        regInviteInput.value = globalReferralCode;
+                        console.log("Populated invite code field in showAuthForm with:", globalReferralCode);
+                    }
+                }
+            }
 
             const authOptions = document.getElementById('auth-options');
             if (authOptions) authOptions.classList.add('hidden');
@@ -3707,22 +3751,20 @@
             const targetPage = document.getElementById(`${pageName}-page`);
             if (targetPage) {
                 targetPage.classList.remove('hidden');
-                // For accessibility, focus on the page title or main heading
                 const pageHeading = targetPage.querySelector('h2');
                 if (pageHeading) pageHeading.focus();
             } else {
                 console.error(`Page with ID ${pageName}-page not found.`);
                 document.getElementById('home-page').classList.remove('hidden');
-                document.getElementById('home-page').querySelector('h3')?.focus(); // Focus on a relevant element
+                document.getElementById('home-page').querySelector('h3')?.focus();
             }
 
             menuItems.forEach(item => item.classList.remove('active'));
             const activeMenuItem = document.querySelector(`.menu-item[data-page="${pageName}"]`);
             if (activeMenuItem) activeMenuItem.classList.add('active');
 
-            sideMenu.classList.remove('active'); // Close menu on navigation
+            sideMenu.classList.remove('active');
 
-            // Page specific initializations
             if (pageName === 'team') initTeamPage();
             else if (pageName === 'plans') initPlansPage();
             else if (pageName === 'deposit') initDepositPage();
@@ -3730,7 +3772,7 @@
             else if (pageName === 'earnings') initEarningsPage();
             else if (pageName === 'deposit-history') loadDepositHistory();
             else if (pageName === 'withdraw-history') loadWithdrawHistory();
-            else if (pageName === 'about') initAboutPage(); // NEW
+            else if (pageName === 'about') initAboutPage();
         }
 
         function checkAuthState() {
@@ -3755,7 +3797,13 @@
                     document.getElementById('auth-options').classList.remove('hidden');
                     appContainer.classList.add('hidden');
                     emailVerificationNoticeEl.classList.add('hidden');
-                    showAuthForm(loginFormEl); // Default to login form
+
+                    // If not directed by URL hash, show login form.
+                    // autoShowFormBasedOnUrl will handle #register or #login if present.
+                    if (!window.location.hash.includes('#register') && !window.location.hash.includes('#login')) {
+                         showAuthForm(loginFormEl);
+                    }
+
 
                     if (earningsInterval) {
                         clearInterval(earningsInterval);
@@ -3772,11 +3820,7 @@
                 userData = snapshot.val();
                 if (userData) {
                     updateUI();
-                    startEarningsCalculation(); // For plan earnings
-                    // Avoid redundant "Login successful" if it's just a data refresh
-                    // if (!authContainer.classList.contains('hidden') && currentUser.emailVerified) {
-                    //      showNotification('Login successful!', 'success');
-                    // }
+                    startEarningsCalculation();
                 } else {
                     console.warn("User data not found for UID:", userId, "Logging out.");
                     logoutUser();
@@ -3799,7 +3843,6 @@
                     if (userData) {
                         showNotification('Balance refreshed!', 'success');
                     }
-                    // The 'on' listener for userData will automatically call updateUI.
                 })
                 .catch(error => {
                     console.error('Error refreshing balance:', error);
@@ -3895,7 +3938,7 @@
             if (!name || !email || !password || !confirmPassword) {
                 showNotification('Please fill all required fields.', 'error'); return;
             }
-            if (name.length > 50) { // Basic length check
+            if (name.length > 50) {
                 showNotification('Full name should not exceed 50 characters.', 'error'); return;
             }
             if (!emailRegex.test(email)) {
@@ -3910,7 +3953,7 @@
             if (!termsAccepted) {
                 showNotification('Please accept the Terms & Conditions and Privacy Policy.', 'error'); return;
             }
-             if (inviteCodeInput && inviteCodeInput.length > 20) { // Basic check
+             if (inviteCodeInput && inviteCodeInput.length > 20) {
                 showNotification('Invitation code seems too long.', 'error'); return;
             }
 
@@ -3927,7 +3970,7 @@
                 const newUserRef = database.ref('users/' + user.uid);
                 const newUserData = {
                     name: name,
-                    email: email, // Store email from auth, ensure rules protect it
+                    email: email,
                     balance: 0,
                     earnings: 0,
                     totalReferralEarnings: 0,
@@ -3935,8 +3978,8 @@
                     planStartDate: null,
                     lastEarningsUpdate: null,
                     inviteCode: generateInviteCode(),
-                    referredBy: inviteCodeInput || null,
-                    referredByUid: null,
+                    referredBy: inviteCodeInput || null, // This is the invite code they used
+                    referredByUid: null, // This will be the UID of the referrer
                     uplineUids: {},
                     downline: {},
                     registrationDate: new Date().toISOString(),
@@ -3950,7 +3993,6 @@
                     await setupMLMUplines(inviteCodeInput, user.uid, name, email);
                 }
                 registerFormEl.reset();
-                // UI transition and email notice handled by checkAuthState
             } catch (error) {
                 console.error("Registration error:", error);
                 showNotification('Registration failed: ' + (error.code === 'auth/email-already-in-use' ? 'This email is already registered. Try logging in.' : error.message), 'error');
@@ -3963,13 +4005,12 @@
             if (!referrerInviteCode) return;
 
             try {
-                // Query for user with the given invite code. Ensure 'inviteCode' is indexed in Firebase rules.
                 const snapshot = await database.ref('users').orderByChild('inviteCode').equalTo(referrerInviteCode).once('value');
                 if (snapshot.exists()) {
                     const referrerUid = Object.keys(snapshot.val())[0];
                     const referrerData = snapshot.val()[referrerUid];
 
-                    if (!referrerData) { // Should not happen if snapshot.exists() is true
+                    if (!referrerData) {
                         console.warn("Referrer data is unexpectedly null for UID:", referrerUid);
                         await database.ref(`users/${newUserId}`).update({ attemptedInviteCode: referrerInviteCode, referralError: "ReferrerDataNull" });
                         return;
@@ -3990,7 +4031,7 @@
 
                     updates[`users/${referrerUid}/downline/${newUserId}`] = {
                         name: newUserName,
-                        email: newUserEmail, // Be mindful of privacy implications if displaying this widely
+                        email: newUserEmail,
                         registrationDate: new Date().toISOString()
                     };
 
@@ -4002,7 +4043,6 @@
                 }
             } catch (error) {
                 console.error("Error setting up MLM uplines: ", error);
-                // Log this error for admin review, but don't necessarily block user registration
                  await database.ref(`users/${newUserId}`).update({ referralError: `SetupError: ${error.message.substring(0,100)}` });
             }
         }
@@ -4021,10 +4061,9 @@
                 .then(async (userCredential) => {
                     if (userCredential.user) {
                         await database.ref('users/' + userCredential.user.uid).update({ lastLogin: new Date().toISOString() });
-                        showNotification('Login successful!', 'success'); // Moved here for better UX
+                        showNotification('Login successful!', 'success');
                     }
                     loginFormEl.reset();
-                    // checkAuthState handles UI transition.
                 })
                 .catch((error) => {
                     console.error("Login error:", error);
@@ -4044,9 +4083,8 @@
         }
 
         function handleForgotPassword() {
-            // SECURITY: Consider rate limiting this server-side (Firebase Functions) to prevent email spam.
             const email = prompt("Please enter your email address to reset your password:");
-            if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { // Basic email validation
+            if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 showLoading();
                 auth.sendPasswordResetEmail(email)
                     .then(() => {
@@ -4063,13 +4101,12 @@
                         showNotification(message, 'error');
                     })
                     .finally(() => hideLoading());
-            } else if (email) { // Email was entered but invalid
+            } else if (email) {
                 showNotification('Please enter a valid email address.', 'error');
             }
         }
 
         function resendVerificationEmail() {
-            // SECURITY: Firebase Auth has built-in rate limiting for this, but be aware.
             if (currentUser && !currentUser.emailVerified) {
                 showLoadingButton(resendVerificationEmailBtn, true, "Sending...");
                 currentUser.sendEmailVerification()
@@ -4082,15 +4119,14 @@
                     })
                     .finally(() => {
                         showLoadingButton(resendVerificationEmailBtn, false, "Resend Email");
-                        resendVerificationEmailBtn.disabled = true; // Prevent spamming
-                        setTimeout(() => { resendVerificationEmailBtn.disabled = false; }, 60000); // Re-enable after 1 minute
+                        resendVerificationEmailBtn.disabled = true;
+                        setTimeout(() => { resendVerificationEmailBtn.disabled = false; }, 60000);
                     });
             }
         }
 
         function generateInviteCode() {
-            // Generates a more random-looking code, less guessable.
-            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Avoid ambiguous chars like I, O, 0, 1
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
             let result = 'CH';
             for (let i = 0; i < 6; i++) {
                 result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -4099,8 +4135,6 @@
         }
 
         function validatePassword(password) {
-            // Regex: At least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character
-            // Ensure special characters list is comprehensive or use a library if very strict.
             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]{8,}$/;
             return regex.test(password);
         }
@@ -4118,11 +4152,11 @@
             }
 
             if (password.length >= 8) score++;
-            if (password.length >= 12) score++; // Increased length bonus
+            if (password.length >= 12) score++;
             if (/[A-Z]/.test(password)) score++;
             if (/[a-z]/.test(password)) score++;
-            if (/\d/.test(password)) score++; // Simpler digit check
-            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) score++; // Common special chars
+            if (/\d/.test(password)) score++;
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) score++;
 
 
             strengthBars.forEach((bar, index) => bar.className = 'strength-bar' );
@@ -4191,9 +4225,6 @@
                 case 'info': iconClass = 'fa-info-circle'; break;
                 default: iconClass = 'fa-bell';
             }
-
-            // Sanitize message before inserting if it could ever contain user input directly.
-            // For internally generated messages like these, direct insertion is generally okay.
             notification.innerHTML = `<i class="fas ${iconClass}" aria-hidden="true"></i><span>${message}</span>`;
             notificationContainer.appendChild(notification);
 
@@ -4293,15 +4324,9 @@
             if (userData.activePlan) {
                 showNotification('You already have an active plan. Wait for it to complete or contact support.', 'error'); return;
             }
-
-            // SECURITY: All financial logic (deducting balance, awarding commissions, starting plan)
-            // should ideally be handled by a Firebase Cloud Function for atomicity and to prevent client-side manipulation.
-            // The client would call the function, and the function would perform all database updates.
-            // This example does it client-side for simplicity but be aware of the risks in a production environment.
-
             showConfirmationModal(
                 `Confirm Plan Purchase`,
-                `Purchase ${getPlanName(planAmount)} for $${planAmount}? This will utilize funds from your balance. Potential earnings are not guaranteed. This will also trigger MLM commissions for your upline.`, // MODIFIED LANGUAGE
+                `Purchase ${getPlanName(planAmount)} for $${planAmount}? This will utilize funds from your balance. Potential earnings are not guaranteed. This will also trigger MLM commissions for your upline.`,
                 async () => {
                     showLoadingButton(buttonElement, true);
 
@@ -4330,7 +4355,6 @@
                     };
 
                     try {
-                        // This entire block should ideally be a single Cloud Function call
                         await database.ref('users/' + currentUser.uid).update(updates);
                         const logEntry = {
                             type: 'plan_purchase',
@@ -4354,8 +4378,6 @@
                     } catch (error) {
                         console.error("Plan purchase error:", error);
                         showNotification(`Purchase error: ${error.message}. Your balance might not have been updated correctly. Please contact support if issues persist.`, 'error', true);
-                        // Consider logic to verify/revert balance if a partial update occurred, though Firebase updates are atomic for a single path.
-                        // This is where server-side functions are safer.
                     } finally {
                         showLoadingButton(buttonElement, false, "Buy Now");
                     }
@@ -4364,8 +4386,6 @@
         }
 
         async function awardMLMCommissions(sourceUserUid, triggerAmount, triggerAction = 'plan_purchase') {
-            // SECURITY: This logic is CRITICAL and should be in a Cloud Function to prevent tampering
-            // and ensure atomicity with the user's plan purchase and balance deduction.
             if (!sourceUserUid || triggerAmount <= 0) return;
             console.log(`Attempting to award MLM commissions for ${sourceUserUid} from ${triggerAmount} purchase.`);
 
@@ -4391,19 +4411,13 @@
 
                             if (commissionAmount > 0) {
                                 const uplineUserRef = database.ref(`users/${uplineUid}`);
-                                // Using a transaction for atomic updates to balance and totalReferralEarnings
                                 await uplineUserRef.transaction(uplineData => {
                                     if (uplineData) {
                                         uplineData.balance = parseFloat(((uplineData.balance || 0) + commissionAmount).toFixed(2));
                                         uplineData.totalReferralEarnings = parseFloat(((uplineData.totalReferralEarnings || 0) + commissionAmount).toFixed(2));
-
-                                        // Add to referralHistory (cannot be done reliably inside transaction for a separate path without Cloud Functions)
-                                        // So, we do it after the transaction commits.
                                     }
                                     return uplineData;
                                 });
-
-                                // Log the commission after successful transaction
                                 const commissionEntry = {
                                     sourceUserUid: sourceUserUid,
                                     sourceUserName: sourceUserData.name || "N/A",
@@ -4417,7 +4431,6 @@
                                 };
                                 await database.ref(`users/${uplineUid}/referralHistory`).push(commissionEntry);
                                 console.log(`Awarded $${commissionAmount} (L${level}) to ${uplineUid}.`);
-
                             }
                         }
                     } else {
@@ -4433,8 +4446,6 @@
 
 
         function startEarningsCalculation() {
-            // SECURITY: Daily earnings calculation should ideally be a scheduled Cloud Function
-            // to ensure accuracy, prevent client manipulation, and handle server time.
             if (earningsInterval) clearInterval(earningsInterval);
 
             if (!currentUser || !userData || !userData.activePlan || !userData.planStartDate) {
@@ -4454,7 +4465,6 @@
                     activePlan: null,
                     planStartDate: null,
                     lastEarningsUpdate: null,
-                    // earnings: (userData.earnings || 0), // Earnings already accumulated.
                     planCompletedOn: now.toISOString()
                 };
 
@@ -4567,26 +4577,22 @@
             const senderLabelEl = document.getElementById('deposit-sender-label');
             const transactionInputEl = document.getElementById('deposit-transaction');
 
-
-            // SECURITY: Store these sensitive deposit details securely, ideally fetched from a server/Cloud Function
-            // rather than hardcoded, if they might change or need to be managed.
-            // For this example, they remain hardcoded.
             const depositDetails = {
                 usdt_bep20: {
-                    address: '0xeb0ee64208106984101b1f127cf221358771dbfa', // EXAMPLE - REPLACE
+                    address: '0xeb0ee64208106984101b1f127cf221358771dbfa',
                     name: 'USDT (BEP20)',
                     label1: 'Deposit Address (BEP20):',
                     note: "After sending USDT, fill the form below to verify your deposit. Processing time: 5-30 minutes after admin verification. Ensure you send to the correct network address (BEP20)."
                 },
                 usdt_trc20: {
-                    address: 'TKEmWeig1jtWLgPZp4pX4PHAsPsrFNdqf2',  // EXAMPLE - REPLACE
+                    address: 'TKEmWeig1jtWLgPZp4pX4PHAsPsrFNdqf2',
                     name: 'USDT (TRC20)',
                     label1: 'Deposit Address (TRC20):',
                     note: "After sending USDT, fill the form below to verify your deposit. Processing time: 5-30 minutes after admin verification. Ensure you send to the correct network address (TRC20)."
                 },
                 easypaisa: {
-                    number: '03709912807', // EXAMPLE - REPLACE
-                    holder: 'Memoona Zohra', // EXAMPLE - REPLACE
+                    number: '03709912807',
+                    holder: 'Memoona Zohra',
                     name: 'Easypaisa',
                     label1: 'Easypaisa Account Number:',
                     label2: 'Account Holder Name:',
@@ -4600,7 +4606,7 @@
 
                 depositMethodNameEl.textContent = details.name;
                 instructionParagraphEl.textContent = `Send funds to the following ${details.name} details:`;
-                importantNoteTextEl.innerHTML = details.note; // Use innerHTML if note contains HTML, otherwise textContent
+                importantNoteTextEl.innerHTML = details.note;
 
                 detailLabel1.textContent = details.label1;
                 detailValue1.textContent = details.address || details.number;
@@ -4634,7 +4640,6 @@
                     const method = this.dataset.method;
                     updateDepositInstructionsUI(method);
                 });
-                 // Add keyboard accessibility for method cards
                 card.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
@@ -4683,17 +4688,16 @@
             if (!method) {
                 showNotification('Please select a deposit method.', 'error'); return;
             }
-            if (!amount || isNaN(amount) || amount < (method === 'easypaisa' ? 1400 : 5) ) { // Example: $1 ~ 280 PKR, so $5 ~ 1400 PKR
+            if (!amount || isNaN(amount) || amount < (method === 'easypaisa' ? 1400 : 5) ) {
                 showNotification(`Invalid amount. Minimum deposit is ${method === 'easypaisa' ? 'approx. 1400 PKR (equivalent of $5)' : '$5'}.`, 'error'); return;
             }
             if (!transactionId) {
                 showNotification('Please enter the Transaction ID / Hash.', 'error'); return;
             }
-            // Basic validation for transaction ID length (can be more specific per crypto/method)
             if (transactionId.length < 10 || transactionId.length > 100) {
                 showNotification('Transaction ID seems invalid. Please check.', 'error'); return;
             }
-            if (senderAddress && senderAddress.length > 100) { // Optional field, basic check
+            if (senderAddress && senderAddress.length > 100) {
                 showNotification('Sender address/number seems too long.', 'error'); return;
             }
 
@@ -4708,7 +4712,7 @@
                 amount: amount,
                 currency: method === 'easypaisa' ? 'PKR' : 'USD',
                 method: method,
-                transactionId: transactionId, // SECURITY: Admin must verify this ID against actual received funds.
+                transactionId: transactionId,
                 senderAddress: senderAddress,
                 date: new Date().toISOString(),
                 status: 'pending'
@@ -4743,7 +4747,6 @@
                 });
                 updateWithdrawalFormUI(withdrawMethodSelect.value);
             }
-             // Set min/max on amount input dynamically
             const withdrawAmountInput = document.getElementById('withdraw-amount');
             if (withdrawAmountInput) {
                 withdrawAmountInput.min = MIN_WITHDRAWAL_AMOUNT;
@@ -4763,8 +4766,8 @@
             if (selectedMethod === 'easypaisa') {
                 accountLabel.textContent = 'Your Easypaisa Account Number';
                 accountInput.placeholder = 'Enter 11-digit Easypaisa Account Number';
-                accountInput.type = 'tel'; // Use tel for number pads on mobile
-                accountInput.pattern = "\\d{11}"; // Basic pattern for 11 digits
+                accountInput.type = 'tel';
+                accountInput.pattern = "\\d{11}";
                 nameLabel.textContent = 'Account Holder Name (Required for Easypaisa)';
                 nameInput.required = true;
             } else if (selectedMethod === 'usdt_bep20' || selectedMethod === 'usdt_trc20') {
@@ -4820,8 +4823,6 @@
             if (isNaN(amount) || amount <= 0) {
                 showNotification('Please enter a valid withdrawal amount.', 'error'); return;
             }
-
-            // More specific validation
             if (method === 'easypaisa' && (!/^\d{11}$/.test(account))) {
                 showNotification('Please enter a valid 11-digit Easypaisa account number.', 'error'); return;
             } else if (method === 'usdt_bep20' && !/^0x[a-fA-F0-9]{40}$/.test(account)) {
@@ -4852,7 +4853,7 @@
                 userName: userData.name || "N/A",
                 userEmail: currentUser.email,
                 method: method,
-                account: account, // SECURITY: Admin must verify this account before sending.
+                account: account,
                 name: name,
                 requestedAmount: amount,
                 currency: method === 'easypaisa' ? 'PKR_equivalent' : 'USD',
@@ -4866,8 +4867,6 @@
                 'Confirm Withdrawal',
                 `Withdraw $${amount.toFixed(2)} via ${method.toUpperCase().replace('_', ' ')} to ${account}? <br>Fee: $${feeAmount.toFixed(2)}. You will receive approximately: $${netAmountToReceive.toFixed(2)}${method === 'easypaisa' ? ' (PKR equivalent, subject to current exchange rate)' : ''}.`,
                 async () => {
-                    // SECURITY: This entire block should be a Firebase Cloud Function.
-                    // Client calls function, function validates, deducts balance, logs, and adds to admin queue atomically.
                     const submitWithdrawBtn = document.getElementById('submit-withdraw');
                     showLoadingButton(submitWithdrawBtn, true);
 
@@ -4904,7 +4903,6 @@
                     } catch (error) {
                         console.error("Withdrawal submission error:", error);
                         showNotification(`Withdrawal error: ${error.message}. Please try again or contact support.`, 'error', true);
-                         // Consider reverting balance if part of the operation failed (complex without server-side transactions)
                     } finally {
                         showLoadingButton(submitWithdrawBtn, false, "Request Withdrawal");
                     }
@@ -4926,7 +4924,7 @@
                             showNotification('Failed to copy code. Please copy manually.', 'error');
                             console.error('Copy invite code failed:', err);
                         });
-                    } catch (err) { // Fallback for older browsers or if navigator.clipboard is undefined
+                    } catch (err) {
                         showNotification('Failed to copy code. Please copy manually.', 'error');
                         console.error('Copy invite code (fallback) failed:', err);
                     }
@@ -4936,12 +4934,12 @@
 
         function initShareButtons() {
             const inviteCodeEl = document.getElementById('invite-code');
-            // Ensure the base URL is correct for your deployment
-            const baseAppUrl = window.location.origin + (window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/');
+            const baseAppUrl = window.location.origin + window.location.pathname;
 
             document.querySelector('.share-btn.whatsapp')?.addEventListener('click', () => {
                 const inviteCode = inviteCodeEl ? inviteCodeEl.value : (userData?.inviteCode || "DEMOCODE");
-                const message = `Join Crypto Harvest with my invite code: ${inviteCode} and explore potential earnings with MLM! Sign up here: ${baseAppUrl}#register?ref=${inviteCode}`; // Add #register for direct nav
+                const referralLink = `${baseAppUrl}#register?ref=${inviteCode}`;
+                const message = `Join Crypto Harvest with my invite code: ${inviteCode} and explore potential earnings with MLM! Sign up here: ${referralLink}`;
                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
             });
 
@@ -4990,26 +4988,21 @@
         }
 
         function initAboutPage() {
-            // Any specific JS logic for the About page can go here.
-            // For now, it's mostly static content.
             console.log("About page initialized.");
         }
 
 
         function loadUserRankings() {
             showLoading();
-            // SECURITY: Ensure 'activePlan' is indexed in Firebase rules for performance.
-            // Be cautious about exposing too much user data. Only show anonymized or limited info.
             database.ref('users').orderByChild('activePlan').limitToLast(20).once('value')
                 .then(snapshot => {
                     const rankings = [];
                     snapshot.forEach(userSnapshot => {
                         const user = userSnapshot.val();
-                        // Only include users with a name and a positive active plan.
                         if (user.name && user.activePlan && user.activePlan > 0) {
                             rankings.push({
                                 id: userSnapshot.key,
-                                name: user.name.substring(0, 1) + '***' + user.name.substring(user.name.length -1), // Anonymize name
+                                name: user.name.substring(0, 1) + '***' + user.name.substring(user.name.length -1),
                                 investment: user.activePlan,
                                 totalEarnings: (user.earnings || 0) + (user.totalReferralEarnings || 0)
                             });
@@ -5030,8 +5023,6 @@
                             const row = document.createElement('tr');
                             if (currentUser && user.id === currentUser.uid) {
                                 row.classList.add('current-user');
-                                // For current user, show full name if desired, otherwise keep anonymized.
-                                // row.innerHTML = `<td>${index + 1}</td><td>${userData.name} (You)</td>...`;
                             }
                             row.innerHTML = `
                                 <td>${index + 1}</td>
@@ -5090,7 +5081,7 @@
                 });
             }
             let summaryTotalUSD = 0, summaryPendingUSD = 0, summaryCompletedUSD = 0;
-            const PKR_TO_USD_RATE = 1/280; // EXAMPLE: Store this rate centrally or fetch it if dynamic
+            const PKR_TO_USD_RATE = 1/280;
 
             depositsArray.forEach(d => {
                 const amountInUSD = d.currency === 'PKR' ? (d.amount * PKR_TO_USD_RATE) : d.amount;
@@ -5150,7 +5141,6 @@
             }
             let summaryTotal = 0, summaryPending = 0, summaryCompleted = 0;
             withdrawalsArray.forEach(w => {
-                // Assuming all withdrawal requestedAmounts are in USD equivalent for summary
                 if (w.status === 'completed') summaryCompleted += w.requestedAmount;
                 if (w.status === 'pending') summaryPending += w.requestedAmount;
                 summaryTotal += w.requestedAmount;
@@ -5174,7 +5164,7 @@
                     if (type === 'deposit') cancelTransaction(id, 'deposit', 0);
                     else if (type === 'withdrawal') cancelTransaction(id, 'withdrawal', amount);
                 });
-                 link.addEventListener('keydown', function(event) { // Keyboard accessibility
+                 link.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
                         this.click();
@@ -5184,8 +5174,6 @@
         }
 
         async function cancelTransaction(id, type, amountToRefund = 0) {
-            // SECURITY: This action should ideally be a Cloud Function to ensure atomicity
-            // and correct balance updates, preventing race conditions or client manipulation.
             const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
             showConfirmationModal(
                 `Cancel ${capitalizedType}`,
@@ -5196,13 +5184,10 @@
                     const adminQueuePath = `admin/pending_${type}s/${id}`;
 
                     try {
-                        // Update user's record
                         await database.ref(userTransactionPath).update({ status: 'cancelled', cancelledByUserAt: new Date().toISOString() });
-                        // Update admin queue (or remove, depending on admin workflow)
                         await database.ref(adminQueuePath).update({ status: 'cancelled_by_user', cancelledDate: new Date().toISOString() });
 
                         if (type === 'withdrawal' && amountToRefund > 0 && userData) {
-                            // Refund to main balance for simplicity. A more robust system might track source.
                             const currentBalance = userData.balance || 0;
                             const newMainBalance = parseFloat((currentBalance + amountToRefund).toFixed(2));
                             await database.ref(`users/${currentUser.uid}`).update({ balance: newMainBalance });
@@ -5240,7 +5225,6 @@
 
             downlineEntries.forEach(referralInfo => {
                 const row = document.createElement('tr');
-                // Anonymize email for privacy on display
                 const anonymizedEmail = referralInfo.email ? referralInfo.email.substring(0,3) + '***' + referralInfo.email.substring(referralInfo.email.indexOf('@')) : 'N/A';
                 row.innerHTML = `
                     <td>${referralInfo.name || 'N/A'}</td>
@@ -5269,7 +5253,6 @@
             } else {
                 commissionsArray.forEach(commission => {
                     const row = document.createElement('tr');
-                    // Anonymize source user details
                     const sourceUserDisplay = commission.sourceUserName ? commission.sourceUserName.substring(0,1) + '***' : 'User';
                     const sourceIdDisplay = commission.sourceUserUid ? `...${commission.sourceUserUid.slice(-4)}` : '';
 
@@ -5319,7 +5302,7 @@
                         date: entry.date,
                         type: 'Referral',
                         amount: entry.amount,
-                        description: `L${entry.level} from ${entry.sourceUserName ? entry.sourceUserName.substring(0,1) + '***' : 'Downline'}` // Anonymized
+                        description: `L${entry.level} from ${entry.sourceUserName ? entry.sourceUserName.substring(0,1) + '***' : 'Downline'}`
                     });
                 });
             }
@@ -5432,7 +5415,7 @@
                         legend: { display: true, position: 'top', labels: {color: 'var(--dark-text)'} },
                         title: { display: true, text: 'Earnings Trend (Selected Period)', color: 'var(--primary-dark)' }
                     },
-                    interaction: { // For better tooltips
+                    interaction: {
                         intersect: false,
                         mode: 'index',
                     },
@@ -5482,9 +5465,6 @@
             if (contactFormEl) {
                 contactFormEl.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    // SECURITY: Implement rate limiting for form submissions using Firebase Functions
-                    // to prevent spam or abuse.
-
                     const name = document.getElementById('contact-name').value.trim();
                     const email = document.getElementById('contact-email').value.trim();
                     const subject = document.getElementById('contact-subject').value.trim();
@@ -5506,14 +5486,14 @@
                     showLoadingButton(submitBtn, true);
 
                     const messageData = {
-                        name: name, // Sanitize on server if displaying this elsewhere
+                        name: name,
                         email: email,
-                        subject: subject, // Sanitize on server
-                        message: message, // Sanitize on server
+                        subject: subject,
+                        message: message,
                         date: new Date().toISOString(),
                         userId: currentUser ? currentUser.uid : 'guest',
                         userAppEmail: currentUser ? currentUser.email : 'guest_form_submission',
-                        status: 'new' // For admin tracking
+                        status: 'new'
                     };
 
                     database.ref('contact_messages').push(messageData)
@@ -5534,7 +5514,7 @@
 
         function showConfirmationModal(title, message, confirmCallback, type = 'warning') {
             document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-message').innerHTML = message; // Assumes message is safe HTML or only text
+            document.getElementById('modal-message').innerHTML = message;
 
             const modalIconContainer = confirmationModal.querySelector('.modal-icon');
             modalIconContainer.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
@@ -5549,8 +5529,7 @@
             confirmationModal.classList.add('active');
             confirmationModal.classList.remove('hidden');
 
-            // Re-bind event listener to avoid multiple executions if modal is reused rapidly
-            const newConfirmBtn = confirmBtnEl.cloneNode(true); // Clone to remove old listeners
+            const newConfirmBtn = confirmBtnEl.cloneNode(true);
             confirmBtnEl.parentNode.replaceChild(newConfirmBtn, confirmBtnEl);
 
             newConfirmBtn.onclick = () => {
@@ -5562,7 +5541,6 @@
                 confirmationModal.classList.remove('active');
                 confirmationModal.classList.add('hidden');
             };
-            // Focus management for accessibility
             newConfirmBtn.focus();
         }
 
@@ -5577,7 +5555,7 @@
 
             try {
                 return date.toLocaleDateString('en-US', options);
-            } catch (e) { // Fallback for environments with limited Intl support
+            } catch (e) {
                 console.warn("toLocaleDateString with options failed, using simpler format.", e);
                 if (short) return `${date.getMonth() + 1}/${date.getDate()}`;
                 return date.toISOString().substring(0, 16).replace('T', ' ');
