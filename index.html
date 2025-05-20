@@ -4,20 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 
+    <!--
         SECURITY SUGGESTION: Implement a Content Security Policy (CSP).
         A CSP helps prevent Cross-Site Scripting (XSS) and other injection attacks.
         Example (very restrictive, customize for your needs):
-        <meta http-equiv="Content-Security-Policy" 
-              content="default-src 'self'; 
-                       script-src 'self' https://www.gstatic.com https://cdn.jsdelivr.net; 
-                       style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; 
-                       img-src 'self' https://images.unsplash.com https://iili.io https://cdn-icons-png.flaticon.com https://images.pexels.com data:; 
+        <meta http-equiv="Content-Security-Policy"
+              content="default-src 'self';
+                       script-src 'self' https://www.gstatic.com https://cdn.jsdelivr.net https://maps.googleapis.com;
+                       style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline';
+                       img-src 'self' https://images.unsplash.com https://iili.io https://cdn-icons-png.flaticon.com https://images.pexels.com data: https://maps.gstatic.com https://*.ggpht.com;
                        font-src 'self' https://cdnjs.cloudflare.com;
-                       connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://cdnjs.cloudflare.com https://firebasestorage.googleapis.com https://securetoken.googleapis.com https://firebase.googleapis.com;
-                       object-src 'none'; 
-                       base-uri 'self'; 
-                       form-action 'self';">
+                       connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://cdnjs.cloudflare.com https://firebasestorage.googleapis.com https://securetoken.googleapis.com https://firebase.googleapis.com https://maps.googleapis.com;
+                       object-src 'none';
+                       base-uri 'self';
+                       form-action 'self';
+                       frame-src 'self' https://www.google.com;">
     -->
     <title>Crypto Harvest - MLM (Golden Theme)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -39,7 +40,7 @@
             --warning-color: #DAA520; /* GoldenRod */
             --danger-color: #A43B3B; /* Deep Red */
             --info-color: #B08D57;   /* Muted Gold (was new Teal) - for info elements */
-            
+
             --light-color: #F5F2EB; /* Off-white with slight warmth */
             --light-text: #FFFFFF;
             --dark-text: #333333; /* Dark Gray for text on light backgrounds */
@@ -48,7 +49,7 @@
             --medium-gray: #bdbdbd;
             --dark-gray: #616161;
             --card-bg: #FFFFFF; /* White cards are clean */
-            
+
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
             --border-radius: 10px;
@@ -112,7 +113,7 @@
 
         /* Glowing Button Hover Effect */
         .glowing-btn-hover:hover {
-            box-shadow: 0 0 8px rgba(var(--accent-color-rgb), 0.6), 
+            box-shadow: 0 0 8px rgba(var(--accent-color-rgb), 0.6),
                         0 0 15px rgba(var(--accent-color-rgb), 0.4),
                         var(--shadow-hover); /* Combine with existing shadow if any */
         }
@@ -226,11 +227,11 @@
             transform: translateY(-50%);
             color: var(--gray-text);
         }
-        
+
         .form-group.password-container i.fas.fa-lock { /* Specific for lock icon */
              left: 15px;
         }
-        
+
         .password-container .password-toggle i { /* Specific for eye icon */
             left: auto;
             right: 15px;
@@ -283,9 +284,9 @@
         .password-container input {
             padding-right: 45px; /* Space for password toggle */
         }
-        
-        .password-container.has-strength input { 
-            padding-right: 70px; 
+
+        .password-container.has-strength input {
+            padding-right: 70px;
         }
 
 
@@ -616,7 +617,7 @@
             margin-top: 60px; /* Height of app-header */
             transition: var(--transition);
         }
-        
+
         @media (max-width: 768px) {
             .main-content {
                 margin-left: 0; /* Reset margin when menu is not permanently open */
@@ -779,7 +780,7 @@
             grid-column: span 2; /* For wider stat cards if needed */
         }
 
-        .stat-icon { 
+        .stat-icon {
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -790,7 +791,7 @@
             font-size: 1.5rem;
             color: var(--accent-color); /* Bright Gold */
         }
-        .referral-stat .stat-icon { 
+        .referral-stat .stat-icon {
             width: 40px;
             height: 40px;
             font-size: 1.2rem;
@@ -873,7 +874,7 @@
             margin-bottom: 15px;
         }
 
-        .announcement-card h3 i { 
+        .announcement-card h3 i {
             color: var(--accent-color); /* Bright Gold for bullhorn */
         }
 
@@ -970,7 +971,7 @@
             background-color: var(--light-color); /* Warm off-white */
         }
 
-        .current-user { 
+        .current-user {
             background-color: rgba(var(--accent-color-rgb), 0.1) !important; /* Light Bright Gold */
             font-weight: 500;
         }
@@ -1097,7 +1098,7 @@
 
         .share-btn.copy-link {
             background-color: var(--secondary-color); /* Muted Gold */
-            color: var(--dark-text); 
+            color: var(--dark-text);
             border: 1px solid var(--secondary-dark);
         }
         .share-btn.copy-link:hover {
@@ -1244,8 +1245,8 @@
             content: "";
             position: absolute;
             top: 0;
-            left: -150%; 
-            width: 70%; 
+            left: -150%;
+            width: 70%;
             height: 100%;
             background: linear-gradient(
                 90deg,
@@ -1253,12 +1254,12 @@
                 rgba(255, 215, 0, 0.35), /* Gold shimmer */
                 transparent
             );
-            transform: skewX(-25deg); 
+            transform: skewX(-25deg);
             transition: left 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             pointer-events: none;
         }
         .plan-card.popular:hover::before {
-            left: 150%; 
+            left: 150%;
         }
 
 
@@ -1291,7 +1292,7 @@
             margin-bottom: 15px;
         }
 
-        .plan-info-card h3 i { 
+        .plan-info-card h3 i {
             color: var(--info-color); /* Muted Gold for info icon */
         }
 
@@ -1500,7 +1501,7 @@
             background-position: right 10px center;
             background-size: 1em;
             transition: var(--transition);
-            background-color: var(--card-bg); 
+            background-color: var(--card-bg);
         }
 
         .form-select:focus {
@@ -1614,7 +1615,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px; 
+            margin-bottom: 15px;
         }
 
         .history-filter select {
@@ -1626,17 +1627,17 @@
             /* Arrow color will be inherited from .form-select if class is added, or default */
         }
 
-        .history-table { 
+        .history-table {
             width: 100%;
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            overflow: hidden; 
+            overflow: hidden;
             box-shadow: var(--shadow);
             margin-bottom: 20px;
-            border-collapse: collapse; 
+            border-collapse: collapse;
         }
 
-        .history-table th { 
+        .history-table th {
             background-color: var(--primary-color); /* Dark Brown */
             color: var(--light-text);
             text-align: left;
@@ -1690,13 +1691,13 @@
         .action-link:hover {
             color: var(--accent-dark);
         }
-        td .action-link { 
+        td .action-link {
             font-size: 0.9em;
         }
 
 
         /* Earnings Page */
-        .earnings-stats { 
+        .earnings-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
@@ -1735,8 +1736,8 @@
         }
 
         #earnings-chart {
-            width: 100% !important; 
-            max-height: 350px; 
+            width: 100% !important;
+            max-height: 350px;
         }
 
         .earnings-table-container {
@@ -1757,7 +1758,7 @@
             color: var(--accent-color); /* Bright Gold */
         }
 
-        .earnings-table th, .earnings-table td { 
+        .earnings-table th, .earnings-table td {
             padding: 10px 15px;
             font-size: 0.9rem;
         }
@@ -1806,7 +1807,7 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            font-size: 1.8rem; 
+            font-size: 1.8rem;
         }
 
         .contact-card.whatsapp .contact-icon {
@@ -1823,18 +1824,18 @@
 
         .contact-card h3 {
             margin-bottom: 10px;
-            font-size: 1.2rem; 
+            font-size: 1.2rem;
         }
 
         .contact-card p {
             margin-bottom: 20px;
-            flex: 1; 
+            flex: 1;
             color: var(--gray-text);
         }
 
         .contact-btn {
             display: inline-block;
-            padding: 10px 25px; 
+            padding: 10px 25px;
             background-color: var(--accent-color); /* Bright Gold */
             color: var(--light-text);
             border-radius: var(--border-radius);
@@ -1846,7 +1847,7 @@
 
         .contact-btn:hover {
             background-color: var(--accent-light);
-            color: var(--light-text); 
+            color: var(--light-text);
              /* box-shadow: var(--shadow-hover); combined in .glowing-btn-hover */
         }
 
@@ -1900,6 +1901,63 @@
             background-color: var(--card-bg);
         }
 
+
+        /* About Us Page Styles */
+        #about-page .about-section {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        #about-page .about-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #about-page .about-section h3 i {
+            color: var(--accent-color);
+        }
+        #about-page .about-section p, #about-page .about-section ul {
+            color: var(--gray-text);
+            margin-bottom: 15px;
+        }
+        #about-page .about-section ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+        #about-page .about-section ul li {
+            margin-bottom: 8px;
+        }
+        #about-page .about-section strong {
+            color: var(--dark-text);
+        }
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: var(--border-radius);
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        #about-page .disclaimer {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--dark-gray);
+            border-left: 3px solid var(--warning-color);
+            padding-left: 10px;
+            margin-top: 20px;
+        }
+
+
         /* Loading Overlay */
         #loading-overlay {
             position: fixed;
@@ -1925,10 +1983,10 @@
         }
 
         .loader-content i {
-            font-size: 2.5rem; 
+            font-size: 2.5rem;
             color: var(--accent-color); /* Bright Gold spinner */
             margin-bottom: 15px;
-            display: block; 
+            display: block;
         }
 
         .loader-content p {
@@ -1941,14 +1999,14 @@
         /* Notification System */
         #notification-container {
             position: fixed;
-            top: 80px; 
+            top: 80px;
             right: 20px;
             z-index: 2000;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            width: calc(100% - 40px); 
-            max-width: 380px; 
+            width: calc(100% - 40px);
+            max-width: 380px;
         }
 
         .notification {
@@ -1959,12 +2017,12 @@
             animation: slideInRight 0.4s ease-out, fadeOut 0.5s ease-in 3.5s forwards; /* Default animation */
             display: flex;
             align-items: center;
-            gap: 15px; 
+            gap: 15px;
             font-size: 0.95rem;
             line-height: 1.4;
             position: relative; /* For close button positioning */
         }
-        .notification.persistent { 
+        .notification.persistent {
              animation: slideInRight 0.4s ease-out forwards; /* Only slide in, no auto fadeOut */
         }
 
@@ -1980,7 +2038,7 @@
         }
 
         .notification i {
-            font-size: 1.3rem; 
+            font-size: 1.3rem;
             flex-shrink: 0;
         }
 
@@ -2022,7 +2080,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            padding: 20px; 
+            padding: 20px;
         }
 
         .modal.active {
@@ -2034,13 +2092,17 @@
             background-color: var(--card-bg);
             padding: 30px;
             border-radius: var(--border-radius);
-            width: 100%; 
-            max-width: 450px; 
+            width: 100%;
+            max-width: 450px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
             transform: translateY(20px) scale(0.95);
             transition: transform 0.3s ease, opacity 0.3s ease;
             position: relative;
             opacity: 0;
+        }
+         /* Larger modal for terms/privacy/about */
+        .modal-content.large {
+            max-width: 800px;
         }
 
         .modal.active .modal-content {
@@ -2054,8 +2116,8 @@
         }
 
         .modal-icon i {
-            font-size: 3.5rem; 
-            display: none; 
+            font-size: 3.5rem;
+            display: none;
         }
 
         .modal-icon i.success { display: block; color: var(--success-color); }
@@ -2080,19 +2142,19 @@
 
         .modal-buttons {
             display: flex;
-            justify-content: flex-end; 
-            gap: 15px; 
-            margin-top: 10px; 
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 10px;
         }
 
         .modal-btn {
-            padding: 10px 25px; 
+            padding: 10px 25px;
             border: none;
             border-radius: var(--border-radius);
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            min-width: 120px; 
+            min-width: 120px;
             font-size: 0.95rem;
         }
 
@@ -2110,7 +2172,7 @@
             background-color: var(--accent-color); /* Bright Gold */
             color: var(--light-text);
         }
-        .modal-btn.confirm.error { background-color: var(--danger-color); } 
+        .modal-btn.confirm.error { background-color: var(--danger-color); }
         .modal-btn.confirm.warning { background-color: var(--warning-color); color: var(--dark-text); }
 
 
@@ -2138,17 +2200,20 @@
             color: var(--primary-color); /* Dark Brown */
             font-size: 1.1rem;
         }
-        .terms-content #terms-accept.submit-btn, 
+        .terms-content #terms-accept.submit-btn,
         .privacy-content #privacy-accept.submit-btn { /* Combined */
-             width: auto; 
-             margin: 20px auto 0; 
+             width: auto;
+             margin: 20px auto 0;
              display: block;
         }
 
         /* Responsive Styles */
         @media (max-width: 992px) {
             .stat-card.large {
-                grid-column: span 1; 
+                grid-column: span 1;
+            }
+            .modal-content.large {
+                max-width: 90%;
             }
         }
 
@@ -2157,87 +2222,95 @@
             .stats-container, .referral-stats, .earnings-stats {
                 grid-template-columns: 1fr;
             }
-            
+
             .app-title {
                 font-size: 2rem;
             }
-            
+
             .auth-form {
-                padding: 25px; 
+                padding: 25px;
             }
-            
+
             .side-menu {
-                width: 260px; 
-                left: -270px; 
+                width: 260px;
+                left: -270px;
             }
              .side-menu.active {
                 left: 0;
             }
 
-            
+
             .main-content {
                 padding: 15px;
             }
-            
+
             .quick-actions {
-                flex-direction: row; 
-                justify-content: space-around; 
+                flex-direction: row;
+                justify-content: space-around;
             }
             .quick-action {
-                flex-basis: calc(33.33% - 10px); 
+                flex-basis: calc(33.33% - 10px);
             }
 
             .contact-methods {
                 grid-template-columns: 1fr;
             }
             #notification-container {
-                top: 70px; 
+                top: 70px;
                 width: calc(100% - 30px);
             }
             .slide img {
-                height: 250px; 
+                height: 250px;
+            }
+             #about-page .about-section {
+                padding: 20px;
             }
         }
 
         @media (max-width: 480px) {
             #auth-options {
                 flex-direction: column;
-                gap: 15px; 
+                gap: 15px;
             }
-            
+
             .auth-btn {
                 width: 100%;
             }
             .auth-form {
                 padding: 20px;
             }
-            
+
             .modal-content {
                 padding: 20px;
-                margin: 0 10px; 
+                margin: 0 10px;
             }
-            
+            .modal-content.large {
+                 padding: 20px;
+                 margin: 0 10px;
+            }
+
+
             .modal-buttons {
-                flex-direction: column-reverse; 
+                flex-direction: column-reverse;
                 gap: 10px;
             }
-            
+
             .modal-btn {
                 width: 100%;
             }
-            
+
             .history-filter, .earnings-filter {
                 flex-direction: column;
-                align-items: stretch; 
+                align-items: stretch;
             }
             .history-filter select, .earnings-filter select {
                 width: 100%;
             }
             .quick-action {
-                flex-basis: calc(50% - 8px); 
+                flex-basis: calc(50% - 8px);
             }
             .app-logo h1 {
-                font-size: 1rem; 
+                font-size: 1rem;
             }
             .slide img {
                 height: 200px;
@@ -2258,12 +2331,12 @@
                 height: 30px;
             }
             .detail-label {
-                width: 100%; 
+                width: 100%;
                 margin-bottom: 3px;
             }
             .detail-value-container {
                 width: 100%;
-                flex-direction: column; 
+                flex-direction: column;
                 align-items: flex-start;
             }
             .detail-value {
@@ -2285,12 +2358,12 @@
             <img src="https://iili.io/3voAf14.png" alt="Crypto Harvest Logo" class="logo">
             <h1 class="app-title">Crypto Harvest</h1>
         </div>
-        
+
         <div id="auth-options">
             <button id="show-register-form-btn" class="auth-btn animate__animated animate__fadeInUp glowing-btn-hover">Register</button>
             <button id="show-login-form-btn" class="auth-btn animate__animated animate__fadeInUp glowing-btn-hover">Login</button>
         </div>
-        
+
         <div id="register-form" class="auth-form hidden">
             <h2>Create Account</h2>
             <div class="form-group">
@@ -2330,7 +2403,7 @@
             </button>
             <p class="auth-switch">Already have an account? <span id="switch-to-login">Login</span></p>
         </div>
-        
+
         <div id="login-form" class="auth-form hidden">
             <h2>Login</h2>
             <div class="form-group">
@@ -2350,7 +2423,7 @@
             <p class="auth-switch">Don't have an account? <span id="switch-to-register">Register</span></p>
         </div>
     </div>
-    
+
     <!-- Main App Container (Initially Hidden) -->
     <div id="app-container" class="hidden">
         <!-- Header -->
@@ -2376,10 +2449,10 @@
 
         <!-- Email Verification Notice -->
         <div id="email-verification-notice" class="hidden">
-            Your email is not verified. Please check your inbox (and spam folder) for the verification link. 
+            Your email is not verified. Please check your inbox (and spam folder) for the verification link.
             <button id="resend-verification-email-btn">Resend Email</button>
         </div>
-        
+
         <!-- Side Menu -->
         <nav class="side-menu" id="side-menu" aria-label="Main Navigation">
             <div class="menu-header">
@@ -2399,14 +2472,15 @@
                 <li class="menu-item" data-page="deposit-history"><i class="fas fa-history" aria-hidden="true"></i> <span>Deposit History</span></li>
                 <li class="menu-item" data-page="withdraw-history"><i class="fas fa-clock" aria-hidden="true"></i> <span>Withdraw History</span></li>
                 <li class="menu-item" data-page="earnings"><i class="fas fa-chart-line" aria-hidden="true"></i> <span>Earnings</span></li>
+                <li class="menu-item" data-page="about"><i class="fas fa-info-circle" aria-hidden="true"></i> <span>About Us</span></li> <!-- NEW -->
                 <li class="menu-item" data-page="contact"><i class="fas fa-headset" aria-hidden="true"></i> <span>Contact Us</span></li>
                 <li class="menu-item" id="logout-btn"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></li>
             </ul>
             <div class="menu-footer">
-                <p>Version 2.1.1 (MLM + EP)</p>
+                <p>Version 2.1.2 (MLM + EP + About)</p>
             </div>
         </nav>
-        
+
         <!-- Main Content -->
         <main class="main-content" id="main-content">
             <!-- Loading Overlay -->
@@ -2416,16 +2490,16 @@
                     <p>Loading...</p>
                 </div>
             </div>
-            
+
             <!-- Home Page -->
             <div class="page" id="home-page">
-                 <!-- 
-                    VERY IMPORTANT NOTE ON LANGUAGE: 
-                    Phrases like "Earn Daily 5% Returns" and "guaranteed daily returns" 
-                    are extremely risky from a legal and trust perspective. 
+                 <!--
+                    VERY IMPORTANT NOTE ON LANGUAGE:
+                    Phrases like "Earn Daily 5% Returns" and "guaranteed daily returns"
+                    are extremely risky from a legal and trust perspective.
                     They strongly suggest a Ponzi scheme or unsustainable high-yield investment program (HYIP).
                     Platforms like ScamAdviser will heavily penalize sites using such language.
-                    CONSIDER REPHRASING to something like: 
+                    CONSIDER REPHRASING to something like:
                     "Potential for daily earnings based on plan performance."
                     "Explore our investment plans and their potential returns."
                     NEVER GUARANTEE profits in investments. This is crucial for user trust and legal compliance.
@@ -2457,11 +2531,11 @@
                 </div>
                 <br>
                 <div class="dot-container" style="text-align:center" aria-label="Slideshow Controls">
-                    <span class="dot" onclick="currentSlide(1)" aria-label="Go to slide 1"></span> 
-                    <span class="dot" onclick="currentSlide(2)" aria-label="Go to slide 2"></span> 
-                    <span class="dot" onclick="currentSlide(3)" aria-label="Go to slide 3"></span> 
+                    <span class="dot" onclick="currentSlide(1)" aria-label="Go to slide 1"></span>
+                    <span class="dot" onclick="currentSlide(2)" aria-label="Go to slide 2"></span>
+                    <span class="dot" onclick="currentSlide(3)" aria-label="Go to slide 3"></span>
                 </div>
-                
+
                 <div class="stats-container">
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -2500,7 +2574,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="quick-actions">
                     <button class="quick-action glowing-btn-hover" id="quick-deposit">
                         <i class="fas fa-money-bill-wave" aria-hidden="true"></i>
@@ -2515,7 +2589,7 @@
                         <span>Invite (Team)</span>
                     </button>
                 </div>
-                
+
                 <div class="announcement-card">
                     <h3><i class="fas fa-bullhorn" aria-hidden="true"></i> Announcement</h3>
                     <div class="announcement-content">
@@ -2523,13 +2597,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Team Page -->
             <div class="page hidden" id="team-page">
                 <div class="page-header">
                     <h2>Your Team & MLM Network</h2>
                 </div>
-                
+
                 <div class="invitation-section">
                     <h3><i class="fas fa-user-plus" aria-hidden="true"></i> Your Invitation Code</h3>
                     <div class="invite-code-container">
@@ -2539,7 +2613,7 @@
                         </button>
                     </div>
                     <p class="invite-note">Share this code with friends. You earn 10% from L1, 5% from L2, and 2% from L3 plan purchases!</p>
-                    
+
                     <div class="referral-stats">
                         <div class="referral-stat">
                             <div class="stat-icon">
@@ -2578,7 +2652,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="referral-share">
                         <h4>Share Your Link:</h4>
                         <div class="share-buttons">
@@ -2663,14 +2737,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Plans Page -->
             <div class="page hidden" id="plans-page">
                 <div class="page-header">
                     <h2>Investment Plans</h2>
                 </div>
                 <p class="page-description">Choose a plan to start potentially earning 5% daily returns for 30 days. Plan purchases also trigger MLM commissions for your upline.</p> <!-- MODIFIED LANGUAGE -->
-                
+
                 <div class="plans-container">
                     <div class="plan-card">
                         <h3>Basic Plan</h3>
@@ -2689,7 +2763,7 @@
                             <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
                         </button>
                     </div>
-                    
+
                     <div class="plan-card popular">
                         <div class="popular-badge">Most Popular</div>
                         <h3>Silver Plan</h3>
@@ -2708,7 +2782,7 @@
                             <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
                         </button>
                     </div>
-                    
+
                     <div class="plan-card">
                         <h3>Gold Plan</h3>
                         <div class="plan-price">$25</div>
@@ -2726,7 +2800,7 @@
                             <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
                         </button>
                     </div>
-                    
+
                     <div class="plan-card">
                         <h3>Platinum Plan</h3>
                         <div class="plan-price">$50</div>
@@ -2744,7 +2818,7 @@
                             <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
                         </button>
                     </div>
-                    
+
                     <div class="plan-card">
                         <h3>Diamond Plan</h3>
                         <div class="plan-price">$100</div>
@@ -2763,7 +2837,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="plan-info-card">
                     <h3><i class="fas fa-info-circle" aria-hidden="true"></i> Plan Information</h3>
                     <div class="info-content">
@@ -2777,14 +2851,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Deposit Page -->
             <div class="page hidden" id="deposit-page">
                 <div class="page-header">
                     <h2>Deposit Funds</h2>
                 </div>
                  <p class="page-description">Add funds to your account to purchase investment plans. Use USDT (BEP20/TRC20) or Easypaisa for deposits.</p>
-                
+
                 <div class="deposit-methods">
                     <div class="method-card active" data-method="usdt_bep20" role="button" tabindex="0" aria-pressed="true">
                         <img src="https://iili.io/3voPXmx.png" alt="USDT BEP20">
@@ -2799,7 +2873,7 @@
                         <span>Easypaisa</span>
                     </div>
                 </div>
-                
+
                 <div class="deposit-instructions">
                     <h3><i class="fas fa-info-circle" aria-hidden="true"></i> Deposit Instructions (<span id="deposit-method-name">USDT BEP20</span>)</h3>
                     <p id="deposit-instruction-paragraph">Send funds to the following details:</p>
@@ -2828,7 +2902,7 @@
                         <p id="deposit-important-note-text">After sending funds, fill the form below to verify your deposit. Processing time: 5-30 minutes. Ensure you send to the correct network address/account.</p>
                     </div>
                 </div>
-                
+
                 <div class="deposit-form">
                     <h3><i class="fas fa-edit" aria-hidden="true"></i> Deposit Form</h3>
                     <div class="form-group">
@@ -2846,31 +2920,31 @@
                             <input type="number" id="custom-amount" placeholder="Enter custom amount (Min $5 or equivalent)" min="5" aria-label="Custom Deposit Amount">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="deposit-transaction" id="deposit-transaction-label">Transaction ID / Hash</label>
                         <input type="text" id="deposit-transaction" placeholder="Enter transaction ID / Hash / Easypaisa TID" required aria-label="Transaction ID or Hash">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="deposit-sender" id="deposit-sender-label">Your Sending Wallet Address / Easypaisa Number (Optional)</label>
                         <input type="text" id="deposit-sender" placeholder="e.g., Your USDT sending address or Easypaisa number" aria-label="Your Sending Wallet Address or Easypaisa Number">
                     </div>
-                                        
+
                     <button id="submit-deposit" class="submit-btn glowing-btn-hover">
                         <span class="btn-text">Submit Deposit</span>
                         <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
                     </button>
                 </div>
             </div>
-            
+
             <!-- Withdraw Page -->
             <div class="page hidden" id="withdraw-page">
                 <div class="page-header">
                     <h2>Withdraw Funds</h2>
                 </div>
                 <p class="page-description">Minimum withdrawal amount: $2. Max $500 per transaction. Withdrawals via USDT or Easypaisa.</p>
-                
+
                 <div class="withdraw-info-card">
                     <div class="info-item">
                         <i class="fas fa-wallet" aria-hidden="true"></i>
@@ -2894,10 +2968,10 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="withdraw-form">
                     <h3><i class="fas fa-money-bill-wave" aria-hidden="true"></i> Withdrawal Request</h3>
-                    
+
                     <div class="form-group">
                         <label for="withdraw-method">Withdrawal Method</label>
                         <select id="withdraw-method" class="form-select" aria-label="Select Withdrawal Method">
@@ -2907,17 +2981,17 @@
                             <option value="easypaisa">Easypaisa</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="withdraw-account" id="withdraw-account-label">Your USDT Wallet Address</label>
                         <input type="text" id="withdraw-account" placeholder="Enter your USDT (BEP20/TRC20) Address" required aria-label="Your Withdrawal Account Address or Number">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="withdraw-name" id="withdraw-name-label">Account Holder Name (Optional for Crypto, Required for Easypaisa)</label>
                         <input type="text" id="withdraw-name" placeholder="Enter name associated with account" aria-label="Account Holder Name">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="withdraw-amount">Amount (USD)</label>
                         <input type="number" id="withdraw-amount" placeholder="Enter amount (Min $2)" min="2" max="500" required aria-label="Withdrawal Amount">
@@ -2929,14 +3003,14 @@
                             <button class="amount-btn" data-amount="50" aria-label="Set withdrawal amount to $50">$50</button>
                         </div>
                     </div>
-                    
+
                     <button id="submit-withdraw" class="submit-btn glowing-btn-hover">
                         <span class="btn-text">Request Withdrawal</span>
                         <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
                     </button>
                 </div>
             </div>
-            
+
             <!-- Deposit History Page -->
             <div class="page hidden" id="deposit-history-page">
                 <div class="page-header">
@@ -2951,7 +3025,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class="history-table" aria-label="Deposit History Table">
                         <thead>
@@ -2968,7 +3042,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="history-summary">
                     <div class="summary-card">
                         <h4>Total Deposits</h4>
@@ -2984,7 +3058,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Withdraw History Page -->
             <div class="page hidden" id="withdraw-history-page">
                 <div class="page-header">
@@ -2999,7 +3073,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class="history-table" aria-label="Withdrawal History Table">
                         <thead>
@@ -3016,7 +3090,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="history-summary">
                     <div class="summary-card">
                         <h4>Total Withdrawals</h4>
@@ -3032,7 +3106,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Earnings Page -->
             <div class="page hidden" id="earnings-page">
                 <div class="page-header">
@@ -3046,7 +3120,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="earnings-stats">
                     <div class="stat-card large">
                         <div class="stat-icon">
@@ -3057,7 +3131,7 @@
                             <p id="total-earnings">$0.00</p>
                         </div>
                     </div>
-                    
+
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-calendar-day" aria-hidden="true"></i>
@@ -3067,7 +3141,7 @@
                             <p id="today-earnings">$0.00</p>
                         </div>
                     </div>
-                    
+
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-user-friends" aria-hidden="true"></i>
@@ -3078,12 +3152,12 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="earnings-chart-container">
                     <h3><i class="fas fa-chart-line" aria-hidden="true"></i> Earnings Overview (Selected Period)</h3>
                     <canvas id="earnings-chart" aria-label="Earnings Chart"></canvas>
                 </div>
-                
+
                 <div class="earnings-table-container">
                     <h3><i class="fas fa-list" aria-hidden="true"></i> Recent Earnings (Selected Period)</h3>
                     <div class="table-responsive">
@@ -3103,14 +3177,76 @@
                     </div>
                 </div>
             </div>
-            
+
+            <!-- About Us Page (NEW) -->
+            <div class="page hidden" id="about-page">
+                <div class="page-header">
+                    <h2>About Crypto Harvest</h2>
+                </div>
+                <p class="page-description">Learn more about our platform, mission, and commitment to our users.</p>
+
+                <div class="about-section">
+                    <h3><i class="fas fa-building" aria-hidden="true"></i> Our Mission & Ownership</h3>
+                    <p>Crypto Harvest aims to provide a user-friendly platform for exploring investment plans within the cryptocurrency space, coupled with a multi-level marketing program for community growth and rewards. Our core mission is to [Placeholder: e.g., "democratize access to crypto earning opportunities through innovative plans and a robust referral system." Replace with actual mission].</p>
+                    <p><strong>Ownership:</strong> Crypto Harvest is developed and managed by [Placeholder: "a dedicated team of financial technology enthusiasts and blockchain experts." or "FutureTech Innovations Ltd." if a company name exists]. We are committed to transparency and continuous improvement of our platform.</p>
+                    <p>[Placeholder: "Further details about our core team members and their expertise will be made available through official announcements as we reach new milestones."]</p>
+                </div>
+
+                <div class="about-section">
+                    <h3><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Our Location (Conceptual)</h3>
+                    <p>While we operate as a global online platform, our primary operational hub is conceptualized in [Placeholder: e.g., "a leading global financial technology center to ensure access to top talent and infrastructure."].</p>
+                    <p>Below is a conceptual representation of a tech hub. For specific office locations, please refer to official company registry if applicable or await future announcements.</p>
+                    <div class="map-container">
+                        <!-- REPLACE THE SRC with your actual Google Maps embed code -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.142293706601!2d-73.98784668459495!3d40.75057897932775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2590118458f0d%3A0xa6c3a86775732977!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1670000000000!5m2!1sen!2sus"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Conceptual Location Map"></iframe>
+                    </div>
+                    <p class="disclaimer">Note: The map above is for illustrative purposes only and may not represent a physical office open to the public. Crypto Harvest primarily operates as an online service.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3><i class="fas fa-shield-alt" aria-hidden="true"></i> Platform Integrity & User Awareness</h3>
+                    <p>Your security and trust are important to us. We encourage all users to be informed and cautious.</p>
+
+                    <h4>Our Commitment to Security (Placeholder)</h4>
+                    <p>Crypto Harvest is committed to providing a secure platform. We employ security practices such as [Placeholder: e.g., "data encryption, secure authentication mechanisms, and regular security audits (if applicable)"]. However, no system is 100% immune to all threats.</p>
+
+                    <h4>Understanding Investment Risks</h4>
+                    <p>All investments, especially in the cryptocurrency space, carry inherent risks. <strong>There are no guaranteed returns.</strong> Please invest responsibly and only what you can afford to lose. Be wary of any platform or individual promising unrealistic or guaranteed high profits, as this is a common sign of a scam. Past performance is not indicative of future results.</p>
+
+                    <h4>Identifying Potential Threats</h4>
+                    <ul>
+                        <li><strong>Phishing Awareness:</strong> Be cautious of unsolicited emails, text messages, or social media messages asking for your login credentials (email, password) or private keys. Always access Crypto Harvest by typing the official website URL directly into your browser. Verify the website address and look for HTTPS (secure connection).</li>
+                        <li><strong>Fake Websites & Clones:</strong> Scammers may create fake websites that look very similar to ours. Always double-check the domain name before entering any information. Bookmark our official site for easy and secure access.</li>
+                        <li><strong>Impersonation:</strong> Our official support team will <strong>never</strong> ask for your password, full credit card numbers, or request you to send cryptocurrency to a personal wallet for "verification" or "problem-solving." Be extremely wary of anyone claiming to be Crypto Harvest support on unofficial channels (e.g., random social media DMs).</li>
+                    </ul>
+
+                    <h4>External Reviews & Due Diligence</h4>
+                    <p>We encourage users to conduct their own thorough due diligence before participating in any online investment platform. You may find independent reviews, discussions, and analyses on various online forums, social media, and cryptocurrency review sites. However, be critical of all information you find, as reviews (both positive and negative) can sometimes be manipulated or biased. Crypto Harvest does not endorse or control third-party review sites, and we are not responsible for their content.</p>
+                    <p>Factors to consider when evaluating any platform:</p>
+                    <ul>
+                        <li><strong>Realistic Returns:</strong> Are the promised returns excessively high or "guaranteed"? This is a major red flag.</li>
+                        <li><strong>Transparency:</strong> Is there clear information about how the platform operates and the risks involved?</li>
+                        <li><strong>Team Information:</strong> Is there credible information about the team or company behind the platform?</li>
+                        <li><strong>Community Feedback:</strong> What is the general sentiment in independent communities (be wary of overly promotional or purely negative echo chambers)?</li>
+                    </ul>
+
+                    <h4>Reporting Suspicious Activity</h4>
+                    <p>If you encounter any suspicious activity, websites impersonating Crypto Harvest, or potential phishing attempts that appear to be related to our platform, please report them to us immediately through our official <a href="#" onclick="navigateToPage('contact'); return false;">Contact Us page</a>. Providing details can help us investigate and warn other users.</p>
+
+                    <p class="disclaimer"><strong>Disclaimer:</strong> The information provided on this page is for general awareness and educational purposes only. It does not constitute financial or investment advice. Crypto Harvest is not responsible for actions taken by users on third-party sites or for losses incurred due to scams or fraudulent activities external to our direct platform operations. Users are solely responsible for their investment decisions and for maintaining the security of their accounts.</p>
+                </div>
+
+            </div>
+
+
             <!-- Contact Page -->
             <div class="page hidden" id="contact-page">
                 <div class="page-header">
                     <h2>Contact Us</h2>
                 </div>
                  <p class="page-description">Have questions or need help? Contact our support team.</p>
-                
+
                 <div class="contact-methods">
                     <div class="contact-card whatsapp">
                         <div class="contact-icon">
@@ -3120,7 +3256,7 @@
                         <p>Contact us directly on WhatsApp for quick assistance with your queries.</p>
                         <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" rel="noopener noreferrer" class="contact-btn glowing-btn-hover">Chat Now</a> <!-- REPLACE WITH YOUR ACTUAL NUMBER -->
                     </div>
-                    
+
                     <div class="contact-card email">
                         <div class="contact-icon">
                             <i class="fas fa-envelope" aria-hidden="true"></i>
@@ -3129,7 +3265,7 @@
                         <p>Send us an email, and our team will respond within 24 hours.</p>
                         <a href="mailto:YOUR_SUPPORT_EMAIL@example.com" class="contact-btn glowing-btn-hover">Email Us</a> <!-- REPLACE WITH YOUR ACTUAL EMAIL -->
                     </div>
-                    
+
                     <div class="contact-card phone">
                         <div class="contact-icon">
                             <i class="fas fa-phone-alt" aria-hidden="true"></i>
@@ -3139,7 +3275,7 @@
                         <a href="tel:YOUR_PHONE_NUMBER" class="contact-btn glowing-btn-hover">Call Now</a> <!-- REPLACE WITH YOUR ACTUAL NUMBER -->
                     </div>
                 </div>
-                
+
                 <div class="contact-form-container">
                     <h3><i class="fas fa-paper-plane" aria-hidden="true"></i> Send us a Message</h3>
                     <form id="contact-form">
@@ -3147,22 +3283,22 @@
                             <label for="contact-name">Your Name</label>
                             <input type="text" id="contact-name" placeholder="Enter your name" required aria-label="Your Name">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="contact-email">Email Address</label>
                             <input type="email" id="contact-email" placeholder="Enter your email" required aria-label="Your Email Address">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="contact-subject">Subject</label>
                             <input type="text" id="contact-subject" placeholder="Enter subject" required aria-label="Message Subject">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="contact-message">Message</label>
                             <textarea id="contact-message" rows="5" placeholder="Enter your message" required aria-label="Your Message"></textarea>
                         </div>
-                        
+
                         <button type="submit" class="submit-btn glowing-btn-hover">
                             <span class="btn-text">Send Message</span>
                             <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
@@ -3172,10 +3308,10 @@
             </div>
         </main>
     </div>
-    
+
     <!-- Notification System -->
     <div id="notification-container" aria-live="polite" aria-atomic="true"></div>
-    
+
     <!-- Confirmation Modal -->
     <div id="confirmation-modal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-message">
         <div class="modal-content animate__animated animate__fadeInDown animate__faster">
@@ -3192,20 +3328,20 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Terms Modal -->
     <div id="terms-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
-        <div class="modal-content terms-content animate__animated animate__fadeInUp animate__faster">
+        <div class="modal-content terms-content large animate__animated animate__fadeInUp animate__faster">
             <h3 id="terms-modal-title">Terms & Conditions</h3>
             <div class="terms-text">
                 <p><strong>Last Updated: July 2024</strong></p>
-                
+
                 <h4>1. Investment Plans</h4>
                 <p>All investment plans offered by Crypto Harvest have a fixed duration of 30 days. Potential daily earnings are calculated at a rate of 5% of the principal investment amount. These earnings are credited daily to your account's 'earnings' sub-balance. Crypto Harvest does not guarantee profits; all investments involve risk, and past performance is not indicative of future results.</p> <!-- MODIFIED LANGUAGE -->
-                
+
                 <h4>2. Withdrawals</h4>
                 <p>The minimum amount for withdrawal is $2 from your main 'balance'. Withdrawal requests are typically processed within 1 to 6 hours during standard business hours (10:00 AM to 6:00 PM, Monday to Friday, EST). A standard withdrawal fee of 5% applies to all transactions. Maximum withdrawal per transaction is $500. Withdrawals are processed in USDT (BEP20 or TRC20) or Easypaisa (PKR equivalent, subject to exchange rates determined by Crypto Harvest).</p>
-                
+
                 <h4>3. Multi-Level Marketing (MLM) Program</h4>
                 <p>Users can earn commissions from their downline network up to 3 levels.
                     Level 1 (Direct Referrals): 10% commission on their plan purchases.
@@ -3214,19 +3350,19 @@
                     Commissions are calculated on the plan amount purchased by a downline member and are credited directly to the upline user's main 'balance'.
                     Participation in the MLM program is subject to compliance with all terms and ethical marketing practices.
                 </p>
-                
+
                 <h4>4. Account Security</h4>
                 <p>You are solely responsible for maintaining the confidentiality of your account credentials, including your password, and for restricting access to your computer or mobile device. Crypto Harvest is not liable for any loss or damage arising from your failure to protect your account. You must notify us immediately of any unauthorized use of your account or any other breach of security. We recommend using a strong, unique password and enabling two-factor authentication if available.</p>
-                
+
                 <h4>5. Amendments to Terms</h4>
                 <p>Crypto Harvest reserves the right to modify these Terms & Conditions at any time without prior notice. Any changes will be effective immediately upon posting the revised terms on the platform. Your continued use of the platform after such modifications constitutes your acceptance of the new Terms & Conditions. It is your responsibility to review these Terms periodically.</p>
-                
+
                 <h4>6. Prohibited Activities</h4>
                 <p>Users are prohibited from creating multiple accounts for abusive purposes, using automated scripts or bots to interact with the platform in unintended ways, engaging in fraudulent activities, attempting to exploit any vulnerabilities in the system, or using the platform for any illegal activities. Violation of these terms may result in account suspension or termination and forfeiture of funds, subject to applicable laws.</p>
 
                 <h4>7. Disclaimer of Liability & Risk Disclosure</h4>
                 <p>Crypto Harvest provides its services "as is" and makes no warranties regarding the platform's reliability or profitability. Investment in cryptocurrencies and related platforms involves significant risk, including the risk of losing your entire investment. Past performance is not indicative of future results. Crypto Harvest is not a financial advisor, and no content on this platform should be considered financial advice. You are solely responsible for your investment decisions. We are not responsible for any financial losses incurred by users.</p>
-                
+
                 <h4>8. Data Privacy</h4>
                 <p>Please refer to our <a href="#" id="modal-privacy-link-from-terms">Privacy Policy</a> for information on how we collect, use, and protect your personal data.</p>
 
@@ -3237,11 +3373,11 @@
 
     <!-- Privacy Policy Modal (NEW - Placeholder Content) -->
     <div id="privacy-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
-        <div class="modal-content privacy-content animate__animated animate__fadeInUp animate__faster">
+        <div class="modal-content privacy-content large animate__animated animate__fadeInUp animate__faster">
             <h3 id="privacy-modal-title">Privacy Policy</h3>
             <div class="privacy-text">
                 <p><strong>Last Updated: July 2024</strong></p>
-                
+
                 <h4>1. Information We Collect</h4>
                 <p>We collect information you provide directly to us, such as when you create an account, make a deposit, or contact us. This may include:
                     <ul>
@@ -3252,7 +3388,7 @@
                     </ul>
                 We may also collect limited information automatically, such as IP address and device type, for security and analytics purposes.
                 </p>
-                
+
                 <h4>2. How We Use Your Information</h4>
                 <p>We use your information to:
                     <ul>
@@ -3264,7 +3400,7 @@
                         <li>Comply with legal obligations.</li>
                     </ul>
                 </p>
-                
+
                 <h4>3. Information Sharing</h4>
                 <p>We do not sell your personal information. We may share your information in limited circumstances, such as:
                     <ul>
@@ -3280,7 +3416,7 @@
 
                 <h4>5. Your Choices</h4>
                 <p>You can access and update certain account information through your profile. You may also request deletion of your account, subject to our data retention policies and legal obligations.</p>
-                
+
                 <h4>6. Cookies</h4>
                 <p>We may use cookies and similar tracking technologies to enhance your experience and for analytics. You can typically set your browser to refuse cookies, but some parts of our service may not function properly.</p>
 
@@ -3293,13 +3429,13 @@
             <button id="privacy-accept" class="submit-btn glowing-btn-hover">I Understand</button>
         </div>
     </div>
-        
+
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // app.js (MLM Version - Golden Theme - Crypto Harvest)
+        // app.js (MLM Version - Golden Theme - Crypto Harvest with About Page)
 
         // IMPORTANT: Firebase Security & Configuration Notes
         // 1. API Key: While this key is visible client-side, it's for identifying your Firebase project.
@@ -3336,16 +3472,16 @@
         const appContainer = document.getElementById('app-container');
         const emailVerificationNoticeEl = document.getElementById('email-verification-notice');
         const resendVerificationEmailBtn = document.getElementById('resend-verification-email-btn');
-        
+
         const showRegisterFormBtn = document.getElementById('show-register-form-btn');
         const showLoginFormBtn = document.getElementById('show-login-form-btn');
-        
-        const registerFormEl = document.getElementById('register-form'); 
-        const loginFormEl = document.getElementById('login-form');     
-        
+
+        const registerFormEl = document.getElementById('register-form');
+        const loginFormEl = document.getElementById('login-form');
+
         const switchToLogin = document.getElementById('switch-to-login');
         const switchToRegister = document.getElementById('switch-to-register');
-        
+
         const submitRegisterBtn = document.getElementById('submit-register');
         const submitLoginBtn = document.getElementById('submit-login');
         const forgotPasswordLink = document.getElementById('forgot-password-link');
@@ -3366,7 +3502,7 @@
         const pages = document.querySelectorAll('.page');
         const logoutBtn = document.getElementById('logout-btn');
         const notificationContainer = document.getElementById('notification-container');
-        const confirmationModal = document.getElementById('confirmation-modal'); 
+        const confirmationModal = document.getElementById('confirmation-modal');
         const modalCancel = document.getElementById('modal-cancel');
         const modalConfirm = document.getElementById('modal-confirm');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -3379,7 +3515,7 @@
         let currentUser = null;
         let userData = null;
         let earningsInterval = null; // For plan earnings
-        let earningsChartInstance = null; 
+        let earningsChartInstance = null;
 
         // =========================================================================================
         // CRITICAL SECURITY NOTE: FIREBASE REALTIME DATABASE RULES
@@ -3408,13 +3544,13 @@
         //         "inviteCode": { ".write": "!data.exists() && newData.isString()" },
         //         // Allow creating transactions, deposits, withdrawals, but not modifying existing ones easily
         //         "transactions": { "$transactionId": { ".write": "auth != null && auth.uid == $uid" } }, // Be more specific for creation vs update
-        //         "deposits": { "$depositId": { 
+        //         "deposits": { "$depositId": {
         //             ".write": "auth != null && auth.uid == $uid && (newData.child('status').val() == 'cancelled' || !data.exists())",
         //             ".validate": "newData.hasChildren(['userId', 'amount', 'method', 'transactionId', 'date', 'status'])"
         //         }},
-        //         "withdrawals": { "$withdrawalId": { 
+        //         "withdrawals": { "$withdrawalId": {
         //             ".write": "auth != null && auth.uid == $uid && (newData.child('status').val() == 'cancelled' || !data.exists())",
-        //             ".validate": "newData.hasChildren(['userId', 'amount', 'method', 'account', 'date', 'status'])" 
+        //             ".validate": "newData.hasChildren(['userId', 'amount', 'method', 'account', 'date', 'status'])"
         //         }},
         //         "earningsHistory": { "$earningId": { ".write": "auth != null && auth.uid == $uid && !data.exists()" }}, // only allow creation by user (e.g. if earnings were client-calculated, which is risky) ideally server-side.
         //         "referralHistory": { ".write": false }, // Only server (Cloud Function) should write MLM commissions
@@ -3443,17 +3579,17 @@
             setupEventListeners();
             checkAuthState();
         }
-        
+
         function setupEventListeners() {
             showRegisterFormBtn.addEventListener('click', () => showAuthForm(registerFormEl));
             showLoginFormBtn.addEventListener('click', () => showAuthForm(loginFormEl));
             switchToLogin.addEventListener('click', () => showAuthForm(loginFormEl));
             switchToRegister.addEventListener('click', () => showAuthForm(registerFormEl));
-            
+
             submitRegisterBtn.addEventListener('click', registerUser);
             submitLoginBtn.addEventListener('click', loginUser);
             forgotPasswordLink.addEventListener('click', handleForgotPassword);
-            
+
             termsLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 termsModal.classList.add('active');
@@ -3482,7 +3618,7 @@
             });
 
             document.addEventListener('click', (event) => {
-                if (event.target === termsModal) { 
+                if (event.target === termsModal) {
                     termsModal.classList.remove('active');
                     termsModal.classList.add('hidden');
                 }
@@ -3495,21 +3631,21 @@
                     confirmationModal.classList.add('hidden');
                 }
             });
-            
+
             menuToggle.addEventListener('click', () => sideMenu.classList.toggle('active'));
-            
+
             menuItems.forEach(item => {
                 if (item.id !== 'logout-btn') {
                     item.addEventListener('click', () => navigateToPage(item.dataset.page));
                 }
             });
-            
+
             logoutBtn.addEventListener('click', logoutUser);
             modalCancel.addEventListener('click', () => {
                 confirmationModal.classList.remove('active');
                 confirmationModal.classList.add('hidden');
             });
-            
+
             document.querySelectorAll('.password-toggle').forEach(toggle => {
                 toggle.addEventListener('click', function() {
                     const input = this.closest('.password-container').querySelector('input');
@@ -3526,11 +3662,11 @@
                     }
                 });
             });
-            
+
             const passwordInput = document.getElementById('reg-password');
             if (passwordInput) passwordInput.addEventListener('input', checkPasswordStrength);
-            
-            const depositAmountSelect = document.getElementById('deposit-amount'); 
+
+            const depositAmountSelect = document.getElementById('deposit-amount');
             if (depositAmountSelect) {
                 depositAmountSelect.addEventListener('change', function() {
                     const customAmountContainer = document.getElementById('custom-amount-container');
@@ -3538,7 +3674,7 @@
                     else customAmountContainer.classList.add('hidden');
                 });
             }
-                       
+
             if (quickDeposit) quickDeposit.addEventListener('click', () => navigateToPage('deposit'));
             if (quickWithdraw) quickWithdraw.addEventListener('click', () => navigateToPage('withdraw'));
             if (quickInvite) quickInvite.addEventListener('click', () => navigateToPage('team'));
@@ -3561,12 +3697,12 @@
                 if (form) form.classList.add('hidden');
             });
             if (formToShow) formToShow.classList.remove('hidden');
-            
+
             const authOptions = document.getElementById('auth-options');
             if (authOptions) authOptions.classList.add('hidden');
         }
 
-        function navigateToPage(pageName) { 
+        function navigateToPage(pageName) {
             pages.forEach(p => p.classList.add('hidden'));
             const targetPage = document.getElementById(`${pageName}-page`);
             if (targetPage) {
@@ -3576,14 +3712,14 @@
                 if (pageHeading) pageHeading.focus();
             } else {
                 console.error(`Page with ID ${pageName}-page not found.`);
-                document.getElementById('home-page').classList.remove('hidden'); 
+                document.getElementById('home-page').classList.remove('hidden');
                 document.getElementById('home-page').querySelector('h3')?.focus(); // Focus on a relevant element
             }
 
             menuItems.forEach(item => item.classList.remove('active'));
             const activeMenuItem = document.querySelector(`.menu-item[data-page="${pageName}"]`);
             if (activeMenuItem) activeMenuItem.classList.add('active');
-            
+
             sideMenu.classList.remove('active'); // Close menu on navigation
 
             // Page specific initializations
@@ -3594,6 +3730,7 @@
             else if (pageName === 'earnings') initEarningsPage();
             else if (pageName === 'deposit-history') loadDepositHistory();
             else if (pageName === 'withdraw-history') loadWithdrawHistory();
+            else if (pageName === 'about') initAboutPage(); // NEW
         }
 
         function checkAuthState() {
@@ -3601,11 +3738,11 @@
             auth.onAuthStateChanged(user => {
                 if (user) {
                     currentUser = user;
-                    loadUserData(user.uid); 
+                    loadUserData(user.uid);
                     authContainer.classList.add('hidden');
-                    document.getElementById('auth-options').classList.add('hidden'); 
+                    document.getElementById('auth-options').classList.add('hidden');
                     appContainer.classList.remove('hidden');
-                    
+
                     if (!user.emailVerified) {
                         emailVerificationNoticeEl.classList.remove('hidden');
                     } else {
@@ -3615,11 +3752,11 @@
                     currentUser = null;
                     userData = null;
                     authContainer.classList.remove('hidden');
-                    document.getElementById('auth-options').classList.remove('hidden'); 
+                    document.getElementById('auth-options').classList.remove('hidden');
                     appContainer.classList.add('hidden');
                     emailVerificationNoticeEl.classList.add('hidden');
                     showAuthForm(loginFormEl); // Default to login form
-                    
+
                     if (earningsInterval) {
                         clearInterval(earningsInterval);
                         earningsInterval = null;
@@ -3637,28 +3774,28 @@
                     updateUI();
                     startEarningsCalculation(); // For plan earnings
                     // Avoid redundant "Login successful" if it's just a data refresh
-                    // if (!authContainer.classList.contains('hidden') && currentUser.emailVerified) { 
+                    // if (!authContainer.classList.contains('hidden') && currentUser.emailVerified) {
                     //      showNotification('Login successful!', 'success');
                     // }
                 } else {
                     console.warn("User data not found for UID:", userId, "Logging out.");
-                    logoutUser(); 
+                    logoutUser();
                 }
                 hideLoading();
             }, error => {
                 console.error('Error loading user data:', error);
                 showNotification('Error loading user data. Please try again. Details: ' + error.message, 'error');
-                logoutUser(); 
+                logoutUser();
                 hideLoading();
             });
         }
-        
+
         function refreshUserBalance() {
             if (!currentUser) return;
             showLoading();
             database.ref('users/' + currentUser.uid).once('value')
                 .then(snapshot => {
-                    userData = snapshot.val(); 
+                    userData = snapshot.val();
                     if (userData) {
                         showNotification('Balance refreshed!', 'success');
                     }
@@ -3673,28 +3810,28 @@
 
         function updateUI() {
             if (!currentUser || !userData) return;
-            
+
             document.getElementById('menu-username').textContent = userData.name || 'User';
             document.getElementById('menu-user-email').textContent = userData.email || currentUser.email || 'Email Not Set';
             document.getElementById('menu-user-img').src = userData.profileImage || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
-            
+
             updateBalanceDisplay();
-            
+
             const activePlanAmount = userData.activePlan || 0;
             const activePlanName = activePlanAmount > 0 ? `${getPlanName(activePlanAmount)} ($${activePlanAmount})` : 'None';
             document.getElementById('active-plan').textContent = activePlanName;
-            
+
             const dailyPlanEarningsVal = activePlanAmount > 0 ? (activePlanAmount * 0.05) : 0;
             document.getElementById('daily-earnings').textContent = `$${dailyPlanEarningsVal.toFixed(2)}`;
 
             document.getElementById('home-total-mlm-commissions').textContent = `$${(userData.totalReferralEarnings || 0).toFixed(2)}`;
-            
+
             document.getElementById('invite-code').value = userData.inviteCode || currentUser.uid.slice(0, 8).toUpperCase();
-            
+
             const directReferralCount = userData.downline ? Object.keys(userData.downline).length : 0;
             document.getElementById('total-direct-referrals').textContent = directReferralCount;
             document.getElementById('total-commissions-earned').textContent = `$${(userData.totalReferralEarnings || 0).toFixed(2)}`;
-            
+
             const today = new Date().toISOString().split('T')[0];
             let todayCommissions = 0;
             if (userData.referralHistory) {
@@ -3705,10 +3842,10 @@
                 });
             }
             document.getElementById('today-commissions-earned').textContent = `$${todayCommissions.toFixed(2)}`;
-            
-            const referralTargetCount = 5; 
+
+            const referralTargetCount = 5;
             document.getElementById('referral-target').textContent = `${directReferralCount}/${referralTargetCount} ${directReferralCount >= referralTargetCount ? '(Completed)' : ''}`;
-            
+
             document.getElementById('user-rank-badge').innerHTML = `<span>#${userData.rank || 'N/A'}</span> <i class="fas fa-trophy"></i>`;
 
             let level = "Standard";
@@ -3735,13 +3872,13 @@
 
         function updateBalanceDisplay() {
             if (!userData) return;
-            const currentBalance = userData.balance || 0; 
-            const currentPlanEarnings = userData.earnings || 0; 
+            const currentBalance = userData.balance || 0;
+            const currentPlanEarnings = userData.earnings || 0;
             const totalAvailable = currentBalance + currentPlanEarnings;
 
             document.getElementById('user-balance').textContent = `$${totalAvailable.toFixed(2)}`;
             document.getElementById('total-balance').textContent = `$${totalAvailable.toFixed(2)}`;
-            
+
             const withdrawAvailEl = document.getElementById('withdraw-available-balance');
             if (withdrawAvailEl) withdrawAvailEl.textContent = `$${totalAvailable.toFixed(2)}`;
         }
@@ -3753,7 +3890,7 @@
             const confirmPassword = document.getElementById('reg-confirm-password').value;
             const termsAccepted = document.getElementById('reg-terms').checked;
             const inviteCodeInput = document.getElementById('reg-invite').value.trim();
-            
+
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!name || !email || !password || !confirmPassword) {
                 showNotification('Please fill all required fields.', 'error'); return;
@@ -3791,24 +3928,24 @@
                 const newUserData = {
                     name: name,
                     email: email, // Store email from auth, ensure rules protect it
-                    balance: 0, 
-                    earnings: 0, 
-                    totalReferralEarnings: 0, 
+                    balance: 0,
+                    earnings: 0,
+                    totalReferralEarnings: 0,
                     activePlan: null,
                     planStartDate: null,
                     lastEarningsUpdate: null,
                     inviteCode: generateInviteCode(),
-                    referredBy: inviteCodeInput || null, 
+                    referredBy: inviteCodeInput || null,
                     referredByUid: null,
-                    uplineUids: {}, 
-                    downline: {}, 
+                    uplineUids: {},
+                    downline: {},
                     registrationDate: new Date().toISOString(),
                     lastLogin: new Date().toISOString(),
                     rank: "New"
                 };
-                
-                await newUserRef.set(newUserData); 
-                
+
+                await newUserRef.set(newUserData);
+
                 if (inviteCodeInput) {
                     await setupMLMUplines(inviteCodeInput, user.uid, name, email);
                 }
@@ -3821,7 +3958,7 @@
                 showLoadingButton(submitRegisterBtn, false, "Register");
             }
         }
-        
+
         async function setupMLMUplines(referrerInviteCode, newUserId, newUserName, newUserEmail) {
             if (!referrerInviteCode) return;
 
@@ -3839,7 +3976,7 @@
                     }
 
                     const updates = {};
-                    updates[`users/${newUserId}/referredByUid`] = referrerUid; 
+                    updates[`users/${newUserId}/referredByUid`] = referrerUid;
 
                     const newUserUplines = {};
                     newUserUplines.level1 = referrerUid;
@@ -3878,7 +4015,7 @@
             if (!email || !password) {
                 showNotification('Please enter email and password.', 'error'); return;
             }
-            
+
             showLoadingButton(submitLoginBtn, true);
             auth.signInWithEmailAndPassword(email, password)
                 .then(async (userCredential) => {
@@ -3972,10 +4109,10 @@
             const password = document.getElementById('reg-password').value;
             const strengthBars = document.querySelectorAll('#register-form .strength-bar');
             const strengthText = document.querySelector('#register-form .strength-text');
-            
+
             let score = 0;
             if (!password) {
-                strengthBars.forEach(bar => bar.className = 'strength-bar'); 
+                strengthBars.forEach(bar => bar.className = 'strength-bar');
                 strengthText.textContent = '';
                 return;
             }
@@ -3988,20 +4125,20 @@
             if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) score++; // Common special chars
 
 
-            strengthBars.forEach((bar, index) => bar.className = 'strength-bar' ); 
-            
+            strengthBars.forEach((bar, index) => bar.className = 'strength-bar' );
+
             if (score <= 2) {
                 strengthBars[0].classList.add('weak');
                 strengthText.textContent = 'Weak'; strengthText.style.color = 'var(--danger-color)';
             } else if (score >= 3 && score <= 4) {
                 strengthBars[0].classList.add('medium'); strengthBars[1].classList.add('medium');
                 strengthText.textContent = 'Medium'; strengthText.style.color = 'var(--warning-color)';
-            } else { 
+            } else {
                 strengthBars.forEach(b => b.classList.add('strong'));
                 strengthText.textContent = 'Strong'; strengthText.style.color = 'var(--success-color)';
             }
         }
-        
+
         function logoutUser() {
             showLoading();
             auth.signOut()
@@ -4012,7 +4149,7 @@
                 })
                 .finally(() => { /* onAuthStateChanged will hide loading */ });
         }
-        
+
         function showLoadingButton(buttonElement, isLoading, defaultText = "Submit") {
             const btnTextEl = buttonElement.querySelector('.btn-text');
             const btnLoaderEl = buttonElement.querySelector('.btn-loader');
@@ -4045,21 +4182,21 @@
             if (persistent) {
                  notification.classList.add('persistent');
             }
-            
+
             let iconClass;
             switch (type) {
                 case 'success': iconClass = 'fa-check-circle'; break;
                 case 'error': iconClass = 'fa-times-circle'; break;
-                case 'warning': iconClass = 'fa-exclamation-triangle'; break; 
+                case 'warning': iconClass = 'fa-exclamation-triangle'; break;
                 case 'info': iconClass = 'fa-info-circle'; break;
                 default: iconClass = 'fa-bell';
             }
-            
+
             // Sanitize message before inserting if it could ever contain user input directly.
             // For internally generated messages like these, direct insertion is generally okay.
             notification.innerHTML = `<i class="fas ${iconClass}" aria-hidden="true"></i><span>${message}</span>`;
             notificationContainer.appendChild(notification);
-            
+
             if (persistent) {
                  const closeBtn = document.createElement('button');
                  closeBtn.innerHTML = '&times;';
@@ -4080,7 +4217,7 @@
         function showLoading() { if (loadingOverlay) loadingOverlay.classList.remove('hidden'); }
         function hideLoading() { if (loadingOverlay) loadingOverlay.classList.add('hidden'); }
 
-        let slideIndex = 1; 
+        let slideIndex = 1;
         let slideshowTimeout;
 
         function initSlideshow() { showSlides(slideIndex); }
@@ -4091,18 +4228,18 @@
             let i;
             const slides = document.getElementsByClassName("slide");
             const dots = document.getElementsByClassName("dot");
-            if (slides.length === 0 || dots.length === 0) return; 
+            if (slides.length === 0 || dots.length === 0) return;
 
             if (n > slides.length) {slideIndex = 1}
             if (n < 1) {slideIndex = slides.length}
-            
-            for (i = 0; i < slides.length; i++) slides[i].style.display = "none";  
+
+            for (i = 0; i < slides.length; i++) slides[i].style.display = "none";
             for (i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" active-dot", "");
-            
-            slides[slideIndex-1].style.display = "block";  
+
+            slides[slideIndex-1].style.display = "block";
             dots[slideIndex-1].className += " active-dot";
-            
-            slideshowTimeout = setTimeout(() => { plusSlides(1); }, 5000); 
+
+            slideshowTimeout = setTimeout(() => { plusSlides(1); }, 5000);
         }
 
         function initPlanButtons() {
@@ -4110,12 +4247,12 @@
             buyButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const planAmount = parseInt(this.dataset.plan);
-                    purchasePlan(planAmount, this); 
+                    purchasePlan(planAmount, this);
                 });
             });
         }
-        
-        function initPlansPage() { 
+
+        function initPlansPage() {
             if (!currentUser || !currentUser.emailVerified) {
                 document.querySelectorAll('.buy-plan-btn').forEach(btn => {
                     btn.disabled = true;
@@ -4146,17 +4283,17 @@
                 emailVerificationNoticeEl.classList.remove('hidden');
                 return;
             }
-            
+
             const totalAvailableBalance = (userData.balance || 0) + (userData.earnings || 0);
-            
+
             if (totalAvailableBalance < planAmount) {
                 showNotification('Insufficient balance. Please deposit funds.', 'error'); return;
             }
-            
+
             if (userData.activePlan) {
                 showNotification('You already have an active plan. Wait for it to complete or contact support.', 'error'); return;
             }
-            
+
             // SECURITY: All financial logic (deducting balance, awarding commissions, starting plan)
             // should ideally be handled by a Firebase Cloud Function for atomicity and to prevent client-side manipulation.
             // The client would call the function, and the function would perform all database updates.
@@ -4165,11 +4302,11 @@
             showConfirmationModal(
                 `Confirm Plan Purchase`,
                 `Purchase ${getPlanName(planAmount)} for $${planAmount}? This will utilize funds from your balance. Potential earnings are not guaranteed. This will also trigger MLM commissions for your upline.`, // MODIFIED LANGUAGE
-                async () => { 
+                async () => {
                     showLoadingButton(buttonElement, true);
-                    
-                    let newPlanEarnings = userData.earnings || 0; 
-                    let newMainBalance = userData.balance || 0;   
+
+                    let newPlanEarnings = userData.earnings || 0;
+                    let newMainBalance = userData.balance || 0;
                     let amountFromPlanEarnings = 0;
                     let amountFromMainBalance = 0;
 
@@ -4183,15 +4320,15 @@
                         amountFromMainBalance = remaining;
                         newMainBalance -= remaining;
                     }
-                    
+
                     const updates = {
                         balance: newMainBalance,
                         earnings: newPlanEarnings,
                         activePlan: planAmount,
                         planStartDate: new Date().toISOString(),
-                        lastEarningsUpdate: new Date().toISOString() 
+                        lastEarningsUpdate: new Date().toISOString()
                     };
-                    
+
                     try {
                         // This entire block should ideally be a single Cloud Function call
                         await database.ref('users/' + currentUser.uid).update(updates);
@@ -4206,12 +4343,12 @@
                         await database.ref(`users/${currentUser.uid}/transactions`).push(logEntry);
 
                         showNotification(`${getPlanName(planAmount)} purchased successfully! Potential daily plan earnings: $${(planAmount * 0.05).toFixed(2)}.`, 'success');
-                        
+
                         if (document.getElementById('plans-page') && !document.getElementById('plans-page').classList.contains('hidden')) {
-                            initPlansPage(); 
+                            initPlansPage();
                         }
-                        startEarningsCalculation(); 
-                        
+                        startEarningsCalculation();
+
                         await awardMLMCommissions(currentUser.uid, planAmount, 'plan_purchase');
 
                     } catch (error) {
@@ -4222,7 +4359,7 @@
                     } finally {
                         showLoadingButton(buttonElement, false, "Buy Now");
                     }
-                }, 'success' 
+                }, 'success'
             );
         }
 
@@ -4259,7 +4396,7 @@
                                     if (uplineData) {
                                         uplineData.balance = parseFloat(((uplineData.balance || 0) + commissionAmount).toFixed(2));
                                         uplineData.totalReferralEarnings = parseFloat(((uplineData.totalReferralEarnings || 0) + commissionAmount).toFixed(2));
-                                        
+
                                         // Add to referralHistory (cannot be done reliably inside transaction for a separate path without Cloud Functions)
                                         // So, we do it after the transaction commits.
                                     }
@@ -4270,7 +4407,7 @@
                                 const commissionEntry = {
                                     sourceUserUid: sourceUserUid,
                                     sourceUserName: sourceUserData.name || "N/A",
-                                    sourceUserEmail: sourceUserData.email || "N/A", 
+                                    sourceUserEmail: sourceUserData.email || "N/A",
                                     amount: commissionAmount,
                                     level: level,
                                     date: new Date().toISOString(),
@@ -4285,7 +4422,7 @@
                         }
                     } else {
                         console.log(`No upline found at level ${level} for user ${sourceUserUid}.`);
-                        break; 
+                        break;
                     }
                 }
             } catch (error) {
@@ -4295,32 +4432,32 @@
         }
 
 
-        function startEarningsCalculation() { 
+        function startEarningsCalculation() {
             // SECURITY: Daily earnings calculation should ideally be a scheduled Cloud Function
             // to ensure accuracy, prevent client manipulation, and handle server time.
-            if (earningsInterval) clearInterval(earningsInterval); 
+            if (earningsInterval) clearInterval(earningsInterval);
 
             if (!currentUser || !userData || !userData.activePlan || !userData.planStartDate) {
                 return;
             }
-            
+
             const planStartDate = new Date(userData.planStartDate);
             const planEndDate = new Date(planStartDate);
-            planEndDate.setDate(planEndDate.getDate() + 30); 
-            
+            planEndDate.setDate(planEndDate.getDate() + 30);
+
             const now = new Date();
 
-            if (now >= planEndDate) { 
+            if (now >= planEndDate) {
                 const principal = userData.activePlan;
                 const updates = {
-                    balance: parseFloat(((userData.balance || 0) + principal).toFixed(2)), 
+                    balance: parseFloat(((userData.balance || 0) + principal).toFixed(2)),
                     activePlan: null,
                     planStartDate: null,
                     lastEarningsUpdate: null,
                     // earnings: (userData.earnings || 0), // Earnings already accumulated.
                     planCompletedOn: now.toISOString()
                 };
-                
+
                 database.ref('users/' + currentUser.uid).update(updates)
                     .then(() => {
                         const logEntry = {
@@ -4332,21 +4469,21 @@
                         database.ref(`users/${currentUser.uid}/transactions`).push(logEntry);
                         showNotification(`Your ${getPlanName(principal)} plan has completed! $${principal.toFixed(2)} principal returned to balance.`, 'success', true);
                     }).catch(err => console.error("Error finalizing plan completion:", err));
-                return; 
+                return;
             }
-            
+
             const lastUpdate = userData.lastEarningsUpdate ? new Date(userData.lastEarningsUpdate) : planStartDate;
             const hoursPassedSinceLastUpdate = (now - lastUpdate) / (1000 * 60 * 60);
-            
-            if (hoursPassedSinceLastUpdate >= 1) { 
+
+            if (hoursPassedSinceLastUpdate >= 1) {
                 const planAmount = userData.activePlan;
-                const hourlyPlanEarnings = (planAmount * 0.05) / 24; 
+                const hourlyPlanEarnings = (planAmount * 0.05) / 24;
                 const missedPlanEarnings = hourlyPlanEarnings * Math.floor(hoursPassedSinceLastUpdate);
-                
+
                 if (missedPlanEarnings > 0) {
                     const newTotalPlanEarnings = (userData.earnings || 0) + missedPlanEarnings;
                     const earningsUpdate = {
-                        earnings: parseFloat(newTotalPlanEarnings.toFixed(2)), 
+                        earnings: parseFloat(newTotalPlanEarnings.toFixed(2)),
                         lastEarningsUpdate: now.toISOString()
                     };
                     const logEntry = {
@@ -4356,34 +4493,34 @@
                         date: now.toISOString(),
                         description: `Hourly plan earnings catch-up`
                     };
-                    database.ref(`users/${currentUser.uid}/earningsHistory`).push(logEntry); 
+                    database.ref(`users/${currentUser.uid}/earningsHistory`).push(logEntry);
                     database.ref('users/' + currentUser.uid).update(earningsUpdate)
                         .catch(err => console.error("Error updating catch-up earnings:", err));
                 }
             }
-            
+
             earningsInterval = setInterval(() => {
-                if (!currentUser || !userData || !userData.activePlan) { 
+                if (!currentUser || !userData || !userData.activePlan) {
                     clearInterval(earningsInterval);
                     return;
                 }
-                 const currentActivePlan = userData.activePlan; 
+                 const currentActivePlan = userData.activePlan;
                  const currentPlanStartDate = new Date(userData.planStartDate);
                  const currentPlanEndDate = new Date(currentPlanStartDate);
                  currentPlanEndDate.setDate(currentPlanEndDate.getDate() + 30);
 
                 if (new Date() >= currentPlanEndDate) {
                     clearInterval(earningsInterval);
-                    startEarningsCalculation(); 
+                    startEarningsCalculation();
                     return;
                 }
 
                 const planAmount = currentActivePlan;
                 const hourlyRate = (planAmount * 0.05) / 24;
-                
+
                 const newTotalPlanEarnings = (userData.earnings || 0) + hourlyRate;
                 const updateData = {
-                    earnings: parseFloat(newTotalPlanEarnings.toFixed(2)), 
+                    earnings: parseFloat(newTotalPlanEarnings.toFixed(2)),
                     lastEarningsUpdate: new Date().toISOString()
                 };
 
@@ -4399,21 +4536,21 @@
                 database.ref('users/' + currentUser.uid).update(updateData)
                 .catch(err => console.error("Error updating hourly plan earnings:", err));
 
-            }, 3600000); 
+            }, 3600000);
         }
 
         function initTransactionButtons() {
             const depositButton = document.getElementById('submit-deposit');
-            if (depositButton) depositButton.addEventListener('click', submitDepositRequest); 
-            
+            if (depositButton) depositButton.addEventListener('click', submitDepositRequest);
+
             const withdrawButton = document.getElementById('submit-withdraw');
-            if (withdrawButton) withdrawButton.addEventListener('click', submitWithdrawalRequest); 
+            if (withdrawButton) withdrawButton.addEventListener('click', submitWithdrawalRequest);
         }
 
         function initDepositPage() {
             const methodCards = document.querySelectorAll('#deposit-page .method-card');
             const depositMethodNameEl = document.getElementById('deposit-method-name');
-            
+
             const detailItem1 = document.getElementById('deposit-detail-item-1');
             const detailLabel1 = document.getElementById('deposit-account-label1');
             const detailValue1 = document.getElementById('deposit-account-value1');
@@ -4422,7 +4559,7 @@
             const detailItem2 = document.getElementById('deposit-detail-item-2');
             const detailLabel2 = document.getElementById('deposit-account-label2');
             const detailValue2 = document.getElementById('deposit-account-value2');
-            const copyBtn2 = document.getElementById('copy-deposit-value2'); 
+            const copyBtn2 = document.getElementById('copy-deposit-value2');
 
             const instructionParagraphEl = document.getElementById('deposit-instruction-paragraph');
             const importantNoteTextEl = document.getElementById('deposit-important-note-text');
@@ -4435,13 +4572,13 @@
             // rather than hardcoded, if they might change or need to be managed.
             // For this example, they remain hardcoded.
             const depositDetails = {
-                usdt_bep20: { 
+                usdt_bep20: {
                     address: '0xeb0ee64208106984101b1f127cf221358771dbfa', // EXAMPLE - REPLACE
                     name: 'USDT (BEP20)',
                     label1: 'Deposit Address (BEP20):',
                     note: "After sending USDT, fill the form below to verify your deposit. Processing time: 5-30 minutes after admin verification. Ensure you send to the correct network address (BEP20)."
                 },
-                usdt_trc20: { 
+                usdt_trc20: {
                     address: 'TKEmWeig1jtWLgPZp4pX4PHAsPsrFNdqf2',  // EXAMPLE - REPLACE
                     name: 'USDT (TRC20)',
                     label1: 'Deposit Address (TRC20):',
@@ -4473,7 +4610,7 @@
                     detailItem2.classList.remove('hidden');
                     detailLabel2.textContent = details.label2;
                     detailValue2.textContent = details.holder;
-                    copyBtn2.classList.add('hidden'); 
+                    copyBtn2.classList.add('hidden');
                     transactionLabelEl.textContent = "Easypaisa Transaction ID (TID)";
                     transactionInputEl.placeholder = "Enter Easypaisa TID (e.g., 12345678901)";
                     senderLabelEl.textContent = "Your Sending Easypaisa Number (Optional)";
@@ -4505,7 +4642,7 @@
                     }
                 });
             });
-            
+
             if (copyBtn1) {
                 copyBtn1.addEventListener('click', () => {
                     const textToCopy = detailValue1.textContent;
@@ -4517,17 +4654,17 @@
                     });
                 });
             }
-            
+
             const defaultActiveCard = document.querySelector('#deposit-page .method-card.active');
             if (defaultActiveCard) {
                 updateDepositInstructionsUI(defaultActiveCard.dataset.method);
-            } else if (methodCards.length > 0) { 
+            } else if (methodCards.length > 0) {
                 methodCards[0].click();
             }
         }
 
 
-        function submitDepositRequest() { 
+        function submitDepositRequest() {
             if (!currentUser || !currentUser.emailVerified) {
                 showNotification('Please verify your email before making a deposit.', 'warning', true);
                 emailVerificationNoticeEl.classList.remove('hidden');
@@ -4535,21 +4672,21 @@
             }
 
             const amountSelect = document.getElementById('deposit-amount');
-            let amount = amountSelect.value === 'other' ? 
-                parseFloat(document.getElementById('custom-amount').value) : 
+            let amount = amountSelect.value === 'other' ?
+                parseFloat(document.getElementById('custom-amount').value) :
                 parseFloat(amountSelect.value);
-            
+
             const transactionId = document.getElementById('deposit-transaction').value.trim();
-            const senderAddress = document.getElementById('deposit-sender').value.trim(); 
+            const senderAddress = document.getElementById('deposit-sender').value.trim();
             const method = document.querySelector('#deposit-page .method-card.active')?.dataset.method;
 
-            if (!method) { 
+            if (!method) {
                 showNotification('Please select a deposit method.', 'error'); return;
             }
             if (!amount || isNaN(amount) || amount < (method === 'easypaisa' ? 1400 : 5) ) { // Example: $1 ~ 280 PKR, so $5 ~ 1400 PKR
                 showNotification(`Invalid amount. Minimum deposit is ${method === 'easypaisa' ? 'approx. 1400 PKR (equivalent of $5)' : '$5'}.`, 'error'); return;
             }
-            if (!transactionId) { 
+            if (!transactionId) {
                 showNotification('Please enter the Transaction ID / Hash.', 'error'); return;
             }
             // Basic validation for transaction ID length (can be more specific per crypto/method)
@@ -4563,30 +4700,30 @@
 
             const submitDepositBtn = document.getElementById('submit-deposit');
             showLoadingButton(submitDepositBtn, true);
-            
+
             const depositData = {
-                userId: currentUser.uid, 
-                userName: userData.name || "N/A", 
+                userId: currentUser.uid,
+                userName: userData.name || "N/A",
                 userEmail: currentUser.email,
-                amount: amount, 
+                amount: amount,
                 currency: method === 'easypaisa' ? 'PKR' : 'USD',
-                method: method, 
+                method: method,
                 transactionId: transactionId, // SECURITY: Admin must verify this ID against actual received funds.
-                senderAddress: senderAddress, 
+                senderAddress: senderAddress,
                 date: new Date().toISOString(),
-                status: 'pending' 
+                status: 'pending'
             };
-            
-            const depositKey = database.ref(`users/${currentUser.uid}/deposits`).push().key; 
+
+            const depositKey = database.ref(`users/${currentUser.uid}/deposits`).push().key;
             database.ref(`users/${currentUser.uid}/deposits/${depositKey}`).set({...depositData, id: depositKey})
             .then(() => {
                 database.ref(`admin/pending_deposits/${depositKey}`).set({...depositData, userUid: currentUser.uid, depositId: depositKey });
 
                 showNotification('Deposit request submitted! It will be processed after admin verification (typically 5-30 mins during business hours).', 'success', true);
                 const depositForm = document.querySelector('#deposit-page .deposit-form');
-                if (depositForm) depositForm.reset(); 
+                if (depositForm) depositForm.reset();
                 document.getElementById('custom-amount-container').classList.add('hidden');
-                amountSelect.value = ""; 
+                amountSelect.value = "";
             })
             .catch(error => {
                 console.error("Deposit submission error:", error);
@@ -4598,7 +4735,7 @@
         }
 
         function initWithdrawPage() {
-            if (userData) updateBalanceDisplay(); 
+            if (userData) updateBalanceDisplay();
             const withdrawMethodSelect = document.getElementById('withdraw-method');
             if(withdrawMethodSelect) {
                 withdrawMethodSelect.addEventListener('change', function() {
@@ -4618,8 +4755,8 @@
         function updateWithdrawalFormUI(selectedMethod) {
             const accountInput = document.getElementById('withdraw-account');
             const accountLabel = document.getElementById('withdraw-account-label');
-            const nameInput = document.getElementById('withdraw-name'); 
-            const nameLabel = document.getElementById('withdraw-name-label'); 
+            const nameInput = document.getElementById('withdraw-name');
+            const nameLabel = document.getElementById('withdraw-name-label');
 
             if (!accountInput || !accountLabel || !nameInput || !nameLabel) return;
 
@@ -4629,7 +4766,7 @@
                 accountInput.type = 'tel'; // Use tel for number pads on mobile
                 accountInput.pattern = "\\d{11}"; // Basic pattern for 11 digits
                 nameLabel.textContent = 'Account Holder Name (Required for Easypaisa)';
-                nameInput.required = true; 
+                nameInput.required = true;
             } else if (selectedMethod === 'usdt_bep20' || selectedMethod === 'usdt_trc20') {
                 const network = selectedMethod.split('_')[1].toUpperCase();
                 accountLabel.textContent = `Your USDT (${network}) Wallet Address`;
@@ -4638,7 +4775,7 @@
                 accountInput.removeAttribute('pattern');
                 nameLabel.textContent = 'Account Holder Name (Optional for Crypto)';
                 nameInput.required = false;
-            } else { 
+            } else {
                 accountLabel.textContent = 'Your Wallet Address / Account Number';
                 accountInput.placeholder = 'Select method first';
                 accountInput.type = 'text';
@@ -4659,18 +4796,18 @@
             });
         }
 
-        function submitWithdrawalRequest() { 
+        function submitWithdrawalRequest() {
             if (!currentUser || !currentUser.emailVerified) {
                 showNotification('Please verify your email before making a withdrawal.', 'warning', true);
                 emailVerificationNoticeEl.classList.remove('hidden');
                 return;
             }
 
-            const method = document.getElementById('withdraw-method').value; 
-            const account = document.getElementById('withdraw-account').value.trim(); 
-            const name = document.getElementById('withdraw-name').value.trim(); 
+            const method = document.getElementById('withdraw-method').value;
+            const account = document.getElementById('withdraw-account').value.trim();
+            const name = document.getElementById('withdraw-name').value.trim();
             const amount = parseFloat(document.getElementById('withdraw-amount').value);
-            
+
             if (!method) {
                 showNotification('Please select a withdrawal method.', 'error'); return;
             }
@@ -4683,11 +4820,11 @@
             if (isNaN(amount) || amount <= 0) {
                 showNotification('Please enter a valid withdrawal amount.', 'error'); return;
             }
-            
+
             // More specific validation
-            if (method === 'easypaisa' && (!/^\d{11}$/.test(account))) { 
+            if (method === 'easypaisa' && (!/^\d{11}$/.test(account))) {
                 showNotification('Please enter a valid 11-digit Easypaisa account number.', 'error'); return;
-            } else if (method === 'usdt_bep20' && !/^0x[a-fA-F0-9]{40}$/.test(account)) { 
+            } else if (method === 'usdt_bep20' && !/^0x[a-fA-F0-9]{40}$/.test(account)) {
                  showNotification('Invalid USDT (BEP20) address format.', 'error'); return;
             } else if (method === 'usdt_trc20' && !/^T[A-Za-z1-9]{33}$/.test(account)) {
                  showNotification('Invalid USDT (TRC20) address format.', 'error'); return;
@@ -4700,43 +4837,43 @@
             if (amount > MAX_WITHDRAWAL_AMOUNT) {
                 showNotification(`Maximum withdrawal is $${MAX_WITHDRAWAL_AMOUNT}.`, 'error'); return;
             }
-            
+
             const totalAvailableBalance = (userData.balance || 0) + (userData.earnings || 0);
             if (amount > totalAvailableBalance) {
                 showNotification('Insufficient total available balance.', 'error'); return;
             }
-            
+
             const feeAmount = parseFloat((amount * WITHDRAWAL_FEE_PERCENTAGE).toFixed(2));
-            const netAmountToReceive = parseFloat((amount - feeAmount).toFixed(2)); 
-            const amountToDeduct = amount; 
+            const netAmountToReceive = parseFloat((amount - feeAmount).toFixed(2));
+            const amountToDeduct = amount;
 
             const withdrawalData = {
                 userId: currentUser.uid,
                 userName: userData.name || "N/A",
                 userEmail: currentUser.email,
-                method: method, 
+                method: method,
                 account: account, // SECURITY: Admin must verify this account before sending.
-                name: name, 
+                name: name,
                 requestedAmount: amount,
-                currency: method === 'easypaisa' ? 'PKR_equivalent' : 'USD', 
+                currency: method === 'easypaisa' ? 'PKR_equivalent' : 'USD',
                 fee: feeAmount,
                 netAmount: netAmountToReceive,
                 date: new Date().toISOString(),
-                status: 'pending' 
+                status: 'pending'
             };
-            
+
             showConfirmationModal(
                 'Confirm Withdrawal',
                 `Withdraw $${amount.toFixed(2)} via ${method.toUpperCase().replace('_', ' ')} to ${account}? <br>Fee: $${feeAmount.toFixed(2)}. You will receive approximately: $${netAmountToReceive.toFixed(2)}${method === 'easypaisa' ? ' (PKR equivalent, subject to current exchange rate)' : ''}.`,
-                async () => { 
+                async () => {
                     // SECURITY: This entire block should be a Firebase Cloud Function.
                     // Client calls function, function validates, deducts balance, logs, and adds to admin queue atomically.
                     const submitWithdrawBtn = document.getElementById('submit-withdraw');
                     showLoadingButton(submitWithdrawBtn, true);
-                    
+
                     let newPlanEarnings = userData.earnings || 0;
                     let newMainBalance = userData.balance || 0;
-                    
+
                     if (newPlanEarnings >= amountToDeduct) {
                         newPlanEarnings -= amountToDeduct;
                     } else {
@@ -4744,25 +4881,25 @@
                         newPlanEarnings = 0;
                         newMainBalance -= remainingToDeduct;
                     }
-                    
-                    const balanceUpdate = { 
-                        earnings: parseFloat(newPlanEarnings.toFixed(2)), 
-                        balance: parseFloat(newMainBalance.toFixed(2)) 
+
+                    const balanceUpdate = {
+                        earnings: parseFloat(newPlanEarnings.toFixed(2)),
+                        balance: parseFloat(newMainBalance.toFixed(2))
                     };
-                    
+
                     try {
                         await database.ref('users/' + currentUser.uid).update(balanceUpdate);
-                        
+
                         const withdrawalKey = database.ref(`users/${currentUser.uid}/withdrawals`).push().key;
                         await database.ref(`users/${currentUser.uid}/withdrawals/${withdrawalKey}`).set({...withdrawalData, id: withdrawalKey});
-                        
+
                         await database.ref(`admin/pending_withdrawals/${withdrawalKey}`).set({...withdrawalData, userUid: currentUser.uid, withdrawalId: withdrawalKey});
-                        
+
                         showNotification('Withdrawal request submitted! Processing takes 1-6 hours after admin approval during business hours.', 'success', true);
                         const withdrawForm = document.querySelector('#withdraw-page .withdraw-form');
                         if(withdrawForm) withdrawForm.reset();
-                        document.getElementById('withdraw-method').value = ""; 
-                        updateWithdrawalFormUI(""); 
+                        document.getElementById('withdraw-method').value = "";
+                        updateWithdrawalFormUI("");
 
                     } catch (error) {
                         console.error("Withdrawal submission error:", error);
@@ -4771,17 +4908,17 @@
                     } finally {
                         showLoadingButton(submitWithdrawBtn, false, "Request Withdrawal");
                     }
-                }, 'warning' 
+                }, 'warning'
             );
         }
 
-        function initCopyButton() { 
+        function initCopyButton() {
             const copyButton = document.getElementById('copy-invite');
-            const inviteCodeInput = document.getElementById('invite-code'); 
+            const inviteCodeInput = document.getElementById('invite-code');
             if (copyButton && inviteCodeInput) {
                 copyButton.addEventListener('click', () => {
                     inviteCodeInput.select();
-                    inviteCodeInput.setSelectionRange(0, 99999); 
+                    inviteCodeInput.setSelectionRange(0, 99999);
                     try {
                         navigator.clipboard.writeText(inviteCodeInput.value).then(() => {
                              showNotification('Invite code copied!', 'success');
@@ -4800,21 +4937,21 @@
         function initShareButtons() {
             const inviteCodeEl = document.getElementById('invite-code');
             // Ensure the base URL is correct for your deployment
-            const baseAppUrl = window.location.origin + (window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/'); 
+            const baseAppUrl = window.location.origin + (window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/');
 
             document.querySelector('.share-btn.whatsapp')?.addEventListener('click', () => {
                 const inviteCode = inviteCodeEl ? inviteCodeEl.value : (userData?.inviteCode || "DEMOCODE");
                 const message = `Join Crypto Harvest with my invite code: ${inviteCode} and explore potential earnings with MLM! Sign up here: ${baseAppUrl}#register?ref=${inviteCode}`; // Add #register for direct nav
                 window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
             });
-            
+
             document.querySelector('.share-btn.facebook')?.addEventListener('click', () => {
                 const inviteCode = inviteCodeEl ? inviteCodeEl.value : (userData?.inviteCode || "DEMOCODE");
                 const referralLink = `${baseAppUrl}#register?ref=${inviteCode}`;
                 const message = `Join Crypto Harvest with my invite code: ${inviteCode} and explore potential earnings with MLM!`;
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}&quote=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
             });
-            
+
             document.querySelector('.share-btn.copy-link')?.addEventListener('click', () => {
                 const inviteCode = inviteCodeEl ? inviteCodeEl.value : (userData?.inviteCode || "DEMOCODE");
                 const link = `${baseAppUrl}#register?ref=${inviteCode}`;
@@ -4829,12 +4966,12 @@
 
         function initRankingButton() {
             const viewRankingBtn = document.getElementById('view-ranking-btn');
-            const rankingTableDiv = document.getElementById('ranking-table-container'); 
+            const rankingTableDiv = document.getElementById('ranking-table-container');
             if (viewRankingBtn && rankingTableDiv) {
                 viewRankingBtn.addEventListener('click', () => {
                     const isHidden = rankingTableDiv.classList.contains('hidden');
                     if (isHidden) {
-                        loadUserRankings(); 
+                        loadUserRankings();
                         rankingTableDiv.classList.remove('hidden');
                         viewRankingBtn.innerHTML = `<i class="fas fa-eye-slash"></i> Hide Ranking`;
                         viewRankingBtn.setAttribute('aria-expanded', 'true');
@@ -4852,32 +4989,39 @@
             loadCommissionsEarnedHistory();
         }
 
-        function loadUserRankings() { 
+        function initAboutPage() {
+            // Any specific JS logic for the About page can go here.
+            // For now, it's mostly static content.
+            console.log("About page initialized.");
+        }
+
+
+        function loadUserRankings() {
             showLoading();
             // SECURITY: Ensure 'activePlan' is indexed in Firebase rules for performance.
             // Be cautious about exposing too much user data. Only show anonymized or limited info.
-            database.ref('users').orderByChild('activePlan').limitToLast(20).once('value') 
+            database.ref('users').orderByChild('activePlan').limitToLast(20).once('value')
                 .then(snapshot => {
                     const rankings = [];
                     snapshot.forEach(userSnapshot => {
                         const user = userSnapshot.val();
                         // Only include users with a name and a positive active plan.
-                        if (user.name && user.activePlan && user.activePlan > 0) { 
+                        if (user.name && user.activePlan && user.activePlan > 0) {
                             rankings.push({
                                 id: userSnapshot.key,
                                 name: user.name.substring(0, 1) + '***' + user.name.substring(user.name.length -1), // Anonymize name
-                                investment: user.activePlan, 
-                                totalEarnings: (user.earnings || 0) + (user.totalReferralEarnings || 0) 
+                                investment: user.activePlan,
+                                totalEarnings: (user.earnings || 0) + (user.totalReferralEarnings || 0)
                             });
                         }
                     });
-                    
-                    rankings.sort((a, b) => b.investment - a.investment || b.totalEarnings - a.totalEarnings); 
-                    
+
+                    rankings.sort((a, b) => b.investment - a.investment || b.totalEarnings - a.totalEarnings);
+
                     const rankingBody = document.getElementById('ranking-body');
                     if (!rankingBody) { hideLoading(); return; }
                     rankingBody.innerHTML = '';
-                    
+
                     const top10 = rankings.slice(0, 10);
                     if (top10.length === 0) {
                         rankingBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No active investors found.</td></tr>';
@@ -4907,7 +5051,7 @@
         }
 
         function loadDepositHistory() {
-            const depositHistoryBody = document.getElementById('deposit-history-body'); 
+            const depositHistoryBody = document.getElementById('deposit-history-body');
             if (!depositHistoryBody) return;
 
             if (!currentUser || !userData || !userData.deposits) {
@@ -4915,12 +5059,12 @@
                 updateDepositSummary(0, 0, 0);
                 return;
             }
-            
+
             const filterValue = document.getElementById('deposit-filter')?.value || 'all';
-            const depositsArray = Object.entries(userData.deposits).map(([key, value]) => ({ ...value, id: key })); 
+            const depositsArray = Object.entries(userData.deposits).map(([key, value]) => ({ ...value, id: key }));
 
             depositHistoryBody.innerHTML = '';
-            
+
             const filteredDeposits = depositsArray
                 .filter(d => filterValue === 'all' || d.status === filterValue)
                 .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -4937,8 +5081,8 @@
                         <td>${formatDate(deposit.date)}</td>
                         <td class="status-${deposit.status}">${deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}</td>
                         <td>
-                            ${deposit.status === 'pending' ? 
-                                `<span class="action-link" data-id="${deposit.id}" data-type="deposit" role="button" tabindex="0">Cancel</span>` : 
+                            ${deposit.status === 'pending' ?
+                                `<span class="action-link" data-id="${deposit.id}" data-type="deposit" role="button" tabindex="0">Cancel</span>` :
                                 '--'}
                         </td>
                     `;
@@ -4949,13 +5093,13 @@
             const PKR_TO_USD_RATE = 1/280; // EXAMPLE: Store this rate centrally or fetch it if dynamic
 
             depositsArray.forEach(d => {
-                const amountInUSD = d.currency === 'PKR' ? (d.amount * PKR_TO_USD_RATE) : d.amount; 
-                if (d.status === 'completed') summaryCompletedUSD += amountInUSD; 
+                const amountInUSD = d.currency === 'PKR' ? (d.amount * PKR_TO_USD_RATE) : d.amount;
+                if (d.status === 'completed') summaryCompletedUSD += amountInUSD;
                 if (d.status === 'pending') summaryPendingUSD += amountInUSD;
-                summaryTotalUSD += amountInUSD; 
+                summaryTotalUSD += amountInUSD;
             });
             updateDepositSummary(summaryTotalUSD, summaryPendingUSD, summaryCompletedUSD);
-            
+
             attachCancelListeners(depositHistoryBody, 'deposit');
         }
 
@@ -4966,7 +5110,7 @@
         }
 
         function loadWithdrawHistory() {
-            const withdrawHistoryBody = document.getElementById('withdraw-history-body'); 
+            const withdrawHistoryBody = document.getElementById('withdraw-history-body');
              if (!withdrawHistoryBody) return;
 
             if (!currentUser || !userData || !userData.withdrawals) {
@@ -4996,7 +5140,7 @@
                         <td>${formatDate(withdrawal.date)}</td>
                         <td class="status-${withdrawal.status}">${withdrawal.status.charAt(0).toUpperCase() + withdrawal.status.slice(1)}</td>
                         <td>
-                            ${withdrawal.status === 'pending' ? 
+                            ${withdrawal.status === 'pending' ?
                                 `<span class="action-link" data-id="${withdrawal.id}" data-type="withdrawal" data-amount="${withdrawal.requestedAmount}" role="button" tabindex="0">Cancel</span>` :
                                 '--'}
                         </td>
@@ -5012,7 +5156,7 @@
                 summaryTotal += w.requestedAmount;
             });
             updateWithdrawalSummary(summaryTotal, summaryPending, summaryCompleted);
-            
+
             attachCancelListeners(withdrawHistoryBody, 'withdrawal');
         }
 
@@ -5026,8 +5170,8 @@
             tableBody.querySelectorAll('.action-link').forEach(link => {
                 link.addEventListener('click', function() {
                     const id = this.dataset.id;
-                    const amount = parseFloat(this.dataset.amount); 
-                    if (type === 'deposit') cancelTransaction(id, 'deposit', 0); 
+                    const amount = parseFloat(this.dataset.amount);
+                    if (type === 'deposit') cancelTransaction(id, 'deposit', 0);
                     else if (type === 'withdrawal') cancelTransaction(id, 'withdrawal', amount);
                 });
                  link.addEventListener('keydown', function(event) { // Keyboard accessibility
@@ -5046,24 +5190,24 @@
             showConfirmationModal(
                 `Cancel ${capitalizedType}`,
                 `Are you sure you want to cancel this ${type} request? ${type === 'withdrawal' ? 'The amount will be refunded to your balance.' : ''}`,
-                async () => { 
+                async () => {
                     showLoading();
-                    const userTransactionPath = `users/${currentUser.uid}/${type}s/${id}`; 
-                    const adminQueuePath = `admin/pending_${type}s/${id}`; 
-                    
+                    const userTransactionPath = `users/${currentUser.uid}/${type}s/${id}`;
+                    const adminQueuePath = `admin/pending_${type}s/${id}`;
+
                     try {
                         // Update user's record
                         await database.ref(userTransactionPath).update({ status: 'cancelled', cancelledByUserAt: new Date().toISOString() });
                         // Update admin queue (or remove, depending on admin workflow)
-                        await database.ref(adminQueuePath).update({ status: 'cancelled_by_user', cancelledDate: new Date().toISOString() }); 
-                        
+                        await database.ref(adminQueuePath).update({ status: 'cancelled_by_user', cancelledDate: new Date().toISOString() });
+
                         if (type === 'withdrawal' && amountToRefund > 0 && userData) {
                             // Refund to main balance for simplicity. A more robust system might track source.
                             const currentBalance = userData.balance || 0;
                             const newMainBalance = parseFloat((currentBalance + amountToRefund).toFixed(2));
                             await database.ref(`users/${currentUser.uid}`).update({ balance: newMainBalance });
                         }
-                        
+
                         showNotification(`${capitalizedType} request cancelled.`, 'success');
                         if(type === 'deposit') loadDepositHistory();
                         if(type === 'withdrawal') loadWithdrawHistory();
@@ -5077,7 +5221,7 @@
             );
         }
 
-        function loadDirectReferrals() { 
+        function loadDirectReferrals() {
             const directReferralsBody = document.getElementById('direct-referrals-body');
             if (!directReferralsBody || !currentUser || !userData || !userData.downline) {
                 if(directReferralsBody) directReferralsBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No direct referrals yet.</td></tr>';
@@ -5091,7 +5235,7 @@
                 directReferralsBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No direct referrals yet.</td></tr>';
                 return;
             }
-            
+
             downlineEntries.sort((a,b) => new Date(b.registrationDate || 0) - new Date(a.registrationDate || 0));
 
             downlineEntries.forEach(referralInfo => {
@@ -5107,18 +5251,18 @@
             });
         }
 
-        function loadCommissionsEarnedHistory() { 
-            const commissionsBody = document.getElementById('commissions-earned-body'); 
+        function loadCommissionsEarnedHistory() {
+            const commissionsBody = document.getElementById('commissions-earned-body');
             if (!commissionsBody) return;
 
             if (!currentUser || !userData || !userData.referralHistory) {
                 commissionsBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No commissions earned yet.</td></tr>';
                 return;
             }
-            
+
             const commissionsArray = Object.values(userData.referralHistory)
-                .sort((a, b) => new Date(b.date) - new Date(a.date)); 
-            
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
             commissionsBody.innerHTML = '';
             if (commissionsArray.length === 0) {
                  commissionsBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No commissions earned yet.</td></tr>';
@@ -5140,47 +5284,47 @@
                 });
             }
         }
-        
+
         function initEarningsPage() {
-            loadEarningsHistory(); 
+            loadEarningsHistory();
         }
 
-        function loadEarningsHistory() { 
-            const earningsTableBody = document.getElementById('earnings-body'); 
+        function loadEarningsHistory() {
+            const earningsTableBody = document.getElementById('earnings-body');
             if (!earningsTableBody) return;
 
             if (!currentUser || !userData) {
                 earningsTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No earnings history.</td></tr>';
-                updateEarningsSummaryOnPage(0, 0, 0); 
-                if (earningsChartInstance) updateChartData([], 'all'); 
+                updateEarningsSummaryOnPage(0, 0, 0);
+                if (earningsChartInstance) updateChartData([], 'all');
                 return;
             }
-            
+
             const periodFilter = document.getElementById('earnings-period')?.value || 'all';
             const allEarningsEntries = [];
 
-            if (userData.earningsHistory) { 
+            if (userData.earningsHistory) {
                 Object.values(userData.earningsHistory).forEach(entry => {
                     allEarningsEntries.push({
                         date: entry.date,
-                        type: 'Investment', 
+                        type: 'Investment',
                         amount: entry.amount,
                         description: `From ${entry.plan ? getPlanName(entry.plan) : 'Active Plan'}`
                     });
                 });
             }
-            if (userData.referralHistory) { 
+            if (userData.referralHistory) {
                 Object.values(userData.referralHistory).forEach(entry => {
                     allEarningsEntries.push({
                         date: entry.date,
-                        type: 'Referral', 
+                        type: 'Referral',
                         amount: entry.amount,
                         description: `L${entry.level} from ${entry.sourceUserName ? entry.sourceUserName.substring(0,1) + '***' : 'Downline'}` // Anonymized
                     });
                 });
             }
 
-            allEarningsEntries.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+            allEarningsEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             const now = new Date();
             const filteredForPeriod = allEarningsEntries.filter(e => {
@@ -5188,19 +5332,19 @@
                 if (periodFilter === 'today') return entryDate.toDateString() === now.toDateString();
                 if (periodFilter === 'week') {
                     const weekStart = new Date(now);
-                    weekStart.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1) ); 
+                    weekStart.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1) );
                     weekStart.setHours(0,0,0,0);
                     return entryDate >= weekStart;
                 }
                 if (periodFilter === 'month') return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
-                return true; 
+                return true;
             });
 
             let grandTotalAllTime = 0;
             let todayGrandTotal = 0;
             let totalMLMAllTime = userData.totalReferralEarnings || 0;
 
-            allEarningsEntries.forEach(e => { 
+            allEarningsEntries.forEach(e => {
                 grandTotalAllTime += e.amount;
                 if (new Date(e.date).toDateString() === new Date().toDateString()) {
                     todayGrandTotal += e.amount;
@@ -5208,16 +5352,16 @@
             });
 
             updateEarningsSummaryOnPage(
-                grandTotalAllTime, 
+                grandTotalAllTime,
                 todayGrandTotal,
-                totalMLMAllTime 
+                totalMLMAllTime
             );
-            
+
             earningsTableBody.innerHTML = '';
             if (filteredForPeriod.length === 0) {
                 earningsTableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No earnings for this period.</td></tr>`;
             } else {
-                filteredForPeriod.slice(0, 50).forEach(earning => { 
+                filteredForPeriod.slice(0, 50).forEach(earning => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${formatDate(earning.date)}</td>
@@ -5228,43 +5372,43 @@
                     earningsTableBody.appendChild(row);
                 });
             }
-            if (!earningsChartInstance) setupEarningsChart(); 
-            updateChartData(filteredForPeriod, periodFilter); 
+            if (!earningsChartInstance) setupEarningsChart();
+            updateChartData(filteredForPeriod, periodFilter);
         }
-        
+
         function updateEarningsSummaryOnPage(grandTotal, todayTotal, mlmTotal) {
-            document.getElementById('total-earnings').textContent = `$${grandTotal.toFixed(2)}`; 
-            document.getElementById('today-earnings').textContent = `$${todayTotal.toFixed(2)}`; 
+            document.getElementById('total-earnings').textContent = `$${grandTotal.toFixed(2)}`;
+            document.getElementById('today-earnings').textContent = `$${todayTotal.toFixed(2)}`;
             document.getElementById('all-referral-earnings').textContent = `$${mlmTotal.toFixed(2)}`;
         }
 
-        function setupEarningsChart() { 
+        function setupEarningsChart() {
             const ctx = document.getElementById('earnings-chart')?.getContext('2d');
             if (!ctx) return;
 
-            if (earningsChartInstance) earningsChartInstance.destroy(); 
-            
+            if (earningsChartInstance) earningsChartInstance.destroy();
+
             earningsChartInstance = new Chart(ctx, {
-                type: 'line', 
+                type: 'line',
                 data: {
-                    labels: [], 
+                    labels: [],
                     datasets: [
                         {
-                            label: 'Total Daily Earnings (Plan + MLM)', 
-                            data: [], 
-                            borderColor: 'var(--accent-color)', 
-                            backgroundColor: 'rgba(var(--accent-color-rgb), 0.1)', 
+                            label: 'Total Daily Earnings (Plan + MLM)',
+                            data: [],
+                            borderColor: 'var(--accent-color)',
+                            backgroundColor: 'rgba(var(--accent-color-rgb), 0.1)',
                             fill: true,
                             tension: 0.3
                         },
-                         { 
+                         {
                             label: 'MLM Commissions',
                             data: [],
-                            borderColor: 'var(--secondary-color)', 
+                            borderColor: 'var(--secondary-color)',
                             backgroundColor: 'rgba(var(--secondary-color-rgb), 0.1)',
                             fill: true,
                             tension: 0.3,
-                            hidden: true 
+                            hidden: true
                         }
                     ]
                 },
@@ -5272,21 +5416,21 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { 
-                            beginAtZero: true, 
+                        y: {
+                            beginAtZero: true,
                             title: { display: true, text: 'Amount (USD)' },
-                            ticks: { color: 'var(--gray-text)'}, 
-                            grid: { color: 'rgba(119,119,119, 0.2)' } 
+                            ticks: { color: 'var(--gray-text)'},
+                            grid: { color: 'rgba(119,119,119, 0.2)' }
                         },
-                        x: { 
+                        x: {
                             title: { display: true, text: 'Date/Time Period' },
-                            ticks: { color: 'var(--gray-text)'}, 
-                            grid: { color: 'rgba(119,119,119, 0.2)' } 
+                            ticks: { color: 'var(--gray-text)'},
+                            grid: { color: 'rgba(119,119,119, 0.2)' }
                         }
                     },
-                    plugins: { 
-                        legend: { display: true, position: 'top', labels: {color: 'var(--dark-text)'} }, 
-                        title: { display: true, text: 'Earnings Trend (Selected Period)', color: 'var(--primary-dark)' } 
+                    plugins: {
+                        legend: { display: true, position: 'top', labels: {color: 'var(--dark-text)'} },
+                        title: { display: true, text: 'Earnings Trend (Selected Period)', color: 'var(--primary-dark)' }
                     },
                     interaction: { // For better tooltips
                         intersect: false,
@@ -5296,30 +5440,30 @@
             });
         }
 
-        function updateChartData(earningsDataForPeriod, period) { 
+        function updateChartData(earningsDataForPeriod, period) {
             if (!earningsChartInstance) return;
 
             let labels = [];
             let totalDataPoints = [];
-            let mlmDataPoints = []; 
+            let mlmDataPoints = [];
 
             const dailyTotals = {};
             const dailyMlmTotals = {};
 
             earningsDataForPeriod.forEach(e => {
-                const day = new Date(e.date).toLocaleDateString('en-CA'); 
+                const day = new Date(e.date).toLocaleDateString('en-CA');
                 dailyTotals[day] = (dailyTotals[day] || 0) + e.amount;
                 if (e.type === 'Referral') {
                     dailyMlmTotals[day] = (dailyMlmTotals[day] || 0) + e.amount;
                 }
             });
-            
+
             const sortedDays = Object.keys(dailyTotals).sort((a,b) => new Date(a) - new Date(b));
-            
-            labels = sortedDays.map(dayStr => formatDate(dayStr, true)); 
+
+            labels = sortedDays.map(dayStr => formatDate(dayStr, true));
             totalDataPoints = sortedDays.map(day => dailyTotals[day] || 0);
             mlmDataPoints = sortedDays.map(day => dailyMlmTotals[day] || 0);
-            
+
             earningsChartInstance.data.labels = labels;
             earningsChartInstance.data.datasets[0].data = totalDataPoints;
             earningsChartInstance.data.datasets[1].data = mlmDataPoints;
@@ -5334,18 +5478,18 @@
         }
 
         function initContactForm() {
-            const contactFormEl = document.getElementById('contact-form'); 
+            const contactFormEl = document.getElementById('contact-form');
             if (contactFormEl) {
                 contactFormEl.addEventListener('submit', function(e) {
                     e.preventDefault();
                     // SECURITY: Implement rate limiting for form submissions using Firebase Functions
                     // to prevent spam or abuse.
-                    
+
                     const name = document.getElementById('contact-name').value.trim();
                     const email = document.getElementById('contact-email').value.trim();
                     const subject = document.getElementById('contact-subject').value.trim();
                     const message = document.getElementById('contact-message').value.trim();
-                    
+
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     if (!name || !email || !subject || !message) {
                         showNotification('Please fill all fields.', 'error'); return;
@@ -5357,16 +5501,16 @@
                          showNotification('One or more fields exceed maximum length.', 'error'); return;
                     }
 
-                    
+
                     const submitBtn = this.querySelector('.submit-btn');
                     showLoadingButton(submitBtn, true);
-                    
-                    const messageData = { 
+
+                    const messageData = {
                         name: name, // Sanitize on server if displaying this elsewhere
-                        email: email, 
+                        email: email,
                         subject: subject, // Sanitize on server
                         message: message, // Sanitize on server
-                        date: new Date().toISOString(), 
+                        date: new Date().toISOString(),
                         userId: currentUser ? currentUser.uid : 'guest',
                         userAppEmail: currentUser ? currentUser.email : 'guest_form_submission',
                         status: 'new' // For admin tracking
@@ -5391,30 +5535,30 @@
         function showConfirmationModal(title, message, confirmCallback, type = 'warning') {
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-message').innerHTML = message; // Assumes message is safe HTML or only text
-            
-            const modalIconContainer = confirmationModal.querySelector('.modal-icon'); 
+
+            const modalIconContainer = confirmationModal.querySelector('.modal-icon');
             modalIconContainer.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
             const iconToShow = modalIconContainer.querySelector(`i.${type}`);
             if(iconToShow) iconToShow.style.display = 'block';
-            
+
             const confirmBtnEl = document.getElementById('modal-confirm');
-            confirmBtnEl.className = 'modal-btn confirm glowing-btn-hover'; 
+            confirmBtnEl.className = 'modal-btn confirm glowing-btn-hover';
             if (type === 'error') confirmBtnEl.classList.add('error');
             else if (type === 'warning') confirmBtnEl.classList.add('warning');
 
             confirmationModal.classList.add('active');
             confirmationModal.classList.remove('hidden');
-            
+
             // Re-bind event listener to avoid multiple executions if modal is reused rapidly
             const newConfirmBtn = confirmBtnEl.cloneNode(true); // Clone to remove old listeners
             confirmBtnEl.parentNode.replaceChild(newConfirmBtn, confirmBtnEl);
-            
+
             newConfirmBtn.onclick = () => {
                 confirmationModal.classList.remove('active');
                 confirmationModal.classList.add('hidden');
                 if (typeof confirmCallback === 'function') confirmCallback();
             };
-             modalCancel.onclick = () => { 
+             modalCancel.onclick = () => {
                 confirmationModal.classList.remove('active');
                 confirmationModal.classList.add('hidden');
             };
@@ -5425,12 +5569,12 @@
         function formatDate(dateString, short = false) {
             if (!dateString) return 'N/A';
             const date = new Date(dateString);
-            if (isNaN(date.getTime())) return 'Invalid Date'; 
+            if (isNaN(date.getTime())) return 'Invalid Date';
 
-            const options = short ? 
+            const options = short ?
                 { month: 'short', day: 'numeric' } :
                 { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
-            
+
             try {
                 return date.toLocaleDateString('en-US', options);
             } catch (e) { // Fallback for environments with limited Intl support
