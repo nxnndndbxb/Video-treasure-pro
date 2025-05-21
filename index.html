@@ -12,7 +12,7 @@
               content="default-src 'self';
                        script-src 'self' https://www.gstatic.com https://cdn.jsdelivr.net https://maps.googleapis.com;
                        style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline';
-                       img-src 'self' https://images.unsplash.com https://iili.io https://cdn-icons-png.flaticon.com https://images.pexels.com data: https://maps.gstatic.com https://*.ggpht.com;
+                       img-src 'self' https://images.unsplash.com https://iili.io https://cdn-icons-png.flaticon.com https://images.pexels.com data: https://maps.gstatic.com https://*.ggpht.com https://firebasestorage.googleapis.com;
                        font-src 'self' https://cdnjs.cloudflare.com;
                        connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://cdnjs.cloudflare.com https://firebasestorage.googleapis.com https://securetoken.googleapis.com https://firebase.googleapis.com https://maps.googleapis.com;
                        object-src 'none';
@@ -20,7 +20,7 @@
                        form-action 'self';
                        frame-src 'self' https://www.google.com;">
     -->
-    <title>Crypto Harvest - MLM (Golden Theme)</title>
+    <title>Crypto Harvest</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
@@ -270,7 +270,7 @@
             margin-left: 5px;
         }
 
-        .auth-form input {
+        .auth-form input, .modal-content input[type="text"], .modal-content input[type="email"], .modal-content input[type="password"] {
             width: 100%;
             padding: 12px 15px 12px 40px; /* Increased left padding for icon */
             margin-bottom: 5px;
@@ -281,6 +281,23 @@
             background-color: #fafafa; /* Slightly off-white input bg */
         }
 
+        /* Adjust padding for inputs not inside a .form-group with an icon */
+        .modal-content .form-group > input[type="text"]:not(:placeholder-shown):not(:focus):first-child,
+        .modal-content .form-group > input[type="email"]:not(:placeholder-shown):not(:focus):first-child,
+        .modal-content .form-group > input[type="password"]:not(:placeholder-shown):not(:focus):first-child {
+             padding-left: 15px; /* Default padding if no icon is explicitly styled */
+        }
+        /* If modal inputs do have icons, this will be overridden by the .form-group i + input styling */
+         .modal-content .form-group input[type="text"],
+         .modal-content .form-group input[type="email"],
+         .modal-content .form-group input[type="password"] {
+            padding-left: 40px; /* Assuming icons are present */
+         }
+         .modal-content #profile-form-group-name input[type="text"] {
+             padding-left: 40px; /* Keep icon padding for name in profile */
+         }
+
+
         .password-container input {
             padding-right: 45px; /* Space for password toggle */
         }
@@ -290,7 +307,7 @@
         }
 
 
-        .auth-form input:focus {
+        .auth-form input:focus, .modal-content input[type="text"]:focus, .modal-content input[type="email"]:focus, .modal-content input[type="password"]:focus {
             border-color: var(--accent-color); /* Bright Gold focus */
             outline: none;
             box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.3), 0 0 5px rgba(var(--accent-color-rgb), 0.2); /* Golden focus ring */
@@ -486,11 +503,24 @@
             position: relative;
             cursor: pointer;
         }
-
-        .user-avatar i {
-            font-size: 1.8rem;
-            color: var(--light-text);
+        .user-avatar img { /* For profile picture in header */
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--light-text);
         }
+
+        .user-avatar i { /* Fallback icon if image fails or not set */
+            font-size: 1.8rem; /* Original size */
+            color: var(--light-text);
+            width: 36px; /* Match image size */
+            height: 36px; /* Match image size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
 
         .online-status {
             position: absolute;
@@ -2099,6 +2129,8 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
             position: relative;
             opacity: 0;
+            max-height: 90vh; /* Ensure modal is scrollable if content overflows */
+            overflow-y: auto;
         }
          /* Larger modal for terms/privacy/about */
         .modal-content.large {
@@ -2132,6 +2164,14 @@
             color: var(--primary-dark); /* Darkest Brown */
             font-size: 1.4rem;
         }
+        .modal .form-group label { /* Specific for modal labels */
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-text);
+            text-align: left;
+        }
+
 
         .modal p {
             text-align: center;
@@ -2206,6 +2246,48 @@
              margin: 20px auto 0;
              display: block;
         }
+
+        /* Profile Modal Specific Styles */
+        #profile-modal .modal-content {
+            max-width: 500px; /* Slightly wider for profile content */
+        }
+
+        .profile-image-container {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #profile-modal-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 10px;
+            cursor: pointer; /* Make it look clickable for upload */
+        }
+
+        #profile-image-upload {
+            display: none; /* Hide actual file input */
+        }
+        #profile-upload-label {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--secondary-color);
+            color: var(--dark-text);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        #profile-upload-label:hover {
+            background-color: var(--secondary-light);
+        }
+        #profile-modal .password-strength { /* Re-scope for profile modal */
+             margin-bottom:15px; /* Add some space below if new pass confirmed */
+        }
+
 
         /* Responsive Styles */
         @media (max-width: 992px) {
@@ -2440,8 +2522,8 @@
                     <span id="user-balance">$0.00</span>
                     <i class="fas fa-sync-alt refresh-balance" id="refresh-balance" title="Refresh Balance" aria-label="Refresh Balance"></i>
                 </div>
-                <div class="user-avatar" id="user-profile" aria-label="User Profile Menu">
-                    <i class="fas fa-user-circle"></i>
+                <div class="user-avatar" id="user-profile" aria-label="User Profile Menu" role="button" tabindex="0">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" id="header-user-avatar-img">
                     <span class="online-status"></span>
                 </div>
             </div>
@@ -2477,7 +2559,7 @@
                 <li class="menu-item" id="logout-btn"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span></li>
             </ul>
             <div class="menu-footer">
-                <p>Version 2.1.2 (MLM + EP + About)</p>
+                <p>Version 2.2.0 (Profile Edit)</p>
             </div>
         </nav>
 
@@ -3272,7 +3354,7 @@
                         </div>
                         <h3>Call Support</h3>
                         <p>Call us during business hours (10AM - 6PM, Mon-Fri, EST).</p>
-                        <a href="tel:YOUR_PHONE_NUMBER" class="contact-btn glowing-btn-hover">Call Now</a> <!-- REPLACE WITH YOUR ACTUAL NUMBER -->
+                        <a href="tel:03461848433" class="contact-btn glowing-btn-hover">Call Now</a> <!-- REPLACE WITH YOUR ACTUAL NUMBER -->
                     </div>
                 </div>
 
@@ -3430,12 +3512,77 @@
         </div>
     </div>
 
+    <!-- Profile Edit Modal -->
+    <div id="profile-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+        <div class="modal-content animate__animated animate__fadeInUp animate__faster">
+            <h3 id="profile-modal-title">Edit Profile</h3>
+
+            <div class="profile-image-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture" id="profile-modal-img" title="Click to change photo">
+                <input type="file" id="profile-image-upload" accept="image/*">
+                <label for="profile-image-upload" id="profile-upload-label" role="button" tabindex="0">
+                    <i class="fas fa-camera"></i> Change Photo
+                </label>
+                <div id="profile-image-upload-loader" class="hidden" style="margin-top: 10px;">
+                    <i class="fas fa-spinner fa-spin"></i> Uploading...
+                </div>
+            </div>
+
+            <div class="form-group" id="profile-form-group-name">
+                <label for="profile-name">Full Name</label>
+                <i class="fas fa-user"></i>
+                <input type="text" id="profile-name" placeholder="Your Full Name" aria-label="Full Name">
+            </div>
+            <button id="save-profile-name" class="submit-btn glowing-btn-hover" style="margin-bottom: 20px;">
+                <span class="btn-text">Save Name</span>
+                <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
+            </button>
+
+            <hr style="margin: 25px 0;">
+
+            <h4>Change Password</h4>
+            <div class="form-group password-container">
+                <label for="profile-current-password">Current Password</label>
+                <i class="fas fa-key"></i>
+                <input type="password" id="profile-current-password" placeholder="Current Password" aria-label="Current Password" autocomplete="current-password">
+                <span class="password-toggle"><i class="fas fa-eye"></i></span>
+            </div>
+            <div class="form-group password-container has-strength">
+                <label for="profile-new-password">New Password</label>
+                <i class="fas fa-lock"></i>
+                <input type="password" id="profile-new-password" placeholder="New Password" aria-label="New Password" autocomplete="new-password">
+                <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                <div class="password-strength">
+                    <span class="strength-bar"></span>
+                    <span class="strength-bar"></span>
+                    <span class="strength-bar"></span>
+                    <span class="strength-text"></span>
+                </div>
+            </div>
+            <div class="form-group password-container">
+                <label for="profile-confirm-password">Confirm New Password</label>
+                <i class="fas fa-lock"></i>
+                <input type="password" id="profile-confirm-password" placeholder="Confirm New Password" aria-label="Confirm New Password" autocomplete="new-password">
+            </div>
+            <button id="save-profile-password" class="submit-btn glowing-btn-hover">
+                <span class="btn-text">Change Password</span>
+                <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
+            </button>
+
+            <div class="modal-buttons" style="margin-top: 30px; justify-content: center;">
+                <button id="profile-modal-close" class="modal-btn cancel">Close</button>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script> <!-- Added Firebase Storage -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // app.js (MLM Version - Golden Theme - Crypto Harvest with About Page & Referral Link Auto-fill)
+        // app.js (MLM Version - Golden Theme - Crypto Harvest with Profile Edit)
 
         // IMPORTANT: Firebase Security & Configuration Notes
         // 1. API Key: While this key is visible client-side, it's for identifying your Firebase project.
@@ -3459,6 +3606,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
+        const storage = firebase.storage(); // Initialize Firebase Storage
 
         // MLM Configuration
         const MLM_COMMISSION_RATES = { 1: 0.10, 2: 0.05, 3: 0.02 }; // Level: Rate
@@ -3466,6 +3614,8 @@
         const MIN_WITHDRAWAL_AMOUNT = 2;
         const MAX_WITHDRAWAL_AMOUNT = 500;
         const WITHDRAWAL_FEE_PERCENTAGE = 0.05; // 5%
+        const DEFAULT_PROFILE_IMG_URL = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
 
         // DOM Elements
         const authContainer = document.getElementById('auth-container');
@@ -3511,6 +3661,23 @@
         const quickWithdraw = document.getElementById('quick-withdraw');
         const quickInvite = document.getElementById('quick-invite');
 
+        // Profile Modal Elements
+        const userProfileTrigger = document.getElementById('user-profile');
+        const profileModal = document.getElementById('profile-modal');
+        const profileModalCloseBtn = document.getElementById('profile-modal-close');
+        const profileModalImg = document.getElementById('profile-modal-img');
+        const profileImageUploadInput = document.getElementById('profile-image-upload');
+        const profileUploadLabel = document.getElementById('profile-upload-label');
+        const profileImageUploadLoader = document.getElementById('profile-image-upload-loader');
+        const profileNameInput = document.getElementById('profile-name');
+        const saveProfileNameBtn = document.getElementById('save-profile-name');
+        const profileCurrentPasswordInput = document.getElementById('profile-current-password');
+        const profileNewPasswordInput = document.getElementById('profile-new-password');
+        const profileConfirmPasswordInput = document.getElementById('profile-confirm-password');
+        const saveProfilePasswordBtn = document.getElementById('save-profile-password');
+        const headerUserAvatarImg = document.getElementById('header-user-avatar-img');
+
+
         // User data
         let currentUser = null;
         let userData = null;
@@ -3529,10 +3696,11 @@
         //         ".write": "auth != null && auth.uid == $uid",
         //         "name": { ".write": "newData.isString() && newData.val().length > 0 && newData.val().length < 50" },
         //         "email": { ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i)" },
+        //         "profileImage": { ".write": "newData.isString() && newData.val().startsWith('https://firebasestorage.googleapis.com/') || newData.val() == null"},
         //         "balance": { ".write": "newData.isNumber()" },
         //         "earnings": { ".write": "newData.isNumber()" },
         //         "activePlan": { ".write": "newData.isNumber() || newData.val() == null" },
-        //         "totalReferralEarnings": { ".write": false },
+        //         "totalReferralEarnings": { ".write": false }, // Should be updated server-side or via transactions
         //         "uplineUids": { ".write": "!data.exists()" },
         //         "referredByUid": { ".write": "!data.exists() || data.val() == null" },
         //         "inviteCode": { ".write": "!data.exists() && newData.isString()" },
@@ -3546,7 +3714,7 @@
         //             ".validate": "newData.hasChildren(['userId', 'amount', 'method', 'account', 'date', 'status'])"
         //         }},
         //         "earningsHistory": { "$earningId": { ".write": "auth != null && auth.uid == $uid && !data.exists()" }},
-        //         "referralHistory": { ".write": false },
+        //         "referralHistory": { ".write": false }, // Should be updated by admin/system logic
         //         ".indexOn": ["activePlan", "inviteCode"]
         //       }
         //     },
@@ -3563,6 +3731,21 @@
         //   }
         // }
         // =========================================================================================
+        // FIREBASE STORAGE RULES (storage.rules)
+        // =========================================================================================
+        // rules_version = '2';
+        // service firebase.storage {
+        //   match /b/{bucket}/o {
+        //     match /profileImages/{userId}/{fileName} { // Allow users to write to their own folder
+        //       allow read; // Or more restrictive if needed
+        //       allow write: if request.auth != null && request.auth.uid == userId &&
+        //                    request.resource.size < 5 * 1024 * 1024 && // Max 5MB
+        //                    request.resource.contentType.matches('image/.*'); // Only images
+        //     }
+        //   }
+        // }
+        // =========================================================================================
+
 
         // Initialize the app
         function init() {
@@ -3609,8 +3792,6 @@
             } else if (hash.includes('#login')) {
                 showAuthForm(loginFormEl);
             }
-            // Default to login if no specific form is in hash, or if authContainer is visible (logged out)
-            // This part is handled by checkAuthState and showAuthForm(loginFormEl) in checkAuthState's else block
         }
 
 
@@ -3651,18 +3832,19 @@
                 privacyModal.classList.add('hidden');
             });
 
+            // Modal close on backdrop click
             document.addEventListener('click', (event) => {
                 if (event.target === termsModal) {
-                    termsModal.classList.remove('active');
-                    termsModal.classList.add('hidden');
+                    termsModal.classList.remove('active'); termsModal.classList.add('hidden');
                 }
                 if (event.target === privacyModal) {
-                    privacyModal.classList.remove('active');
-                    privacyModal.classList.add('hidden');
+                    privacyModal.classList.remove('active'); privacyModal.classList.add('hidden');
                 }
                 if (event.target === confirmationModal) {
-                    confirmationModal.classList.remove('active');
-                    confirmationModal.classList.add('hidden');
+                    confirmationModal.classList.remove('active'); confirmationModal.classList.add('hidden');
+                }
+                if (event.target === profileModal) { // Close profile modal on backdrop click
+                    profileModal.classList.remove('active'); profileModal.classList.add('hidden');
                 }
             });
 
@@ -3687,18 +3869,15 @@
                     if (input.type === 'password') {
                         input.type = 'text';
                         icon.classList.replace('fa-eye', 'fa-eye-slash');
-                        input.setAttribute('aria-label', input.getAttribute('aria-label').replace('Show', 'Hide'));
                     } else {
                         input.type = 'password';
                         icon.classList.replace('fa-eye-slash', 'fa-eye');
-                        input.setAttribute('aria-label', input.getAttribute('aria-label').replace('Hide', 'Show'));
-
                     }
                 });
             });
 
-            const passwordInput = document.getElementById('reg-password');
-            if (passwordInput) passwordInput.addEventListener('input', checkPasswordStrength);
+            if (document.getElementById('reg-password')) document.getElementById('reg-password').addEventListener('input', () => checkPasswordStrength(document.getElementById('reg-password'), '#register-form'));
+
 
             const depositAmountSelect = document.getElementById('deposit-amount');
             if (depositAmountSelect) {
@@ -3714,6 +3893,23 @@
             if (quickInvite) quickInvite.addEventListener('click', () => navigateToPage('team'));
             if (refreshBalance) refreshBalance.addEventListener('click', refreshUserBalance);
             if (resendVerificationEmailBtn) resendVerificationEmailBtn.addEventListener('click', resendVerificationEmail);
+
+
+            // Profile Modal Event Listeners
+            if (userProfileTrigger) {
+                 userProfileTrigger.addEventListener('click', openProfileModal);
+                 userProfileTrigger.addEventListener('keydown', (e) => { // Accessibility
+                    if (e.key === 'Enter' || e.key === ' ') openProfileModal();
+                 });
+            }
+            if (profileModalCloseBtn) profileModalCloseBtn.addEventListener('click', closeProfileModal);
+            if (profileModalImg) profileModalImg.addEventListener('click', () => profileImageUploadInput.click()); // Click image to trigger file input
+            if (profileUploadLabel) profileUploadLabel.addEventListener('click', () => profileImageUploadInput.click());
+            if (profileImageUploadInput) profileImageUploadInput.addEventListener('change', handleProfileImageUpload);
+            if (saveProfileNameBtn) saveProfileNameBtn.addEventListener('click', handleSaveProfileName);
+            if (saveProfilePasswordBtn) saveProfilePasswordBtn.addEventListener('click', handleSaveProfilePassword);
+            if (profileNewPasswordInput) profileNewPasswordInput.addEventListener('input', () => checkPasswordStrength(profileNewPasswordInput, '#profile-modal'));
+
 
             initSlideshow();
             initPlanButtons();
@@ -3798,8 +3994,6 @@
                     appContainer.classList.add('hidden');
                     emailVerificationNoticeEl.classList.add('hidden');
 
-                    // If not directed by URL hash, show login form.
-                    // autoShowFormBasedOnUrl will handle #register or #login if present.
                     if (!window.location.hash.includes('#register') && !window.location.hash.includes('#login')) {
                          showAuthForm(loginFormEl);
                     }
@@ -3839,7 +4033,7 @@
             showLoading();
             database.ref('users/' + currentUser.uid).once('value')
                 .then(snapshot => {
-                    userData = snapshot.val();
+                    userData = snapshot.val(); // This will trigger the 'on' listener and update UI
                     if (userData) {
                         showNotification('Balance refreshed!', 'success');
                     }
@@ -3853,10 +4047,13 @@
 
         function updateUI() {
             if (!currentUser || !userData) return;
+            const userProfilePic = userData.profileImage || DEFAULT_PROFILE_IMG_URL;
 
             document.getElementById('menu-username').textContent = userData.name || 'User';
             document.getElementById('menu-user-email').textContent = userData.email || currentUser.email || 'Email Not Set';
-            document.getElementById('menu-user-img').src = userData.profileImage || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+            document.getElementById('menu-user-img').src = userProfilePic;
+            if(headerUserAvatarImg) headerUserAvatarImg.src = userProfilePic;
+
 
             updateBalanceDisplay();
 
@@ -3964,6 +4161,7 @@
                 const user = userCredential.user;
                 currentUser = user;
 
+                await user.updateProfile({ displayName: name }); // Update Firebase Auth profile name
                 await user.sendEmailVerification();
                 showNotification('Registration successful! Please check your email to verify your account. This is crucial for full account functionality.', 'success', true);
 
@@ -3971,6 +4169,7 @@
                 const newUserData = {
                     name: name,
                     email: email,
+                    profileImage: DEFAULT_PROFILE_IMG_URL,
                     balance: 0,
                     earnings: 0,
                     totalReferralEarnings: 0,
@@ -4139,10 +4338,12 @@
             return regex.test(password);
         }
 
-        function checkPasswordStrength() {
-            const password = document.getElementById('reg-password').value;
-            const strengthBars = document.querySelectorAll('#register-form .strength-bar');
-            const strengthText = document.querySelector('#register-form .strength-text');
+        function checkPasswordStrength(passwordInputEl, formSelector) {
+            const password = passwordInputEl.value;
+            const strengthBars = document.querySelectorAll(`${formSelector} .strength-bar`);
+            const strengthText = document.querySelector(`${formSelector} .strength-text`);
+
+            if (!strengthBars.length || !strengthText) return; // Elements not found in the current form context
 
             let score = 0;
             if (!password) {
@@ -4172,6 +4373,7 @@
                 strengthText.textContent = 'Strong'; strengthText.style.color = 'var(--success-color)';
             }
         }
+
 
         function logoutUser() {
             showLoading();
@@ -4514,14 +4716,14 @@
                     clearInterval(earningsInterval);
                     return;
                 }
-                 const currentActivePlan = userData.activePlan;
+                 const currentActivePlan = userData.activePlan; // Use live userData value
                  const currentPlanStartDate = new Date(userData.planStartDate);
                  const currentPlanEndDate = new Date(currentPlanStartDate);
                  currentPlanEndDate.setDate(currentPlanEndDate.getDate() + 30);
 
                 if (new Date() >= currentPlanEndDate) {
                     clearInterval(earningsInterval);
-                    startEarningsCalculation();
+                    startEarningsCalculation(); // Re-evaluate plan status
                     return;
                 }
 
@@ -4546,7 +4748,7 @@
                 database.ref('users/' + currentUser.uid).update(updateData)
                 .catch(err => console.error("Error updating hourly plan earnings:", err));
 
-            }, 3600000);
+            }, 3600000); // Every hour
         }
 
         function initTransactionButtons() {
@@ -4616,7 +4818,7 @@
                     detailItem2.classList.remove('hidden');
                     detailLabel2.textContent = details.label2;
                     detailValue2.textContent = details.holder;
-                    copyBtn2.classList.add('hidden');
+                    copyBtn2.classList.add('hidden'); // Typically don't copy holder name
                     transactionLabelEl.textContent = "Easypaisa Transaction ID (TID)";
                     transactionInputEl.placeholder = "Enter Easypaisa TID (e.g., 12345678901)";
                     senderLabelEl.textContent = "Your Sending Easypaisa Number (Optional)";
@@ -4688,7 +4890,7 @@
             if (!method) {
                 showNotification('Please select a deposit method.', 'error'); return;
             }
-            if (!amount || isNaN(amount) || amount < (method === 'easypaisa' ? 1400 : 5) ) {
+            if (!amount || isNaN(amount) || amount < (method === 'easypaisa' ? 1400 : 5) ) { // Assuming $1 = 280 PKR for min check
                 showNotification(`Invalid amount. Minimum deposit is ${method === 'easypaisa' ? 'approx. 1400 PKR (equivalent of $5)' : '$5'}.`, 'error'); return;
             }
             if (!transactionId) {
@@ -4721,6 +4923,7 @@
             const depositKey = database.ref(`users/${currentUser.uid}/deposits`).push().key;
             database.ref(`users/${currentUser.uid}/deposits/${depositKey}`).set({...depositData, id: depositKey})
             .then(() => {
+                // Also add to an admin queue for processing
                 database.ref(`admin/pending_deposits/${depositKey}`).set({...depositData, userUid: currentUser.uid, depositId: depositKey });
 
                 showNotification('Deposit request submitted! It will be processed after admin verification (typically 5-30 mins during business hours).', 'success', true);
@@ -4739,13 +4942,13 @@
         }
 
         function initWithdrawPage() {
-            if (userData) updateBalanceDisplay();
+            if (userData) updateBalanceDisplay(); // Update balance display when page loads
             const withdrawMethodSelect = document.getElementById('withdraw-method');
             if(withdrawMethodSelect) {
                 withdrawMethodSelect.addEventListener('change', function() {
                     updateWithdrawalFormUI(this.value);
                 });
-                updateWithdrawalFormUI(withdrawMethodSelect.value);
+                updateWithdrawalFormUI(withdrawMethodSelect.value); // Initial UI setup
             }
             const withdrawAmountInput = document.getElementById('withdraw-amount');
             if (withdrawAmountInput) {
@@ -4778,7 +4981,7 @@
                 accountInput.removeAttribute('pattern');
                 nameLabel.textContent = 'Account Holder Name (Optional for Crypto)';
                 nameInput.required = false;
-            } else {
+            } else { // Default/No selection
                 accountLabel.textContent = 'Your Wallet Address / Account Number';
                 accountInput.placeholder = 'Select method first';
                 accountInput.type = 'text';
@@ -4846,7 +5049,7 @@
 
             const feeAmount = parseFloat((amount * WITHDRAWAL_FEE_PERCENTAGE).toFixed(2));
             const netAmountToReceive = parseFloat((amount - feeAmount).toFixed(2));
-            const amountToDeduct = amount;
+            const amountToDeduct = amount; // Total amount to deduct from user's balance
 
             const withdrawalData = {
                 userId: currentUser.uid,
@@ -4870,6 +5073,7 @@
                     const submitWithdrawBtn = document.getElementById('submit-withdraw');
                     showLoadingButton(submitWithdrawBtn, true);
 
+                    // Deduct from balance (earnings first, then main balance)
                     let newPlanEarnings = userData.earnings || 0;
                     let newMainBalance = userData.balance || 0;
 
@@ -4887,22 +5091,28 @@
                     };
 
                     try {
+                        // 1. Update user's balance in DB
                         await database.ref('users/' + currentUser.uid).update(balanceUpdate);
 
+                        // 2. Add withdrawal request to user's history
                         const withdrawalKey = database.ref(`users/${currentUser.uid}/withdrawals`).push().key;
                         await database.ref(`users/${currentUser.uid}/withdrawals/${withdrawalKey}`).set({...withdrawalData, id: withdrawalKey});
 
+                        // 3. Add withdrawal request to admin processing queue
                         await database.ref(`admin/pending_withdrawals/${withdrawalKey}`).set({...withdrawalData, userUid: currentUser.uid, withdrawalId: withdrawalKey});
 
                         showNotification('Withdrawal request submitted! Processing takes 1-6 hours after admin approval during business hours.', 'success', true);
                         const withdrawForm = document.querySelector('#withdraw-page .withdraw-form');
                         if(withdrawForm) withdrawForm.reset();
-                        document.getElementById('withdraw-method').value = "";
-                        updateWithdrawalFormUI("");
+                        document.getElementById('withdraw-method').value = ""; // Reset select
+                        updateWithdrawalFormUI(""); // Reset UI based on empty selection
+
 
                     } catch (error) {
                         console.error("Withdrawal submission error:", error);
                         showNotification(`Withdrawal error: ${error.message}. Please try again or contact support.`, 'error', true);
+                        // Note: Consider if a rollback mechanism for balance deduction is needed here on failure.
+                        // For simplicity, this example doesn't implement complex transaction rollbacks.
                     } finally {
                         showLoadingButton(submitWithdrawBtn, false, "Request Withdrawal");
                     }
@@ -4916,7 +5126,7 @@
             if (copyButton && inviteCodeInput) {
                 copyButton.addEventListener('click', () => {
                     inviteCodeInput.select();
-                    inviteCodeInput.setSelectionRange(0, 99999);
+                    inviteCodeInput.setSelectionRange(0, 99999); // For mobile devices
                     try {
                         navigator.clipboard.writeText(inviteCodeInput.value).then(() => {
                              showNotification('Invite code copied!', 'success');
@@ -4925,6 +5135,7 @@
                             console.error('Copy invite code failed:', err);
                         });
                     } catch (err) {
+                        // Fallback for older browsers (less common now)
                         showNotification('Failed to copy code. Please copy manually.', 'error');
                         console.error('Copy invite code (fallback) failed:', err);
                     }
@@ -4934,7 +5145,7 @@
 
         function initShareButtons() {
             const inviteCodeEl = document.getElementById('invite-code');
-            const baseAppUrl = window.location.origin + window.location.pathname;
+            const baseAppUrl = window.location.origin + window.location.pathname; // Or your actual base URL
 
             document.querySelector('.share-btn.whatsapp')?.addEventListener('click', () => {
                 const inviteCode = inviteCodeEl ? inviteCodeEl.value : (userData?.inviteCode || "DEMOCODE");
@@ -4994,26 +5205,27 @@
 
         function loadUserRankings() {
             showLoading();
-            database.ref('users').orderByChild('activePlan').limitToLast(20).once('value')
+            database.ref('users').orderByChild('activePlan').limitToLast(20).once('value') // Get users with activePlan (could be many if nulls are counted)
                 .then(snapshot => {
                     const rankings = [];
                     snapshot.forEach(userSnapshot => {
                         const user = userSnapshot.val();
-                        if (user.name && user.activePlan && user.activePlan > 0) {
+                        if (user.name && user.activePlan && user.activePlan > 0) { // Ensure activePlan is a positive number
                             rankings.push({
                                 id: userSnapshot.key,
-                                name: user.name.substring(0, 1) + '***' + user.name.substring(user.name.length -1),
+                                name: user.name.substring(0, 1) + '***' + user.name.substring(user.name.length -1), // Anonymize name
                                 investment: user.activePlan,
                                 totalEarnings: (user.earnings || 0) + (user.totalReferralEarnings || 0)
                             });
                         }
                     });
 
+                    // Sort by investment amount (desc), then by total earnings (desc)
                     rankings.sort((a, b) => b.investment - a.investment || b.totalEarnings - a.totalEarnings);
 
                     const rankingBody = document.getElementById('ranking-body');
                     if (!rankingBody) { hideLoading(); return; }
-                    rankingBody.innerHTML = '';
+                    rankingBody.innerHTML = ''; // Clear previous entries
 
                     const top10 = rankings.slice(0, 10);
                     if (top10.length === 0) {
@@ -5081,7 +5293,7 @@
                 });
             }
             let summaryTotalUSD = 0, summaryPendingUSD = 0, summaryCompletedUSD = 0;
-            const PKR_TO_USD_RATE = 1/280;
+            const PKR_TO_USD_RATE = 1/280; // Approx rate, should be dynamic or configurable
 
             depositsArray.forEach(d => {
                 const amountInUSD = d.currency === 'PKR' ? (d.amount * PKR_TO_USD_RATE) : d.amount;
@@ -5160,11 +5372,11 @@
             tableBody.querySelectorAll('.action-link').forEach(link => {
                 link.addEventListener('click', function() {
                     const id = this.dataset.id;
-                    const amount = parseFloat(this.dataset.amount);
+                    const amount = parseFloat(this.dataset.amount); // Get amount for withdrawals
                     if (type === 'deposit') cancelTransaction(id, 'deposit', 0);
                     else if (type === 'withdrawal') cancelTransaction(id, 'withdrawal', amount);
                 });
-                 link.addEventListener('keydown', function(event) {
+                 link.addEventListener('keydown', function(event) { // Accessibility
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
                         this.click();
@@ -5184,11 +5396,15 @@
                     const adminQueuePath = `admin/pending_${type}s/${id}`;
 
                     try {
+                        // Update status in user's record and admin queue
                         await database.ref(userTransactionPath).update({ status: 'cancelled', cancelledByUserAt: new Date().toISOString() });
-                        await database.ref(adminQueuePath).update({ status: 'cancelled_by_user', cancelledDate: new Date().toISOString() });
+                        await database.ref(adminQueuePath).update({ status: 'cancelled_by_user', cancelledDate: new Date().toISOString() }); // For admin visibility
 
+                        // Refund amount for withdrawals
                         if (type === 'withdrawal' && amountToRefund > 0 && userData) {
                             const currentBalance = userData.balance || 0;
+                            const currentEarnings = userData.earnings || 0;
+                            // It's simpler to just add back to main balance. Original deduction logic was complex.
                             const newMainBalance = parseFloat((currentBalance + amountToRefund).toFixed(2));
                             await database.ref(`users/${currentUser.uid}`).update({ balance: newMainBalance });
                         }
@@ -5214,14 +5430,14 @@
             }
 
             const downlineEntries = Object.values(userData.downline);
-            directReferralsBody.innerHTML = '';
+            directReferralsBody.innerHTML = ''; // Clear previous entries
 
             if (downlineEntries.length === 0) {
                 directReferralsBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No direct referrals yet.</td></tr>';
                 return;
             }
 
-            downlineEntries.sort((a,b) => new Date(b.registrationDate || 0) - new Date(a.registrationDate || 0));
+            downlineEntries.sort((a,b) => new Date(b.registrationDate || 0) - new Date(a.registrationDate || 0)); // Sort by newest first
 
             downlineEntries.forEach(referralInfo => {
                 const row = document.createElement('tr');
@@ -5245,9 +5461,9 @@
             }
 
             const commissionsArray = Object.values(userData.referralHistory)
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
+                .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by newest first
 
-            commissionsBody.innerHTML = '';
+            commissionsBody.innerHTML = ''; // Clear previous entries
             if (commissionsArray.length === 0) {
                  commissionsBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No commissions earned yet.</td></tr>';
             } else {
@@ -5286,6 +5502,7 @@
             const periodFilter = document.getElementById('earnings-period')?.value || 'all';
             const allEarningsEntries = [];
 
+            // Collate earnings from investments
             if (userData.earningsHistory) {
                 Object.values(userData.earningsHistory).forEach(entry => {
                     allEarningsEntries.push({
@@ -5296,6 +5513,7 @@
                     });
                 });
             }
+            // Collate earnings from referrals
             if (userData.referralHistory) {
                 Object.values(userData.referralHistory).forEach(entry => {
                     allEarningsEntries.push({
@@ -5307,25 +5525,28 @@
                 });
             }
 
+            // Sort all entries by date
             allEarningsEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+            // Filter by selected period
             const now = new Date();
             const filteredForPeriod = allEarningsEntries.filter(e => {
                 const entryDate = new Date(e.date);
                 if (periodFilter === 'today') return entryDate.toDateString() === now.toDateString();
                 if (periodFilter === 'week') {
                     const weekStart = new Date(now);
-                    weekStart.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1) );
+                    weekStart.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1) ); // Set to Monday of current week
                     weekStart.setHours(0,0,0,0);
                     return entryDate >= weekStart;
                 }
                 if (periodFilter === 'month') return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
-                return true;
+                return true; // 'all'
             });
 
+            // Calculate summaries based on ALL entries (not just filtered period for some stats)
             let grandTotalAllTime = 0;
             let todayGrandTotal = 0;
-            let totalMLMAllTime = userData.totalReferralEarnings || 0;
+            let totalMLMAllTime = userData.totalReferralEarnings || 0; // Get directly from user data for accuracy
 
             allEarningsEntries.forEach(e => {
                 grandTotalAllTime += e.amount;
@@ -5340,11 +5561,12 @@
                 totalMLMAllTime
             );
 
+            // Populate table with PERIOD filtered data
             earningsTableBody.innerHTML = '';
             if (filteredForPeriod.length === 0) {
                 earningsTableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No earnings for this period.</td></tr>`;
             } else {
-                filteredForPeriod.slice(0, 50).forEach(earning => {
+                filteredForPeriod.slice(0, 50).forEach(earning => { // Limit to 50 entries for performance
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${formatDate(earning.date)}</td>
@@ -5355,6 +5577,7 @@
                     earningsTableBody.appendChild(row);
                 });
             }
+            // Update chart
             if (!earningsChartInstance) setupEarningsChart();
             updateChartData(filteredForPeriod, periodFilter);
         }
@@ -5369,16 +5592,16 @@
             const ctx = document.getElementById('earnings-chart')?.getContext('2d');
             if (!ctx) return;
 
-            if (earningsChartInstance) earningsChartInstance.destroy();
+            if (earningsChartInstance) earningsChartInstance.destroy(); // Destroy previous instance if exists
 
             earningsChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: [],
+                    labels: [], // To be populated by updateChartData
                     datasets: [
                         {
                             label: 'Total Daily Earnings (Plan + MLM)',
-                            data: [],
+                            data: [], // To be populated
                             borderColor: 'var(--accent-color)',
                             backgroundColor: 'rgba(var(--accent-color-rgb), 0.1)',
                             fill: true,
@@ -5386,12 +5609,12 @@
                         },
                          {
                             label: 'MLM Commissions',
-                            data: [],
+                            data: [], // To be populated
                             borderColor: 'var(--secondary-color)',
                             backgroundColor: 'rgba(var(--secondary-color-rgb), 0.1)',
                             fill: true,
                             tension: 0.3,
-                            hidden: true
+                            hidden: true // Initially hidden, user can toggle
                         }
                     ]
                 },
@@ -5430,20 +5653,22 @@
             let totalDataPoints = [];
             let mlmDataPoints = [];
 
-            const dailyTotals = {};
-            const dailyMlmTotals = {};
+            // Aggregate data by day for the chart
+            const dailyTotals = {}; // { 'YYYY-MM-DD': totalAmount }
+            const dailyMlmTotals = {}; // { 'YYYY-MM-DD': mlmAmount }
 
             earningsDataForPeriod.forEach(e => {
-                const day = new Date(e.date).toLocaleDateString('en-CA');
+                const day = new Date(e.date).toLocaleDateString('en-CA'); // YYYY-MM-DD format for sorting
                 dailyTotals[day] = (dailyTotals[day] || 0) + e.amount;
                 if (e.type === 'Referral') {
                     dailyMlmTotals[day] = (dailyMlmTotals[day] || 0) + e.amount;
                 }
             });
 
+            // Get sorted dates for labels
             const sortedDays = Object.keys(dailyTotals).sort((a,b) => new Date(a) - new Date(b));
 
-            labels = sortedDays.map(dayStr => formatDate(dayStr, true));
+            labels = sortedDays.map(dayStr => formatDate(dayStr, true)); // Short format for labels (e.g., Jul 15)
             totalDataPoints = sortedDays.map(day => dailyTotals[day] || 0);
             mlmDataPoints = sortedDays.map(day => dailyMlmTotals[day] || 0);
 
@@ -5493,7 +5718,7 @@
                         date: new Date().toISOString(),
                         userId: currentUser ? currentUser.uid : 'guest',
                         userAppEmail: currentUser ? currentUser.email : 'guest_form_submission',
-                        status: 'new'
+                        status: 'new' // For admin tracking
                     };
 
                     database.ref('contact_messages').push(messageData)
@@ -5514,21 +5739,23 @@
 
         function showConfirmationModal(title, message, confirmCallback, type = 'warning') {
             document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-message').innerHTML = message;
+            document.getElementById('modal-message').innerHTML = message; // Use innerHTML for <br>
 
             const modalIconContainer = confirmationModal.querySelector('.modal-icon');
-            modalIconContainer.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
+            modalIconContainer.querySelectorAll('i').forEach(icon => icon.style.display = 'none'); // Hide all
             const iconToShow = modalIconContainer.querySelector(`i.${type}`);
-            if(iconToShow) iconToShow.style.display = 'block';
+            if(iconToShow) iconToShow.style.display = 'block'; // Show specific type
 
             const confirmBtnEl = document.getElementById('modal-confirm');
-            confirmBtnEl.className = 'modal-btn confirm glowing-btn-hover';
+            confirmBtnEl.className = 'modal-btn confirm glowing-btn-hover'; // Reset classes
             if (type === 'error') confirmBtnEl.classList.add('error');
             else if (type === 'warning') confirmBtnEl.classList.add('warning');
+            // 'success' will use default confirm style
 
             confirmationModal.classList.add('active');
             confirmationModal.classList.remove('hidden');
 
+            // Re-bind event to avoid multiple executions if modal is reused
             const newConfirmBtn = confirmBtnEl.cloneNode(true);
             confirmBtnEl.parentNode.replaceChild(newConfirmBtn, confirmBtnEl);
 
@@ -5537,7 +5764,7 @@
                 confirmationModal.classList.add('hidden');
                 if (typeof confirmCallback === 'function') confirmCallback();
             };
-             modalCancel.onclick = () => {
+             modalCancel.onclick = () => { // Ensure cancel also works
                 confirmationModal.classList.remove('active');
                 confirmationModal.classList.add('hidden');
             };
@@ -5547,7 +5774,7 @@
         function formatDate(dateString, short = false) {
             if (!dateString) return 'N/A';
             const date = new Date(dateString);
-            if (isNaN(date.getTime())) return 'Invalid Date';
+            if (isNaN(date.getTime())) return 'Invalid Date'; // Check if date is valid
 
             const options = short ?
                 { month: 'short', day: 'numeric' } :
@@ -5556,11 +5783,153 @@
             try {
                 return date.toLocaleDateString('en-US', options);
             } catch (e) {
+                // Fallback for environments where toLocaleDateString with options might fail (rare)
                 console.warn("toLocaleDateString with options failed, using simpler format.", e);
                 if (short) return `${date.getMonth() + 1}/${date.getDate()}`;
                 return date.toISOString().substring(0, 16).replace('T', ' ');
             }
         }
+
+        // --- Profile Modal Functions ---
+        function openProfileModal() {
+            if (!currentUser || !userData) return;
+
+            profileModalImg.src = userData.profileImage || DEFAULT_PROFILE_IMG_URL;
+            profileNameInput.value = userData.name || '';
+            profileCurrentPasswordInput.value = '';
+            profileNewPasswordInput.value = '';
+            profileConfirmPasswordInput.value = '';
+            checkPasswordStrength(profileNewPasswordInput, '#profile-modal'); // Reset strength meter
+
+
+            profileModal.classList.add('active');
+            profileModal.classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            profileModal.classList.remove('active');
+            profileModal.classList.add('hidden');
+        }
+
+        async function handleSaveProfileName() {
+            const newName = profileNameInput.value.trim();
+            if (!newName) {
+                showNotification('Name cannot be empty.', 'error');
+                return;
+            }
+            if (newName.length > 50) {
+                showNotification('Name cannot exceed 50 characters.', 'error');
+                return;
+            }
+            if (newName === userData.name) {
+                showNotification('Name is unchanged.', 'info');
+                return;
+            }
+
+            showLoadingButton(saveProfileNameBtn, true);
+            try {
+                await currentUser.updateProfile({ displayName: newName });
+                await database.ref('users/' + currentUser.uid).update({ name: newName });
+                showNotification('Name updated successfully!', 'success');
+                // userData will update via the .on listener, which calls updateUI
+            } catch (error) {
+                console.error("Error updating name:", error);
+                showNotification('Failed to update name: ' + error.message, 'error');
+            } finally {
+                showLoadingButton(saveProfileNameBtn, false, "Save Name");
+            }
+        }
+
+        async function handleSaveProfilePassword() {
+            const currentPassword = profileCurrentPasswordInput.value;
+            const newPassword = profileNewPasswordInput.value;
+            const confirmPassword = profileConfirmPasswordInput.value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Please fill all password fields.', 'error');
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match.', 'error');
+                return;
+            }
+            if (!validatePassword(newPassword)) {
+                showNotification('New password must be at least 8 characters long and include uppercase, lowercase, number, and special character.', 'error', true);
+                return;
+            }
+
+            showLoadingButton(saveProfilePasswordBtn, true);
+            try {
+                const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, currentPassword);
+                await currentUser.reauthenticateWithCredential(credential);
+                await currentUser.updatePassword(newPassword);
+                showNotification('Password changed successfully!', 'success');
+                profileCurrentPasswordInput.value = '';
+                profileNewPasswordInput.value = '';
+                profileConfirmPasswordInput.value = '';
+                checkPasswordStrength(profileNewPasswordInput, '#profile-modal');
+            } catch (error) {
+                console.error("Error changing password:", error);
+                let message = 'Failed to change password. ';
+                if (error.code === 'auth/wrong-password') {
+                    message += 'Incorrect current password.';
+                } else {
+                    message += error.message;
+                }
+                showNotification(message, 'error');
+            } finally {
+                showLoadingButton(saveProfilePasswordBtn, false, "Change Password");
+            }
+        }
+
+        function handleProfileImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showNotification('Please select an image file (jpg, png, gif).', 'error');
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showNotification('File size should not exceed 5MB.', 'error');
+                return;
+            }
+
+            profileImageUploadLoader.classList.remove('hidden');
+            profileUploadLabel.classList.add('hidden'); // Hide button during upload
+
+            const storageRef = storage.ref(`profileImages/${currentUser.uid}/profile_picture`); // Fixed name to overwrite
+            const uploadTask = storageRef.put(file);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Can use snapshot.bytesTransferred / snapshot.totalBytes for progress if needed
+                },
+                (error) => {
+                    console.error("Upload failed:", error);
+                    showNotification('Image upload failed: ' + error.message, 'error');
+                    profileImageUploadLoader.classList.add('hidden');
+                    profileUploadLabel.classList.remove('hidden');
+                },
+                async () => { // On success
+                    try {
+                        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                        await database.ref('users/' + currentUser.uid).update({ profileImage: downloadURL });
+                        profileModalImg.src = downloadURL; // Update preview in modal
+                        // userData will update via the .on listener, which calls updateUI for side menu & header
+                        showNotification('Profile picture updated!', 'success');
+                    } catch (dbError) {
+                        console.error("Error updating database with new image URL:", dbError);
+                        showNotification('Failed to save profile picture: ' + dbError.message, 'error');
+                    } finally {
+                        profileImageUploadLoader.classList.add('hidden');
+                        profileUploadLabel.classList.remove('hidden');
+                        profileImageUploadInput.value = ''; // Reset file input
+                    }
+                }
+            );
+        }
+
 
         document.addEventListener('DOMContentLoaded', init);
 
