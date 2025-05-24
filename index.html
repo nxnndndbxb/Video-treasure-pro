@@ -1187,12 +1187,45 @@
             transition: var(--transition);
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* To contain shimmer on popular card */
         }
 
         .plan-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
+
+        /* --- MODIFIED FOR MINING PICS --- */
+        .plan-visual-container {
+            height: 160px; /* Adjust as needed */
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--primary-dark); /* Dark background for contrast */
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .plan-visual-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            animation: subtle-pulse-glow 4s infinite ease-in-out;
+        }
+
+        @keyframes subtle-pulse-glow {
+            0%, 100% {
+                transform: scale(1);
+                filter: brightness(100%) drop-shadow(0 0 3px rgba(var(--accent-color-rgb), 0.3));
+            }
+            50% {
+                transform: scale(1.03);
+                filter: brightness(110%) drop-shadow(0 0 10px rgba(var(--accent-color-rgb), 0.6));
+            }
+        }
+        /* --- END OF MODIFICATION FOR MINING PICS --- */
+
 
         .plan-card h3 {
             color: var(--primary-color); /* Dark Brown */
@@ -1269,7 +1302,7 @@
         /* Shimmer for popular plan card */
         .plan-card.popular {
             position: relative;
-            overflow: hidden;
+            /* overflow: hidden; -- Moved to general .plan-card */
         }
         .plan-card.popular::before {
             content: "";
@@ -1287,6 +1320,7 @@
             transform: skewX(-25deg);
             transition: left 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             pointer-events: none;
+            z-index: 1; /* Ensure shimmer is above image but below text */
         }
         .plan-card.popular:hover::before {
             left: 150%;
@@ -1304,6 +1338,7 @@
             font-size: 0.8rem;
             font-weight: 600;
             box-shadow: var(--shadow);
+            z-index: 2; /* Ensure badge is above shimmer */
         }
 
         .plan-info-card {
@@ -2347,6 +2382,12 @@
              #about-page .about-section {
                 padding: 20px;
             }
+            .plans-container {
+                grid-template-columns: 1fr; /* Stack plans on smaller mobile */
+            }
+            .plan-visual-container {
+                height: 140px; /* Adjust height for mobile if needed */
+            }
         }
 
         @media (max-width: 480px) {
@@ -2428,6 +2469,9 @@
             .copy-address-btn {
                 margin-left: 0;
                 margin-top: 5px;
+            }
+             .plan-visual-container {
+                height: 120px; /* Further adjust for very small screens */
             }
         }
 
@@ -2829,6 +2873,9 @@
 
                 <div class="plans-container">
                     <div class="plan-card">
+                        <div class="plan-visual-container">
+                            <img src="https://iili.io/3tb62kB.jpg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="Basic Plan Visual" class="plan-visual-img">
+                        </div>
                         <h3>Basic Plan</h3>
                         <div class="plan-price">$5</div>
                         <div class="plan-duration">
@@ -2848,6 +2895,9 @@
 
                     <div class="plan-card popular">
                         <div class="popular-badge">Most Popular</div>
+                        <div class="plan-visual-container">
+                            <img src="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="Silver Plan Visual" class="plan-visual-img">
+                        </div>
                         <h3>Silver Plan</h3>
                         <div class="plan-price">$10</div>
                         <div class="plan-duration">
@@ -2866,6 +2916,9 @@
                     </div>
 
                     <div class="plan-card">
+                         <div class="plan-visual-container">
+                            <img src="https://images.pexels.com/photos/6770610/pexels-photo-6770610.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="Gold Plan Visual" class="plan-visual-img">
+                        </div>
                         <h3>Gold Plan</h3>
                         <div class="plan-price">$25</div>
                         <div class="plan-duration">
@@ -2884,6 +2937,9 @@
                     </div>
 
                     <div class="plan-card">
+                        <div class="plan-visual-container">
+                            <img src="https://images.pexels.com/photos/6771900/pexels-photo-6771900.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="Platinum Plan Visual" class="plan-visual-img">
+                        </div>
                         <h3>Platinum Plan</h3>
                         <div class="plan-price">$50</div>
                         <div class="plan-duration">
@@ -2902,6 +2958,9 @@
                     </div>
 
                     <div class="plan-card">
+                        <div class="plan-visual-container">
+                           <img src="https://images.pexels.com/photos/7788009/pexels-photo-7788009.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="Diamond Plan Visual" class="plan-visual-img">
+                        </div>
                         <h3>Diamond Plan</h3>
                         <div class="plan-price">$100</div>
                         <div class="plan-duration">
