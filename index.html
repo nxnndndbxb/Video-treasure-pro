@@ -1,1 +1,110 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Maintenance</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        
+        .maintenance-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+        
+        .progress-container {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            height: 100%;
+            width: 65%;
+            border-radius: 10px;
+            animation: progressAnimation 2s infinite ease-in-out;
+        }
+        
+        .contact {
+            margin-top: 30px;
+            font-style: italic;
+            color: #95a5a6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes progressAnimation {
+            0% { width: 65%; }
+            50% { width: 70%; }
+            100% { width: 65%; }
+        }
+        
+        .countdown {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="icon">🔧</div>
+        <h1>System Maintenance in Progress</h1>
+        <p>We're currently performing scheduled maintenance to improve our services. The system will be back online shortly. Thank you for your patience.</p>
+        
+        <div class="countdown">We appreciate your patience during this maintenance period</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <p>We apologize for any inconvenience this may cause. Our team is working hard to complete the maintenance as quickly as possible.</p>
+        
+        <div class="contact">
+            For urgent matters, please contact support@example.com
+        </div>
+    </div>
+</body>
+</html>
